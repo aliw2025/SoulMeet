@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     // height: 80,
     padding: 10,
-    backgroundColor: 'green',
+    backgroundColor: 'pink',
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'blue',
