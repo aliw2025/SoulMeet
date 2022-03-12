@@ -11,6 +11,11 @@ import type {Node} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Kuni from './Card';
 import {Dimensions} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import EmptyHeader  from './EmptyHeader';
+
+const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,6 +28,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
   ImageBackground,
 } from 'react-native';
 
@@ -68,6 +74,24 @@ const App: () => Node = () => {
   };
 
   return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: (props)=> <EmptyHeader></EmptyHeader>}
+        />
+        <Stack.Screen
+          name="Profile"
+          options={{title: 'Welcomedfdf'}}
+          component={ProfileScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+const HomeScreen = ({navigation}) => {
+  return (
     <ImageBackground
       source={image}
       resizeMode="cover"
@@ -86,13 +110,26 @@ const App: () => Node = () => {
             </View>
           </ScrollView>
         </View>
+        <View style = {[styles.btn]}>
+        <Button 
+          title="Go to Jane's profile"
+          onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
+        />
+        </View>
+       
       </SafeAreaView>
     </ImageBackground>
   );
 };
-
+const ProfileScreen = ({navigation, route}) => {
+  return <Text>This is {route.params.name}'s profile</Text>;
+};
 const styles = StyleSheet.create({
   SafeAreaView: {
+    flex: 1,
+  }, 
+  btn: {
+     // backgroundColor: 'purple',
     flex: 1,
   },
   inside: {
@@ -103,8 +140,8 @@ const styles = StyleSheet.create({
   },
   main: {
     // backgroundColor: 'gray',
-    height: '50%',
-    // flex: 1,
+    // height: '50%',
+    flex: 1,
   },
   container2: {
     flex: 1,
