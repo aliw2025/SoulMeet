@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+//
 import {
   SafeAreaView,
   ScrollView,
