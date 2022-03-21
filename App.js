@@ -5,21 +5,28 @@
  * @format
  * @flow strict-local
  */
-
+// libs
 import React from 'react';
 import type {Node} from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import Kuni from './Card';
 import {Dimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import EmptyHeader  from './EmptyHeader';
+// importign screens
+import  HomeScreen from './screens/HomePage'
+import SelectLanguage from './screens/languageScreen'
+import  AreYouHere from './screens/AreYouHere'
+import BirthDayScreen from './screens/BirthdayScreen'
+import ProfileScreen from './screens/ProfileScreen';
 
+// creating variables
 const Stack = createNativeStackNavigator();
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+<<<<<<< HEAD
 //
+=======
+// importing react-native 
+>>>>>>> 72784a9 (worked on the scrollView)
 import {
   SafeAreaView,
   ScrollView,
@@ -31,7 +38,7 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-
+// imporiting react libraries
 import {
   Colors,
   DebugInstructions,
@@ -39,33 +46,10 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-const image = require('./grad.png');
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
 
+const image = require('./grad.png');
+
+// main component of the app
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -74,56 +58,74 @@ const App: () => Node = () => {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+   
+      <NavigationContainer>
+      <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{title: (props)=> <EmptyHeader></EmptyHeader>}
+          // options={{title: (props)=> <EmptyHeader/>}}
         />
         <Stack.Screen
           name="Profile"
-          options={{title: 'Welcomedfdf'}}
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={SelectLanguage}
+        />
+        <Stack.Screen
+          name="AreYouHere"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={AreYouHere}
+        />
+        <Stack.Screen
+          name="BirthDay"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={BirthDayScreen}
+        />
+         <Stack.Screen
+          name="ProfileScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
           component={ProfileScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-const HomeScreen = ({navigation}) => {
-  return (
-    <ImageBackground
-      source={image}
-      resizeMode="cover"
-      style={styles.BackGrounimage}>
-      <SafeAreaView style={styles.SafeAreaView}>
-        <View style={[styles.main]}>
-          <ScrollView horizontal={true} style={styles.scrollContainer}>
-            <View style={[styles.container1]}>
-              <View style={[styles.inside]}></View>
-            </View>
-            <View style={[styles.container2]}>
-              <View style={[styles.inside]}></View>
-            </View>
-            <View style={[styles.container3]}>
-              <View style={[styles.inside]}></View>
-            </View>
-          </ScrollView>
-        </View>
-        <View style = {[styles.btn]}>
-        <Button 
-          title="Go to Jane's profile"
-          onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
-        />
-        </View>
-       
-      </SafeAreaView>
-    </ImageBackground>
-  );
-};
-const ProfileScreen = ({navigation, route}) => {
-  return <Text>This is {route.params.name}'s profile</Text>;
-};
+}
+
+
+// const HomeScreen = ({navigation}) => {
+//   return (
+//     <ImageBackground
+//       source={image}
+//       resizeMode="cover"
+//       style={styles.BackGrounimage}>
+//       <SafeAreaView style={styles.SafeAreaView}>
+//         <View style={[styles.main]}>
+//           <ScrollView horizontal={true} style={styles.scrollContainer}>
+//             <View style={[styles.container1]}>
+//               <View style={[styles.inside]}></View>
+//             </View>
+//             <View style={[styles.container2]}>
+//               <View style={[styles.inside]}></View>
+//             </View>
+//             <View style={[styles.container3]}>
+//               <View style={[styles.inside]}></View>
+//             </View>
+//           </ScrollView>
+//         </View>
+//         <View style = {[styles.btn]}>
+//         <Button 
+//           title="Go to Jane's profile"
+//           onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
+//         />
+//         </View>
+//       </SafeAreaView>
+//     </ImageBackground>
+//   );
+// };
+
 const styles = StyleSheet.create({
   SafeAreaView: {
     flex: 1,
