@@ -16,6 +16,7 @@ import {
   Button,
   TouchableHighlight,
   ImageBackground,
+  
 } from 'react-native';
 const image = require('../assets/grad.png');
 const card = require('../assets/card.png');
