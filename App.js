@@ -22,11 +22,7 @@ import ProfileScreen from './screens/ProfileScreen';
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-<<<<<<< HEAD
-//
-=======
 // importing react-native 
->>>>>>> 72784a9 (worked on the scrollView)
 import {
   SafeAreaView,
   ScrollView,

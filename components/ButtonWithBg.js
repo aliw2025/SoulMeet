@@ -1,8 +1,8 @@
 import React from 'react';
+import {Dimensions} from 'react-native';
 
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import {
   ImageBackground,
   TouchableHighlight,
 } from 'react-native';
-
+const windowWidth = Dimensions.get('window').width;
 const ButtonWithBg = props => {
   const btnAction = params => {
     console.log(params);
@@ -20,14 +20,9 @@ const ButtonWithBg = props => {
   };
   return (
     <TouchableHighlight onPress={() => btnAction(props.path)} underlayColor="white">
-      <ImageBackground
-        source={props.image}
-        imageRef ={props.image}
-        resizeMode="cover"
-        imageStyle = {(props.active == 'true')? [styles.btnColor]:[styles.btnColorInactive]}  
-        style={[styles.btnOrange]}>
-        <Text style={[styles.buttonTxt]}>{props.text} </Text>
-      </ImageBackground>
+      <View style={[(props.active == 'true')? [styles.btnColor]:[styles.btnColorInactive],styles.btnOrange]}>
+      <Text style={[styles.buttonTxt,]}>{props.text} </Text>
+      </View>
     </TouchableHighlight>
   );
 };
@@ -35,11 +30,17 @@ const styles = StyleSheet.create({
   btnOrange: {
     height: 60,
     justifyContent: 'center',
-    width: 330,
+    width: windowWidth - 80,
     alignItems: 'center',
+    // backgroundColor:'#FFC700',
+    borderRadius:15,
+
+  },
+  btnColor:{
+    backgroundColor:'#FFC700',
   },
   btnColorInactive:{
-    tintColor: "gray",
+    backgroundColor:'gray',
   },
   buttonTxt: {
     color: 'white',

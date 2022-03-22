@@ -55,21 +55,17 @@ const BirthDayScreen = ({navigation}) => {
               Please Choose your exact date of Birth
             </Text>
           </View>
-          <View style = {[styles.textBox]}>
-            <LanguagePickerBtn ></LanguagePickerBtn>
-          </View>
-          <View style = {[styles.textBox2]}>
-            <LanguagePickerBtn ></LanguagePickerBtn>
-          </View>
-          <View style = {[styles.textBox2]}>
-            <LanguagePickerBtn ></LanguagePickerBtn>
-          </View>
+         
           <View style = {[styles.textBg]}>
             <View style = {[styles.whiteLine]}>
-              <Text style = {[{fontSize:20,color:'gray',marginLeft:15,}]} >
-                Email
-              </Text>
+              
             </View>
+            <Text style = {[styles.feildName]} >
+                Day
+              </Text>
+              <Text style = {[styles.feildValue]} >
+                11
+              </Text>
           </View>
           <View style = {[styles.bottomBtn]}>
           <ButtonWithBg
@@ -85,12 +81,24 @@ const BirthDayScreen = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
+  feildValue:{
+    color:'black',
+    marginLeft:20,
+    backgroundColor:'blue'
+  },  
+  feildName:{
+    backgroundColor:'yellow',
+    top:-10,
+    left:30,
+    fontSize:14,
+    color:'#00000066'
+  },
   textBg:{
     marginTop:20,
     marginLeft:40,
     marginRight:40,
     borderRadius:20,
-    borderColor:'gray',
+    borderColor:'#E8E6EA',
     borderWidth:1,
     // flex:1
     width:windowWidth-80,
@@ -99,13 +107,16 @@ const styles = StyleSheet.create({
 
   },
   whiteLine:{
+    padding:5,
     backgroundColor:'white',
     position:'absolute',
     left:'5%',
-    top:-10,
-    width:70,
-    height:30,
+    width:60,
+    top: -1,  
+    height:1,
     fontSize:30,
+    alignItems:'center',
+    justifyContent:'center',
   },
   bottomBtn:{
     position: 'absolute',
