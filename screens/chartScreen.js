@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
+  TouchableOpacity,
   View,
   Button,
   TouchableHighlight,
@@ -23,14 +24,20 @@ const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const ProfileScreen = ({navigation}) => {
+const ChartScreen = ({navigation}) => {
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}>
       <SafeAreaView style={[{flex: 1}]}>
+      <TouchableOpacity>
+            <View style={[styles.backBtn]}>
+              <Text style = {[{color:'#FFC700',fontSize:20,fontWeight:'bold'}]}>{'<'}</Text>
+            </View>
+        </TouchableOpacity>
         <View style={styles.mainPage}>
+       
           <View style={[styles.container]}>
             <Text style={[styles.heading]}>Chart Calculator</Text>
           </View>
@@ -239,7 +246,7 @@ const ProfileScreen = ({navigation}) => {
                 value="30/3"></ValueBox>
               <View style={[{marginLeft: 40,marginTop:40,marginBottom:30}]}>
                 <ButtonWithBg
-                  path="ProfileScreen"
+                  path="ProfileDetails1"
                   active="true"
                   text="Next"
                   navigation={navigation}></ButtonWithBg>
@@ -252,6 +259,17 @@ const ProfileScreen = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
+  backBtn: {
+    backgroundColor: 'white',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:10,
+    position: 'absolute',
+    top: 40,
+    left: 40,
+  },
   scrollViewHeading: {
     marginLeft: 40,
     fontSize: 14,
@@ -285,4 +303,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default ChartScreen;

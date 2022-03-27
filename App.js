@@ -16,7 +16,10 @@ import  HomeScreen from './screens/HomePage'
 import SelectLanguage from './screens/languageScreen'
 import  AreYouHere from './screens/AreYouHere'
 import BirthDayScreen from './screens/BirthdayScreen'
-import ProfileScreen from './screens/ProfileScreen';
+import ChartScreen from './screens/chartScreen';
+import ProfileDetails1 from './screens/profileDetails1'
+import ProfileDetails2 from './screens/profileDetails2'
+import WhoAm from './screens/whoAm'
 
 // creating variables
 const Stack = createNativeStackNavigator();
@@ -80,11 +83,29 @@ const App: () => Node = () => {
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={BirthDayScreen}
         />
-         <Stack.Screen
-          name="ProfileScreen"
+        <Stack.Screen
+          name="ProfileDetails1"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ProfileScreen}
+          component={ProfileDetails1}
         />
+        <Stack.Screen
+          name="ProfileDetails2"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={ProfileDetails2}
+        />
+         <Stack.Screen
+          name="WhoAm"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={WhoAm}
+        />
+         <Stack.Screen
+          name="ChartScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={ChartScreen}
+        />
+       
+       
+       
       </Stack.Navigator>
     </NavigationContainer>
   );

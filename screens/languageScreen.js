@@ -20,11 +20,11 @@ import {
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const SelectLanguage = ({navigation}) => {
-  console.log('here');
+ 
   const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
-  console.log('her1');
+  
   const {country, setCountry} = useState < Country > null;
-  console.log('her2');
+ 
   const {withCountryNameButton, setWithCountryNameButton} = useState(false);
   const {withFlag, setWithFlag} = useState(true);
   const {withEmoji, setWithEmoji} = useState(true);
@@ -46,7 +46,7 @@ const SelectLanguage = ({navigation}) => {
       style={styles.BackGrounimage}>
       <Text style={[styles.heading]}> Select Language</Text>
       <Text style={[styles.subHeading]}>
-        {' '}
+        
         Please select your preferrred Language
       </Text>
       <View style={[styles.abc]}>

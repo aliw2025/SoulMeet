@@ -4,133 +4,240 @@ import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions} from 'react-native';
+import DropDown from '../components/dropDown';
+import FlatListBasics from '../components/list';
+import Picker from '../components/picker';
 
+// react items
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  Image,
   useColorScheme,
   View,
   Button,
+  TouchableOpacity,
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
+// global variables
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
+
 const BirthDayScreen = ({navigation}) => {
-  console.log('here');
-  const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
-  console.log('her1');
-  const {country, setCountry} = useState < Country > null;
-  console.log('her2');
-  const {withCountryNameButton, setWithCountryNameButton} = useState(false);
-  const {withFlag, setWithFlag} = useState(true);
-  const {withEmoji, setWithEmoji} = useState(true);
-  const {withFilter, setWithFilter} = useState(true);
-  const {withAlphaFilter, setWithAlphaFilter} = useState(false);
-  const {withCallingCode, setWithCallingCode} = useState(false);
-  console.log('here3');
-  const onSelect = (country: Country) => {
-    console.log(country);
-    // setCountryCode(country.cca2)
-    // setCountry(country)
+  // array for days
+  var day = [];
+  // array for years
+  var year = [];
+
+  // data array for months
+  var month = [
+    {key: 'January'},
+    {key: 'Feburary'},
+    {key: 'March'},
+    {key: 'April'},
+    {key: 'May'},
+    {key: 'June'},
+    {key: 'July'},
+    {key: 'Augast'},
+    {key: 'September'},
+    {key: 'October'},
+    {key: 'Novermber'},
+    {key: 'December'},
+  ];
+
+  // state variables for days
+  const [days, SetDays] = useState('12');
+  const [years,SetYears] = useState('2022');
+  const [months,SetMonths] = useState('Feburary'); 
+
+  //  state variables for showing the listts
+  const [list1, setList1] = useState(false);
+  const [list2, setList2] = useState(false);
+  const [list3, setList3] = useState(false);
+
+  //  variable for storing location of the arrowDown image
+  const image2 = require('../assets/arrowDown.png');
+
+  //  function to initlaize the days
+  function initDays() {
+    // init days
+    var len = 31;
+    for (var i = 1; i <= len; i++) {
+      var obj = {key: i.toString()};
+      day.push(obj);
+    }
+  }
+
+  //  function to initalize the years
+  function initYears() {
+    var len2 = 2022;
+    for (var i = 2022; i > 1; i--) {
+      var obj = {key: i.toString()};
+      year.push(obj);
+    }
+  }
+
+  /**
+   * function to set days 
+   * run when a day is selected
+   */
+  const onDaySelected = params => {
+    console.log(params.key);
+    SetDays(params.key);
+    hideList();
   };
+   /**
+   * function to set month 
+   * run when a month is selected
+   */
+  const onMonthSelected = params => {
+    console.log(params.key);
+    SetMonths(params.key);
+    hideList();
+  };
+   /**
+   * function to set years 
+   * run when a day is selected
+   */
+  const onYearSelected = params => {
+    console.log(params.key);
+    SetYears(params.key);
+    hideList();
+  };
+  // hide and unhide days list
+  const btnAction = params => {
+    //console.log(list1);
+    if (list1 == false) {
+      setList1(true);
+    } else if (list1 == true) {
+      setList1(false);
+    }
+  };
+  // hide and unhide Months list
+  const btnAction2 = params => {
+    //console.log(list1);
+    if (list2 == false) {
+      setList2(true);
+    } else if (list2 == true) {
+      setList2(false);
+    }
+  };
+  // hide and unhide Years
+  const btnAction3 = params => {
+    //console.log(list1);
+    if (list3 == false) {
+      setList3(true);
+    } else if (list3 == true) {
+      setList3(false);
+    }
+  };
+  //  hide  all lists
+  const hideList = params => {
+    setList1(false);
+    setList2(false);
+    setList3(false);
+
+  };
+
+  initDays();
+  initYears();
 
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
-      style={styles.BackGrounimage}>
+      style={styles.BackGrounimage}
+      onTouchEnd={() => onSelect()}>
+      {/* <TouchableHighlight onPress={hideList} underlayColor="clear"> */}
+
       <SafeAreaView>
         <View style={styles.mainPage}>
-          
           <Text style={[styles.heading]}> Choose Birthday</Text>
-
           <View style={[styles.subHeading]}>
-            <Text >
-              Please Choose your exact date of Birth
-            </Text>
+            <Text>Please Choose your exact date of Birth</Text>
           </View>
-         
-          <View style = {[styles.textBg]}>
-            <View style = {[styles.whiteLine]}>
-              
-            </View>
-            <Text style = {[styles.feildName]} >
-                Day
-              </Text>
-              <Text style = {[styles.feildValue]} >
-                11
-              </Text>
+          <View style={[{zIndex: 3}]}>
+            <DropDown
+              feildName="Day"
+              feildValue={days}
+              btnAction={btnAction}></DropDown>
+            {list1 && (
+              <View style={[styles.was]}>
+                <FlatListBasics
+                  data={day}
+                  onDaySelected={onDaySelected}></FlatListBasics>
+              </View>
+            )}
           </View>
-          <View style = {[styles.bottomBtn]}>
-          <ButtonWithBg
-             path = "ProfileScreen"
-              active = "true"
-              text = "Continue"
+          <View style={[{zIndex: 2}]}>
+            <DropDown
+              feildName="Month"
+              feildValue={months}
+              btnAction={btnAction2}></DropDown>
+            {list2 && (
+              <View style={[styles.was]}>
+                <FlatListBasics data={month}  onDaySelected={onMonthSelected}></FlatListBasics>
+              </View>
+            )}
+          </View>
+          <View style={[{zIndex: 1}]}>
+            <DropDown
+              feildName="year"
+              feildValue={years}
+              btnAction={btnAction3}></DropDown>
+            {list3 && (
+              <View style={[styles.was]}>
+                <FlatListBasics data={year}  onDaySelected={onYearSelected}></FlatListBasics>
+              </View>
+            )}
+          </View>
+          {/* <Picker></Picker> */}
+          <View style={[styles.bottomBtn]}>
+            <ButtonWithBg
+              path="ProfileDetails1"
+              active="true"
+              text="Continue"
               image={buttonBgOrange}
               navigation={navigation}></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>
+      {/* </TouchableHighlight> */}
     </ImageBackground>
   );
 };
-const styles = StyleSheet.create({
-  feildValue:{
-    color:'black',
-    marginLeft:20,
-    backgroundColor:'blue'
-  },  
-  feildName:{
-    backgroundColor:'yellow',
-    top:-10,
-    left:30,
-    fontSize:14,
-    color:'#00000066'
-  },
-  textBg:{
-    marginTop:20,
-    marginLeft:40,
-    marginRight:40,
-    borderRadius:20,
-    borderColor:'#E8E6EA',
-    borderWidth:1,
-    // flex:1
-    width:windowWidth-80,
-    height:60,
-    backgroundColor:'white',
 
+const styles = StyleSheet.create({
+  was: {
+    top: 60,
+    // zIndex: 1,
+    position: 'absolute',
+    paddingLeft: 20,
+    backgroundColor: 'white',
+    height: 200,
+    width: '80%',
+    marginLeft: 40,
+    marginRight: 40,
   },
-  whiteLine:{
-    padding:5,
-    backgroundColor:'white',
-    position:'absolute',
-    left:'5%',
-    width:60,
-    top: -1,  
-    height:1,
-    fontSize:30,
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  bottomBtn:{
+  bottomBtn: {
     position: 'absolute',
     bottom: 40,
   },
-  textBox :{
+  textBox: {
     // backgroundColor:'red',
-    marginTop:40,
+    marginTop: 40,
   },
-  textBox2 :{
+  textBox2: {
     // backgroundColor:'red',
-    marginTop:10,
+    marginTop: 10,
   },
-  
+
   btn: {
     marginTop: 40,
   },
@@ -154,18 +261,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },  
+  },
   heading: {
     marginTop: 100,
     fontSize: 40,
     fontWeight: 'bold',
   },
   subHeading: {
-    marginTop:10,
+    marginTop: 10,
     fontSize: 15,
-    width:windowWidth*0.75,
+    width: windowWidth * 0.75,
   },
- 
 });
 
 export default BirthDayScreen;

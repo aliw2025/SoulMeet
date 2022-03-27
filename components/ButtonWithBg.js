@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const ButtonWithBg = props => {
+
+  
   const btnAction = params => {
     console.log(params);
     props.navigation.navigate(params, {name: 'Jane'});
@@ -26,6 +28,7 @@ const ButtonWithBg = props => {
     </TouchableHighlight>
   );
 };
+
 const styles = StyleSheet.create({
   btnOrange: {
     height: 60,
