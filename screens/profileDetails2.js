@@ -32,10 +32,19 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
-const ProfileDetails2 = ({navigation}) => {
+const ProfileDetails2 = (props) => {
+  // console.log(props.route.params);
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year = props.route.params.year;
   //   // array fo
   const [text, onChangeText] = React.useState("Useless Text");
-  // const onChangeText = params => {};
+  
+  const navigationAction = params => {
+   
+   props.navigation.navigate("WhoAm", {day: day,month:month,year:year});
+    //navigation.navigate("ChartScreen", {name: 'Jane'});
+  }
   return (
     <ImageBackground
       source={image}
@@ -67,7 +76,8 @@ const ProfileDetails2 = ({navigation}) => {
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+              ></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>

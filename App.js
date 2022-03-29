@@ -69,7 +69,7 @@ const App: () => Node = () => {
           // options={{title: (props)=> <EmptyHeader/>}}
         />
         <Stack.Screen
-          name="Profile"
+          name="SelectLanguage"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={SelectLanguage}
         />

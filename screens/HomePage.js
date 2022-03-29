@@ -38,6 +38,9 @@ import {
 const image = require('../assets/grad.png');
 
 const HomeScreen = ({navigation}) => {
+  const navigationAction = params => {
+    navigation.navigate("SelectLanguage", {name: 'Jane'});
+  }
   const olamba = params => {
     console.log('olamba');
   };
@@ -49,29 +52,6 @@ const HomeScreen = ({navigation}) => {
       <SafeAreaView style={styles.SafeAreaView}>
         <View style={[styles.main]}>
           <MainCarousel></MainCarousel>
-          {/* <ScrollView
-            onScroll={() => olamba()}
-            horizontal={true}
-            snapToInterval={width}
-            decelerationRate={0}
-            snapToAlignment={'center'}
-            scrollEventThrottle={1}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator = {false}
-            style={styles.scrollContainer}>
-            <View style={[styles.container1]}>
-              <View style={[styles.inside]}></View>
-              <View><Text>text1</Text></View>
-            </View>
-            <View style={[styles.container2]}>
-              <View style={[styles.inside]}></View>
-              <View><Text>text2</Text></View>
-            </View>
-            <View style={[styles.container3]}>
-              <View style={[styles.inside]}></View>
-              <View><Text>text3</Text></View>
-            </View>
-          </ScrollView> */}
         </View>
         <View style={[styles.btn]}>
           <View style={[{marginLeft: 40, marginTop: 20,marginRight:40}]}>
@@ -79,6 +59,7 @@ const HomeScreen = ({navigation}) => {
               path="Profile"
               active="true"
               text="Create an account"
+              btnAction = {navigationAction}
               navigation={navigation}></ButtonWithBg>
           </View>
         </View>

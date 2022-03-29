@@ -17,23 +17,17 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const AreYouHere = ({navigation}) => {
-  console.log('here');
-  const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
-  console.log('her1');
-  const {country, setCountry} = useState < Country > null;
-  console.log('her2');
-  const {withCountryNameButton, setWithCountryNameButton} = useState(false);
-  const {withFlag, setWithFlag} = useState(true);
-  const {withEmoji, setWithEmoji} = useState(true);
-  const {withFilter, setWithFilter} = useState(true);
-  const {withAlphaFilter, setWithAlphaFilter} = useState(false);
-  const {withCallingCode, setWithCallingCode} = useState(false);
-  console.log('here3');
+  
+  
+  const navigationAction = params => {
+    navigation.navigate("BirthDay", {name: 'Jane'});
+  }
   const onSelect = (country: Country) => {
     console.log(country);
     // setCountryCode(country.cca2)
@@ -61,21 +55,24 @@ const AreYouHere = ({navigation}) => {
               active = "true"
               text = "Numerology"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+              ></ButtonWithBg>
           </View>
           <View style={[styles.btn]}>
             <ButtonWithBg
               active = "false"
               text = "Dating/Socializing"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+              ></ButtonWithBg>
           </View>
           <View style={[styles.btn]}>
             <ButtonWithBg
               active = "false"
               text = "Both"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+              ></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>

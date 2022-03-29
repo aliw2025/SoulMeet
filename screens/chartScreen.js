@@ -24,7 +24,20 @@ const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const ChartScreen = ({navigation}) => {
+//  the screen component
+const ChartScreen =  (props) => {
+  // console.log(props.route.params);
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year =props.route.params.year;
+  var stval ="";
+  console.log("sdsdsdsdsd");
+  stval = stval.concat(day.toString(),'-',month.toString(),'-',year.toString())
+  console.log(stval);
+  const lifePathNumber = (str) => +str.replace(/-/g, "") % 9 || 9;
+
+
+  
   return (
     <ImageBackground
       source={image}
@@ -249,7 +262,8 @@ const ChartScreen = ({navigation}) => {
                   path="ProfileDetails1"
                   active="true"
                   text="Next"
-                  navigation={navigation}></ButtonWithBg>
+
+                  ></ButtonWithBg>
               </View>
             </ScrollView>
           </ImageBackground>
@@ -288,8 +302,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: windowWidth * 0.8,
-    // flex:1
-    // width:100,
+ 
   },
   mainPage: {
     flex: 1,

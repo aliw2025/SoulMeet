@@ -32,9 +32,18 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
-const WhoAm = ({navigation}) => {
+const WhoAm = (props) => {
+  // console.log(props.route.params);
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year = props.route.params.year;
   //   // array fo
   const [text, onChangeText] = React.useState('Useless Text');
+
+  const navigationAction = params => {
+  
+    props.navigation.navigate("ChartScreen",{day: day,month:month,year:year});
+  }
   // const onChangeText = params => {};
   return (
     <ImageBackground
@@ -61,7 +70,8 @@ const WhoAm = ({navigation}) => {
               borderColor="#E8E6EA"
               text="Woman"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithTick>
+              // navigation={navigation}
+             ></ButtonWithTick>
           </View>
           <View style={[styles.bottomBtn]}>
             <ButtonWithTick
@@ -72,7 +82,8 @@ const WhoAm = ({navigation}) => {
               borderColor="#FFC700"
               text="Man"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithTick>
+              //  navigation={navigation}
+             ></ButtonWithTick>
           </View>
           <View style={[styles.bottomBtn]}>
             <ButtonWithTick
@@ -82,18 +93,20 @@ const WhoAm = ({navigation}) => {
               borderColor="#E8E6EA"
               text="Choose Another"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithTick>
+              // navigation={navigation}
+             ></ButtonWithTick>
           </View>
           <View
             style={
               ([styles.bottomBtn], {position: 'absolute', bottom: 20, left: 40})
             }>
             <ButtonWithBg
-              path="ChartScreen"
+             
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+             ></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>

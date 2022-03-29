@@ -32,18 +32,29 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
-const ProfileDetails1 = ({navigation}) => {
-  //   // array fo
+const ProfileDetails1 = (props) => {
+  // console.log(props.route.params);
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year = props.route.params.year;
+  console.log(day);
+  console.log(month);
+  console.log(year);
   const [text, onChangeText] = React.useState("Useless Text");
-  // const onChangeText = params => {};
+  const navigationAction = params => {
+    
+    props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year});
+  }
+  
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}>
       {/* <TouchableHighlight onPress={hideList} underlayColor="clear"> */}
-
+      
       <SafeAreaView>
+       
         <View style={styles.mainPage}>
           <TouchableOpacity>
           <Text style = {[styles.skipBtn]}>Skip</Text>
@@ -65,11 +76,12 @@ const ProfileDetails1 = ({navigation}) => {
 
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
-              path="ProfileDetails2"
+              
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              navigation={navigation}></ButtonWithBg>
+              btnAction = {navigationAction}
+              ></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>

@@ -31,7 +31,11 @@ const SelectLanguage = ({navigation}) => {
   const {withFilter, setWithFilter} = useState(true);
   const {withAlphaFilter, setWithAlphaFilter} = useState(false);
   const {withCallingCode, setWithCallingCode} = useState(false);
-  console.log('here3');
+
+  const navigationAction = params => {
+    navigation.navigate("AreYouHere", {name: 'Jane'});
+  }
+
   const onSelect = (country: Country) => {
     console.log(country);
     // setCountryCode(country.cca2)
@@ -56,12 +60,13 @@ const SelectLanguage = ({navigation}) => {
       </View>
       
       <ButtonWithBg
-        path = 'AreYouHere'
+       
         active = "true"
         style={{margin: 20, backgroundColor: 'red'}}
         image={buttonBgOrange}
         text = "NEXT"
-        navigation={navigation}></ButtonWithBg>
+        btnAction = {navigationAction}
+        ></ButtonWithBg>
        
       {/* <View style={styles.container}> */}
 

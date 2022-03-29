@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
 });
 
 const FlatListBasics = (props) => {
- console.log('list props'+props.onDaySelected);
+//  console.log('list props'+props.onDaySelected);
   return (
     <View style={styles.container}>
       <FlatList
         data = {props.data}
         // renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-        renderItem = {({item}) => <ListItem onDaySelected={props.onDaySelected} item={item}></ListItem>}
+        renderItem = {({item,index}) => <ListItem onDaySelected={props.onDaySelected} index= {index} item={item}></ListItem>}
       />
     </View>
   );

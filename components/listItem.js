@@ -15,12 +15,13 @@ import {
 } from 'react-native';
 
 const ListItem = props => {
-    console.log('listItemmm = '+props.onDaySelected);
+    //console.log('listItem = '+props.onDaySelected);
+    //console.log(props.index);
   const lala =(params)=> {
       console.log(params);
   }
   return (
-    <TouchableHighlight underlayColor="#F5F5F5" onPress={()=>props.onDaySelected(props.item)} >
+    <TouchableHighlight underlayColor="#F5F5F5" onPress={()=>props.onDaySelected(props.index,props.item)} >
         <Text style={styles.item}>{props.item.key}</Text>
     </TouchableHighlight>  
     

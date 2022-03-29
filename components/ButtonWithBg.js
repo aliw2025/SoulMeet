@@ -12,21 +12,22 @@ import {
   ImageBackground,
   TouchableHighlight,
 } from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 const ButtonWithBg = props => {
 
-  
   const btnAction = params => {
     console.log(params);
-    props.navigation.navigate(params, {name: 'Jane'});
+    // props.navigation.navigate(params, {name: 'Jane'});
   };
   return (
-    <TouchableHighlight onPress={() => btnAction(props.path)} underlayColor="white">
+    <TouchableHighlight onPress={props.btnAction} underlayColor="white">
       <View style={[(props.active == 'true')? [styles.btnColor]:[styles.btnColorInactive],styles.btnOrange]}>
       <Text style={[styles.buttonTxt,]}>{props.text} </Text>
       </View>
     </TouchableHighlight>
   );
+  
 };
 
 const styles = StyleSheet.create({

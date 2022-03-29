@@ -28,7 +28,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
-
+var pday = 0;
 const BirthDayScreen = ({navigation}) => {
   // array for days
   var day = [];
@@ -88,9 +88,11 @@ const BirthDayScreen = ({navigation}) => {
    * run when a day is selected
    */
   const onDaySelected = params => {
-    console.log(params.key);
-    SetDays(params.key);
-    hideList();
+    console.log("onDayselessdsdted");
+    console.log(params);
+    // console.log(params.key);
+    // SetDays(params.key);
+    // hideList();
   };
    /**
    * function to set month 
@@ -144,7 +146,11 @@ const BirthDayScreen = ({navigation}) => {
     setList3(false);
 
   };
-
+  const navigationAction = params => {
+    pday = days
+    navigation.navigate("ProfileDetails1",{day: days,month:months,year:years});
+  }
+  
   initDays();
   initYears();
 
@@ -171,7 +177,7 @@ const BirthDayScreen = ({navigation}) => {
               <View style={[styles.was]}>
                 <FlatListBasics
                   data={day}
-                  onDaySelected={onDaySelected}></FlatListBasics>
+                  onDaySelected={(item,index)=>onDaySelected({item,index})}></FlatListBasics>
               </View>
             )}
           </View>
@@ -200,10 +206,11 @@ const BirthDayScreen = ({navigation}) => {
           {/* <Picker></Picker> */}
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
-              path="ProfileDetails1"
+              // path="ProfileDetails1"
               active="true"
               text="Continue"
               image={buttonBgOrange}
+              btnAction = {navigationAction}
               navigation={navigation}></ButtonWithBg>
           </View>
         </View>
