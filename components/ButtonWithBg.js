@@ -21,7 +21,7 @@ const ButtonWithBg = props => {
     // props.navigation.navigate(params, {name: 'Jane'});
   };
   return (
-    <TouchableHighlight onPress={props.btnAction} underlayColor="white">
+    <TouchableHighlight onPress={props.btnAction} underlayColor="clear">
       <View style={[(props.active == 'true')? [styles.btnColor]:[styles.btnColorInactive],styles.btnOrange]}>
       <Text style={[styles.buttonTxt,]}>{props.text} </Text>
       </View>

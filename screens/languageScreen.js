@@ -3,6 +3,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
+import {Dimensions} from 'react-native';
 
 import {
   SafeAreaView,
@@ -19,6 +20,30 @@ import {
 
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const AdjustLabel = ({
+  fontSize, text, style, numberOfLines
+}) => {
+  const [currentFont, setCurrentFont] = useState(fontSize);
+
+  return (
+    <Text
+      numberOfLines={ numberOfLines }
+      adjustsFontSizeToFit
+      style={ [style, { fontSize: currentFont }] }
+      onTextLayout={ (e) => {
+        const { lines } = e.nativeEvent;
+        if (lines.length > numberOfLines) {
+          setCurrentFont(currentFont - 1);
+        }
+      } }
+    >
+      { text }
+    </Text>
+  );
+};
+
 const SelectLanguage = ({navigation}) => {
  
   const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
@@ -48,54 +73,27 @@ const SelectLanguage = ({navigation}) => {
       resizeMode="cover"
       
       style={styles.BackGrounimage}>
-      <Text style={[styles.heading]}> Select Language</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>Select Language</Text>
       <Text style={[styles.subHeading]}>
         
         Please select your preferrred Language
       </Text>
       <View style={[styles.abc]}>
       <LanguagePickerBtn text = "English" >
-      
       </LanguagePickerBtn>
       </View>
-      
+      <View style = {[{marginLeft:40,marginTop:20,}]}>
       <ButtonWithBg
-       
         active = "true"
-        style={{margin: 20, backgroundColor: 'red'}}
+       
         image={buttonBgOrange}
         text = "NEXT"
         btnAction = {navigationAction}
         ></ButtonWithBg>
+      </View>
+      
        
-      {/* <View style={styles.container}> */}
-
-      {/* <Option
-        title='With country name on button'
-        value={withCountryNameButton}
-        onValueChange={setWithCountryNameButton}
-      />
-      <Option title='With flag' value={withFlag} onValueChange={setWithFlag} />
-      <Option
-        title='With emoji'
-        value={withEmoji}
-        onValueChange={setWithEmoji}
-      />
-      <Option 
-        title='With filter'
-        value={withFilter}
-        onValueChange={setWithFilter}
-      />
-      <Option
-        title='With calling code'
-        value={withCallingCode}
-        onValueChange={setWithCallingCode}
-      />
-      <Option
-        title='With alpha filter code'
-        value={withAlphaFilter}
-        onValueChange={setWithAlphaFilter}
-      /> */}
+    
       {/* <CountryPicker
         {...{
           countryCode,
@@ -119,7 +117,6 @@ const SelectLanguage = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   abc: {
-    margin: 20,
     zIndex:2,
   },
   btnBg: {
@@ -132,15 +129,24 @@ const styles = StyleSheet.create({
   },
   BackGrounimage: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   heading: {
+    marginLeft:40,
+    width:windowWidth-80,
+    marginRight:40,
     fontSize: 40,
     fontWeight: 'bold',
+    color:'black',
+    // backgroundColor:'gray',
   },
   subHeading: {
     fontSize: 15,
+    color:'black',
+    marginLeft:40,
+    width:windowWidth-80,
+    marginRight:40,
   },
  
 });

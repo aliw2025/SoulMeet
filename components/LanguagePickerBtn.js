@@ -1,87 +1,91 @@
-import React ,{ useState }from 'react';
+import React, {useState} from 'react';
+import {Dimensions} from 'react-native';
 
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  Image,
+  TextInput,
   useColorScheme,
   View,
   Button,
   ImageBackground,
   TouchableHighlight,
 } from 'react-native';
+
+const image2 = require('../assets/arrowDown.png');
+const windowWidth = Dimensions.get('window').width;
+
+
 const buttonBG = require('../assets/containerText.png');
 
 const LanguagePickerBtn = props => {
-  var a  = styles.listclose;
-  var b  = styles.listopen;
+  var a = styles.listclose;
+  var b = styles.listopen;
   var [shouldShow, setShouldShow] = useState(a);
   var [shouldShowx, setShouldShowx] = useState(false);
-  const btnAction = params => {
-    // console.log('i am languages');
-    // a = styles.listopen;
-    // setShouldShow(a);
-    // setShouldShowx(true);
-    // console.log(shouldShow);
-  };
+  const btnAction = params => {};
   return (
-    <View>
-<TouchableHighlight onPress={btnAction} underlayColor="white">
-      <ImageBackground source={buttonBG} 
-         resizeMode = "cover"
-         style ={styles.btnBg} >
-         <Text style={[styles.text]}>{props.text} </Text>
-         </ImageBackground>  
-    </TouchableHighlight>
-    <View style={[styles.whiteLine]}>
-    
+    <View >
+      <TouchableHighlight onPress={btnAction} underlayColor="white">
+        <View
+          style={styles.textBg}>
+          <Text style={[styles.feildValue]}>{props.text} </Text>
+        </View>
+      </TouchableHighlight>
+      <View style={[styles.whiteLine]}></View>
     </View>
-    <View style = { shouldShowx? a: b}>
-        <Text>this is line </Text>
-        <Text>this is line </Text>  
-        <Text>this is line </Text>
-      </View>
-    </View>
-    
   );
 };
+
+
 const styles = StyleSheet.create({
-  whiteLine:{
-    width:70,
-    backgroundColor:'white',
-    height:10,
-    position:'absolute',
-    left:'5%',
-  },  
-  btnBg:{
-        // width: 300,
-        height: 65 , 
-        justifyContent:'center',
-        width:330,
-       
-        // margin:20,
-        // flex:1  
-      },
-      text:{
-        // color:'red',
-        marginLeft: 20,
-      },  
-      listclose:{
-        transform: [{ scale: 1   }],  
-        position: 'absolute',
-        top:65,
-        zIndex:1,
-        
-        // backgroundColor:'red',
-      },
-      listopen:{
-        transform: [{ scale: 0 }],
-        position: 'absolute',
-        top:65,
-        zIndex:1,
-        // backgroundColo r:'green',
-      }
+  textBg: {
+    marginTop: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    borderRadius: 20,
+    borderColor: '#E8E6EA',
+    borderWidth: 1,
+    // flex:1,
+    justifyContent:'center',
+    // alignItems:'center',
+    width: windowWidth - 80,
+    height: 60,
+    backgroundColor: 'white',
+  },
+  whiteLine: {
+    width: 70,
+    backgroundColor: 'white',
+    height: 10,
+    position: 'absolute',
+    left: '5%',
+  },
+  
+  feildValue: {
+    color: 'black',
+    marginLeft: 20,
+    // justifySelf:'center',
+    // position: 'absolute',
+    // top: '50%',
+  
+  },
+  listclose: {
+    transform: [{scale: 1}],
+    position: 'absolute',
+    top: 65,
+    zIndex: 1,
+
+    // backgroundColor:'red',
+  },
+  listopen: {
+    transform: [{scale: 0}],
+    position: 'absolute',
+    top: 65,
+    zIndex: 1,
+    // backgroundColo r:'green',
+  },
 });
 export default LanguagePickerBtn;

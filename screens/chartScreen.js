@@ -6,6 +6,7 @@ import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -19,6 +20,7 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
+
 const image = require('../assets/grad.png');
 const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
@@ -31,13 +33,31 @@ const ChartScreen =  (props) => {
   var month = props.route.params.month;
   var year =props.route.params.year;
   var stval ="";
-  console.log("sdsdsdsdsd");
-  stval = stval.concat(day.toString(),'-',month.toString(),'-',year.toString())
+
+  stval = stval.concat(year.toString(),'-',day.toString(),'-',month.toString())
   console.log(stval);
-  const lifePathNumber = (str) => +str.replace(/-/g, "") % 9 || 9;
-
-
   
+  const findLifePath = (date = '') => {
+
+    const sum = (arr = []) => {
+       if(arr.length === 1){
+          return +arr[0]
+       };
+       let total = arr.reduce((acc, val) => acc + val);
+       if (total < 10){
+          return total
+       };
+       return sum(String(total).split("").map(Number));
+    };
+    let [year, month, day] = date.split("-")
+    year = sum(String(year).split("").map(Number));
+    month = sum(String(month).split("").map(Number));
+    day = sum(String(day).split("").map(Number));
+
+    return sum([year,month,day]);
+ };
+[lpn,seLpn] = useState(findLifePath(stval));
+
   return (
     <ImageBackground
       source={image}
@@ -71,7 +91,7 @@ const ChartScreen =  (props) => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Life Path Number"
-                value="30/3"></ValueBox>
+                value={lpn}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}

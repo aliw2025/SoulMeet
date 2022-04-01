@@ -76,7 +76,6 @@ const ProfileDetails1 = (props) => {
 
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
-              
               active="true"
               text="Confirm"
               image={buttonBgOrange}
@@ -107,7 +106,8 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // bottom: 40,
     marginTop:20,
-     marginLeft:40,
+    marginLeft:40,
+    marginRight:40,
   },
   mainPage: {
     flex: 1,

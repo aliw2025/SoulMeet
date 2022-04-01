@@ -14,7 +14,6 @@ const width = Dimensions.get('window').width;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
 import {
   SafeAreaView,
   ScrollView,
@@ -39,11 +38,9 @@ const image = require('../assets/grad.png');
 
 const HomeScreen = ({navigation}) => {
   const navigationAction = params => {
-    navigation.navigate("SelectLanguage", {name: 'Jane'});
-  }
-  const olamba = params => {
-    console.log('olamba');
+    navigation.navigate('SelectLanguage', {name: 'Jane'});
   };
+
   return (
     <ImageBackground
       source={image}
@@ -54,33 +51,35 @@ const HomeScreen = ({navigation}) => {
           <MainCarousel></MainCarousel>
         </View>
         <View style={[styles.btn]}>
-          <View style={[{marginLeft: 40, marginTop: 20,marginRight:40}]}>
+          <View style={[{marginLeft: 40, marginTop: 20, marginRight: 40}]}>
             <ButtonWithBg
               path="Profile"
               active="true"
               text="Create an account"
-              btnAction = {navigationAction}
+              btnAction={navigationAction}
               navigation={navigation}></ButtonWithBg>
           </View>
         </View>
         <View style={[styles.signInBox]}>
-                <Text >Already have an account?</Text>
-                <Text style={[{color:'#FFC700',fontWeight:'bold'}]}> Sign In </Text>
-              </View>
-        
+          <Text style={[{color: 'black'}]}>Already have an account?</Text>
+          <Text style={[{color: '#FFC700', fontWeight: 'bold'}]}>
+            {' '}
+            Sign In{' '}
+          </Text>
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  signInBox:{
-    marginTop:20,
-    flex:1,
-    flexDirection:'row',
-    textAlign:'center',
-    justifyContent:'center',
-    height:300,
+  signInBox: {
+    marginTop: 20,
+    flex: 1,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'center',
+    height: 300,
     // backgroundColor:'red'
   },
   SafeAreaView: {

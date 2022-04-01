@@ -23,6 +23,7 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
+
 // global variables
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -55,7 +56,7 @@ const BirthDayScreen = ({navigation}) => {
   const [days, SetDays] = useState('12');
   const [years,SetYears] = useState('2022');
   const [months,SetMonths] = useState('Feburary'); 
-
+  const [nmonths,SetNmonths] = useState(1); 
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
   const [list2, setList2] = useState(false);
@@ -88,19 +89,20 @@ const BirthDayScreen = ({navigation}) => {
    * run when a day is selected
    */
   const onDaySelected = params => {
-    console.log("onDayselessdsdted");
-    console.log(params);
+    //console.log("onDayselessdsdted");
+    //console.log(params);
     // console.log(params.key);
-    // SetDays(params.key);
-    // hideList();
+    SetDays(params.item.key);
+    hideList();
   };
    /**
    * function to set month 
    * run when a month is selected
    */
   const onMonthSelected = params => {
-    console.log(params.key);
-    SetMonths(params.key);
+    console.log(params.item.key);
+    SetMonths(params.item.key);
+    SetNmonths(params.index+1);
     hideList();
   };
    /**
@@ -108,8 +110,8 @@ const BirthDayScreen = ({navigation}) => {
    * run when a day is selected
    */
   const onYearSelected = params => {
-    console.log(params.key);
-    SetYears(params.key);
+    console.log(params.item.key);
+    SetYears(params.item.key);
     hideList();
   };
   // hide and unhide days list
@@ -148,7 +150,7 @@ const BirthDayScreen = ({navigation}) => {
   };
   const navigationAction = params => {
     pday = days
-    navigation.navigate("ProfileDetails1",{day: days,month:months,year:years});
+    navigation.navigate("ProfileDetails1",{day: days,month:nmonths,year:years});
   }
   
   initDays();
@@ -177,7 +179,7 @@ const BirthDayScreen = ({navigation}) => {
               <View style={[styles.was]}>
                 <FlatListBasics
                   data={day}
-                  onDaySelected={(item,index)=>onDaySelected({item,index})}></FlatListBasics>
+                  onDaySelected={(index,item)=>onDaySelected({index,item})}></FlatListBasics>
               </View>
             )}
           </View>
@@ -188,7 +190,7 @@ const BirthDayScreen = ({navigation}) => {
               btnAction={btnAction2}></DropDown>
             {list2 && (
               <View style={[styles.was]}>
-                <FlatListBasics data={month}  onDaySelected={onMonthSelected}></FlatListBasics>
+                <FlatListBasics data={month}  onDaySelected={(index,item)=>onMonthSelected({index,item})}></FlatListBasics>
               </View>
             )}
           </View>
@@ -199,7 +201,7 @@ const BirthDayScreen = ({navigation}) => {
               btnAction={btnAction3}></DropDown>
             {list3 && (
               <View style={[styles.was]}>
-                <FlatListBasics data={year}  onDaySelected={onYearSelected}></FlatListBasics>
+                <FlatListBasics data={year}  onDaySelected={(index,item)=>onYearSelected({index,item})}></FlatListBasics>
               </View>
             )}
           </View>
