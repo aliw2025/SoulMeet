@@ -27,36 +27,97 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 //  the screen component
-const ChartScreen =  (props) => {
+const ChartScreen = props => {
   // console.log(props.route.params);
   var day = props.route.params.day;
   var month = props.route.params.month;
-  var year =props.route.params.year;
-  var stval ="";
+  var year = props.route.params.year;
+  var stval = '';
 
-  stval = stval.concat(year.toString(),'-',day.toString(),'-',month.toString())
+  stval = stval.concat(
+    year.toString(),
+    '-',
+    day.toString(),
+    '-',
+    month.toString(),
+  );
   console.log(stval);
+  const sum = (arr = []) => {
+    if (arr.length === 1) {
+      return +arr[0];
+    }
+    let total = arr.reduce((acc, val) => acc + val);
+    if (total < 10 || total == 11 || total == 22 || total == 33) {
+      return total;
+    }
+    return sum(String(total).split('').map(Number));
+  };
+  const sumAll = (arr = []) => {
+
+    let total = arr.reduce((acc, val) => acc + val);
+    if (total<10) {
+      return {reduced:total,total:total};
+    }else{
+      let reduced = String(total).split('').map(Number).reduce((acc, val) => acc + val);
+      return {reduced:reduced,total:total};
+    }
+    
+  };
+  // function to calculate life path number
+  const CalLifePathNumber = (date = '') => {
+    // function to sum individual dates months year
   
-  const findLifePath = (date = '') => {
+    // function to sum final answer
+  
+    let [year, month, day] = date.split('-');
+    year = sum(String(year).split('').map(Number));
+    month = sum(String(month).split('').map(Number));
+    day = sum(String(day).split('').map(Number));
 
-    const sum = (arr = []) => {
-       if(arr.length === 1){
-          return +arr[0]
-       };
-       let total = arr.reduce((acc, val) => acc + val);
-       if (total < 10){
-          return total
-       };
-       return sum(String(total).split("").map(Number));
-    };
-    let [year, month, day] = date.split("-")
-    year = sum(String(year).split("").map(Number));
-    month = sum(String(month).split("").map(Number));
-    day = sum(String(day).split("").map(Number));
+    return sumAll([year, month, day]);
+  };
 
-    return sum([year,month,day]);
- };
-[lpn,seLpn] = useState(findLifePath(stval));
+  function calBirhtDayNumber(day) {
+    
+    if(day<10){
+      return {reduced:day,total:day};
+    }else{
+      let reduced = String(day).split('').map(Number).reduce((acc, val) => acc + val);
+      return {reduced:reduced,total:day};
+    }
+
+  }
+  function calExpressionNumber(fname,mname,lname) {
+    let c = 'c';
+    // let text = "HellO World!";
+    // let result = text.toLowerCase();
+    // console.log(result);
+
+    console.log(fname);
+    console.log(mname);
+    console.log(lname);
+    console.log(fname.split('').map((val)=>val.charCodeAt(0)-96));
+    console.log(c.charCodeAt(0)-96);
+    
+  }
+  
+ 
+
+  let lpnObj = CalLifePathNumber(stval); 
+  console.log(lpnObj);
+  var lpnText = '';
+  lpnText = lpnText.concat(lpnObj.total,'\/',lpnObj.reduced);
+ 
+  let bnObj  = calBirhtDayNumber(day);
+  console.log(bnObj);
+  var bnText = '';
+  bnText = bnText.concat(bnObj.total,'\/',bnObj.reduced);
+
+
+  let expObj = calExpressionNumber('waseem','ali','khan');
+
+  [lpn, seLpn] = useState(lpnText);
+  [bn,setBn] = useState(bnText);
 
   return (
     <ImageBackground
@@ -64,13 +125,15 @@ const ChartScreen =  (props) => {
       resizeMode="cover"
       style={styles.BackGrounimage}>
       <SafeAreaView style={[{flex: 1}]}>
-      <TouchableOpacity>
-            <View style={[styles.backBtn]}>
-              <Text style = {[{color:'#FFC700',fontSize:20,fontWeight:'bold'}]}>{'<'}</Text>
-            </View>
+        <TouchableOpacity>
+          <View style={[styles.backBtn]}>
+            <Text
+              style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
+              {'<'}
+            </Text>
+          </View>
         </TouchableOpacity>
         <View style={styles.mainPage}>
-       
           <View style={[styles.container]}>
             <Text style={[styles.heading]}>Chart Calculator</Text>
           </View>
@@ -96,7 +159,7 @@ const ChartScreen =  (props) => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Birthday Number"
-                value="30/3"></ValueBox>
+                value={bn}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
@@ -204,7 +267,6 @@ const ChartScreen =  (props) => {
                 heading="Corenerstone"
                 value="30/3"></ValueBox>
               <Text style={styles.scrollViewHeading}>
-               
                 Chapters of your LIfe
               </Text>
               <ValueBox
@@ -277,13 +339,11 @@ const ChartScreen =  (props) => {
                 heading="Fourth Challenge Number
                 (From age 52 and on)"
                 value="30/3"></ValueBox>
-              <View style={[{marginLeft: 40,marginTop:40,marginBottom:30}]}>
+              <View style={[{marginLeft: 40, marginTop: 40, marginBottom: 30}]}>
                 <ButtonWithBg
                   path="ProfileDetails1"
                   active="true"
-                  text="Next"
-
-                  ></ButtonWithBg>
+                  text="Next"></ButtonWithBg>
               </View>
             </ScrollView>
           </ImageBackground>
@@ -299,7 +359,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:10,
+    borderRadius: 10,
     position: 'absolute',
     top: 40,
     left: 40,
@@ -322,7 +382,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: windowWidth * 0.8,
- 
   },
   mainPage: {
     flex: 1,

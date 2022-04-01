@@ -56,7 +56,7 @@ const BirthDayScreen = ({navigation}) => {
   const [days, SetDays] = useState('12');
   const [years,SetYears] = useState('2022');
   const [months,SetMonths] = useState('Feburary'); 
-  const [nmonths,SetNmonths] = useState(1); 
+  const [nmonths,SetNmonths] = useState(2); 
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
   const [list2, setList2] = useState(false);
