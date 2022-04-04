@@ -226,7 +226,7 @@ const ChartScreen = props => {
   let mPersonText = calMpersonNumber('Waseem','ali');
 
   function calBridgeNumber(val1,val2){
-    console.log('IAML '+val1.split('/').map(Number)[0]);
+    //console.log('IAML '+val1.split('/').map(Number)[0]);
     val1 = val1.split('/').map(Number)[0]
     val1 = String(val1).split('').map(Number).reduce((acc,val)=>acc+val);
     val2 = val2.split('/').map(Number)[0]
@@ -235,15 +235,63 @@ const ChartScreen = props => {
     return res.toString();
   }
 
-  let lpExpBrText = calBridgeNumber(lpn,exp);
-  let hdPerBrText = calBridgeNumber(desireText,personText);
+  const simpleSum = (arr = []) => {
+    let total = arr.reduce((acc, val) => acc + val);
+    if (total < 10 ) {
+      return total;
+    }
+    return sum(String(total).split('').map(Number));
+  };
 
+  function calMaturityNumber(val1,val2) {
+    
+    val1 = val1.split('/').map(Number)[0]
+    val1 = String(val1).split('').map(Number).reduce((acc,val)=>acc+val);
+    val2 = val2.split('/').map(Number)[0]
+    val2 = String(val2).split('').map(Number).reduce((acc,val)=>acc+val);
+    var res = simpleSum([val1,val2]);
+    return res.toString();
+  }
 
+// function to calculate life path number
+  const CalAttitudeNumber = (date = '') => {
+    let [month, day] = date.split('-');
+    var res = simpleSum([parseInt(month),parseInt(day)]);
+    return res.toString();
+
+  };
+
+  function calRtn(birthDay,fname) {
+
+    var fval = sum(fname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
+    bn = birthDay.split('/').map(Number)[0]
+    bn = String(bn).split('').map(Number).reduce((acc,val)=>acc+val);
+    var res = simpleSum([parseInt(fval),parseInt(bn)]);
+    return res.toString();
+
+  }
+  function calBalanceNumber(fname,mname,lname) {
+    
+    var fval  = fname[0].charCodeAt(0)-96;
+    var mval = mname[0].charCodeAt(0)-96;
+    var lval = lname[0].charCodeAt(0)-96;
+    console.log(fval);
+    console.log(mval);
+    console.log(lval);
+    var res = simpleSum([fval,mval,lval]);
+    return res.toString();
+  } 
   [lpn, seLpn] = useState(lpnText);
   [bn,setBn] = useState(bnText);
   [exp,setExp] = useState(expText);
   [mExp,setMexp] = useState(mExpText);
 
+  let lpExpBrText = calBridgeNumber(lpn,exp);
+  let hdPerBrText = calBridgeNumber(desireText,personText);
+  let maturityText = calMaturityNumber(lpn,exp);
+  let attitudeText = CalAttitudeNumber(stval);
+  let rtnText = calRtn(bn,'waseem');
+  let balanceText = calBalanceNumber('waseem','ali','khan');
 
   return (
     <ImageBackground
@@ -324,12 +372,12 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Maturity"
-                value="30/3"></ValueBox>
+                value={maturityText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Attitude"
-                value="30/3"></ValueBox>
+                value={attitudeText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -346,12 +394,12 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Rational Thought Number"
-                value="30/3"></ValueBox>
+                value={rtnText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Balance Number"
-                value="30/3"></ValueBox>
+                value={balanceText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
