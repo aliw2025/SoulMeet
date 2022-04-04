@@ -112,70 +112,51 @@ const ChartScreen = props => {
     stack.push(total);
     return sumFinal(String(total).split('').map(Number));
   };
+  function convetToText(total) {
+    var text = '';
+    if(stack.length==0 || total==11 || total ==22 || total == 33){
+      text = text.concat(total.toString());
+    }else{
+      text = text.concat(stack[stack.length-1].toString(),'\/',total.toString());
+    }
+    return text
+  }
 
   function calExpressionNumber(fname,mname,lname) {
     let c = 'c';
-    // let text = "HellO World!";
-    // let result = text.toLowerCase();
-    // console.log(result);
+    
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
 
-    // console.log(fname);
-    // console.log(mname);
-    // console.log(lname);
-    // console.log(fname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(mname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(lname.split('').map((val)=>val.charCodeAt(0)-96));
     var fval = sum(fname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(fval);
     var mval = sum(mname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(mval);
     var lval = sum(lname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(lval);
+   
     var total = sumFinal([fval,mval,lval]);
-    return total;
+    var text  = convetToText(total);  
+    return text;
   }
   
-  let expObj = calExpressionNumber('waseem','ali','khan');
-  var expText = '';
-  if(expObj==11 || expObj ==22 || expObj == 33){
-    expText = expText.concat(expObj.toString());
-  }else{
-    expText = expText.concat(stack[stack.length-1].toString(),'\/',expObj.toString());
-  }
+  let expText = calExpressionNumber('waseem','ali','khan');
+  
 
   stack = []
-
   function calMinorExpressionNumber(fname,lname) {
 
-      // console.log(result);
     fname = fname.toLowerCase();
-    lname = lname.toLowerCase();
-    
-    // console.log(fname);
-    // console.log(lname);
-    // console.log(fname.split('').map((val)=>val.charCodeAt(0)-96));
-    // console.log(lname.split('').map((val)=>val.charCodeAt(0)-96));
-    
+    lname = lname.toLowerCase();  
     var fval = sum(fname.split('').map((val)=>val.charCodeAt(0)-96));
     // console.log(fval);
     var lval = sum(lname.split('').map((val)=>val.charCodeAt(0)-96));
     // console.log(lval);
     var total = sumFinal([fval,lval]);
-    return total;
+    var text  = convetToText(total);  
+    return text;
   }
+
   
-
-  let mExpObj = calMinorExpressionNumber('waseem','ali');
-  var mExpText = '';
-  if(mExpObj==11 || mExpObj ==22 || mExpObj == 33){
-    mExpText = mExpText.concat(mExpObj.toString());
-  }else{
-    mExpText = mExpText.concat(stack[stack.length-1].toString(),'\/',mExpObj.toString());
-  }
-
+  let mExpText = calMinorExpressionNumber('waseem','ali');
   var stack = []
 
   function calDesireNumber(fname,mname,lname) {
@@ -189,18 +170,12 @@ const ChartScreen = props => {
     var lval = sum(lname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
 
     var total = sumFinal([fval,mval,lval]);
-    return total;
+    var text  = convetToText(total);  
+    return text;
   }
 
-  let desireObj =calDesireNumber('Waseem','ali','khan');
-  var desireText = '';
-  if(desireObj==11 || desireObj ==22 || desireObj == 33){
-    desireText = desireText.concat(desireObj.toString());
-  }else{
-    desireText = desireText.concat(stack[stack.length-1].toString(),'\/',desireObj.toString());
-  }
+  let  desireText = calDesireNumber('Waseem','ali','khan');
   var stack = []
-
 
   function calMinorDesireNumber(fname,lname) {
 
@@ -210,17 +185,12 @@ const ChartScreen = props => {
     var fval = sum(fname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     var lval = sum(lname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     var total = sumFinal([fval,lval]);
-    return total;
+    var text  = convetToText(total);  
+    return text;
   }
 
-  let mDesireObj =calMinorDesireNumber('Waseem','ali');
-  var mDesireText = '';
-  if(mDesireObj==11 || mDesireObj ==22 || mDesireObj == 33){
-    mDesireText = mDesireText.concat(mDesireObj.toString());
-  }else{
-    mDesireText = mDesireText.concat(stack[stack.length-1].toString(),'\/',mDesireObj.toString());
-  }
-
+  let mDesireText =calMinorDesireNumber('Waseem','ali');
+  
   var stack = []
 
   function calPersonNumber(fname,mname,lname) {
@@ -228,7 +198,7 @@ const ChartScreen = props => {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-    // console.log("cont: "+fname.match(/[^aeiou]/gi));
+   
     var fval = sum(fname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     // console.log("fval: "+fval);
     var mval = sum(mname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
@@ -236,18 +206,11 @@ const ChartScreen = props => {
     var lval = sum(lname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     // console.log("lval: "+lval);
     var total = sumFinal([fval,mval,lval]);
-    return total;
+    var text  = convetToText(total);  
+    return text;
   }
 
-  let personObj = calPersonNumber('Waseem','ali','khan');
-  var personText = '';
-  if(personObj==11 || personObj ==22 || personObj == 33){
-    personText = personText.concat(personObj.toString());
-  }else{
-    personText = personText.concat(stack[stack.length-1].toString(),'\/',personObj.toString());
-  }
-
-  
+  let personText = calPersonNumber('Waseem','ali','khan');
   var stack = []
 
   function calMpersonNumber(fname,lname) {
@@ -257,24 +220,29 @@ const ChartScreen = props => {
     var fval = sum(fname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     var lval = sum(lname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
     var total = sumFinal([fval,lval]);
+    var text  = convetToText(total);  
+    return text;
+  }
+  let mPersonText = calMpersonNumber('Waseem','ali');
 
-    return total;
+  function calBridgeNumber(val1,val2){
+    console.log('IAML '+val1.split('/').map(Number)[0]);
+    val1 = val1.split('/').map(Number)[0]
+    val1 = String(val1).split('').map(Number).reduce((acc,val)=>acc+val);
+    val2 = val2.split('/').map(Number)[0]
+    val2 = String(val2).split('').map(Number).reduce((acc,val)=>acc+val);
+    var res = parseInt(val2) - parseInt(val1);
+    return res.toString();
   }
 
-  let mPersonObj = calMpersonNumber('Waseem','ali');
-  var mPersonText = '';
-  if(mPersonObj==11 || mPersonObj ==22 || mPersonObj == 33){
-    mPersonText = mPersonText.concat(mPersonObj.toString());
-  }else{
-    mPersonText = mPersonText.concat(stack[stack.length-1].toString(),'\/',mPersonObj.toString());
-  }
+  let lpExpBrText = calBridgeNumber(lpn,exp);
+  let hdPerBrText = calBridgeNumber(desireText,personText);
 
 
   [lpn, seLpn] = useState(lpnText);
   [bn,setBn] = useState(bnText);
   [exp,setExp] = useState(expText);
   [mExp,setMexp] = useState(mExpText);
-  [des,setDes] = useState(desireText);
 
 
   return (
@@ -332,7 +300,7 @@ const ChartScreen = props => {
                 boxWidth={60}
                 marginRight={60}
                 heading="Soul Urge / Heart’s Desire"
-                value={des}></ValueBox>
+                value={desireText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
@@ -367,13 +335,13 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Life Path/Expression
                 Bridge Number"
-                value="30/3"></ValueBox>
+                value={lpExpBrText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Heart’s Desire/ Personality
                 Bridge, Planes of Expression"
-                value="30/3"></ValueBox>
+                value={hdPerBrText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
