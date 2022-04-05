@@ -58,7 +58,7 @@ const SelectLanguage = ({navigation}) => {
   const {withCallingCode, setWithCallingCode} = useState(false);
 
   const navigationAction = params => {
-    navigation.navigate("AreYouHere", {name: 'Jane'});
+    navigation.navigate("ChartScreen", {name: 'Jane'});
   }
 
   const onSelect = (country: Country) => {

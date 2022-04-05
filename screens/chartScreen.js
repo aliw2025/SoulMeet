@@ -29,9 +29,12 @@ const windowHeight = Dimensions.get('window').height;
 //  the screen component
 const ChartScreen = props => {
   // console.log(props.route.params);
-  var day = props.route.params.day;
-  var month = props.route.params.month;
-  var year = props.route.params.year;
+  // var day = props.route.params.day;
+  // var month = props.route.params.month;
+  // var year = props.route.params.year;
+  var day = 12;
+  var month = 2;
+  var year = 2022;
   var stval = '';
 
   stval = stval.concat(
@@ -55,21 +58,22 @@ const ChartScreen = props => {
   };
 
   const sumAll = (arr = []) => {
-
     let total = arr.reduce((acc, val) => acc + val);
-    if (total<10) {
-      return {reduced:total,total:total};
-    }else{
-      let reduced = String(total).split('').map(Number).reduce((acc, val) => acc + val);
-      return {reduced:reduced,total:total};
+    if (total < 10) {
+      return {reduced: total, total: total};
+    } else {
+      let reduced = String(total)
+        .split('')
+        .map(Number)
+        .reduce((acc, val) => acc + val);
+      return {reduced: reduced, total: total};
     }
-    
   };
   // function to calculate life path number
   const CalLifePathNumber = (date = '') => {
     // function to sum individual dates months year
     // function to sum final answer
-    
+
     let [year, month, day] = date.split('-');
     year = sum(String(year).split('').map(Number));
     month = sum(String(month).split('').map(Number));
@@ -78,28 +82,27 @@ const ChartScreen = props => {
     return sumAll([year, month, day]);
   };
 
-
-  let lpnObj = CalLifePathNumber(stval); 
+  let lpnObj = CalLifePathNumber(stval);
   var lpnText = '';
-  lpnText = lpnText.concat(lpnObj.total,'\/',lpnObj.reduced);
- 
-  
-  function calBirhtDayNumber(day) {
-    
-    if(day<10){
-      return {reduced:day,total:day};
-    }else{
-      let reduced = String(day).split('').map(Number).reduce((acc, val) => acc + val);
-      return {reduced:reduced,total:day};
-    }
+  lpnText = lpnText.concat(lpnObj.total, '/', lpnObj.reduced);
 
+  function calBirhtDayNumber(day) {
+    if (day < 10) {
+      return {reduced: day, total: day};
+    } else {
+      let reduced = String(day)
+        .split('')
+        .map(Number)
+        .reduce((acc, val) => acc + val);
+      return {reduced: reduced, total: day};
+    }
   }
 
-  let bnObj  = calBirhtDayNumber(day);
+  let bnObj = calBirhtDayNumber(day);
   var bnText = '';
-  bnText = bnText.concat(bnObj.total,'\/',bnObj.reduced);
+  bnText = bnText.concat(bnObj.total, '/', bnObj.reduced);
 
-  var stack = []
+  var stack = [];
   const sumFinal = (arr = []) => {
     // if (arr.length === 1) {
     //   return +arr[0];
@@ -114,192 +117,283 @@ const ChartScreen = props => {
   };
   function convetToText(total) {
     var text = '';
-    if(stack.length==0 || total==11 || total ==22 || total == 33){
+    if (stack.length == 0 || total == 11 || total == 22 || total == 33) {
       text = text.concat(total.toString());
-    }else{
-      text = text.concat(stack[stack.length-1].toString(),'\/',total.toString());
+    } else {
+      text = text.concat(
+        stack[stack.length - 1].toString(),
+        '/',
+        total.toString(),
+      );
     }
-    return text
+    return text;
   }
 
-  function calExpressionNumber(fname,mname,lname) {
+  function calExpressionNumber(fname, mname, lname) {
     let c = 'c';
-    
+
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
 
-    var fval = sum(fname.split('').map((val)=>val.charCodeAt(0)-96));
-    var mval = sum(mname.split('').map((val)=>val.charCodeAt(0)-96));
-    var lval = sum(lname.split('').map((val)=>val.charCodeAt(0)-96));
-   
-    var total = sumFinal([fval,mval,lval]);
-    var text  = convetToText(total);  
+    var fval = sum(fname.split('').map(val => val.charCodeAt(0) - 96));
+    var mval = sum(mname.split('').map(val => val.charCodeAt(0) - 96));
+    var lval = sum(lname.split('').map(val => val.charCodeAt(0) - 96));
+
+    var total = sumFinal([fval, mval, lval]);
+    var text = convetToText(total);
     return text;
   }
-  
-  let expText = calExpressionNumber('waseem','ali','khan');
-  
 
-  stack = []
-  function calMinorExpressionNumber(fname,lname) {
+  let expText = calExpressionNumber('waseem', 'ali', 'khan');
 
+  stack = [];
+  function calMinorExpressionNumber(fname, lname) {
     fname = fname.toLowerCase();
-    lname = lname.toLowerCase();  
-    var fval = sum(fname.split('').map((val)=>val.charCodeAt(0)-96));
+    lname = lname.toLowerCase();
+    var fval = sum(fname.split('').map(val => val.charCodeAt(0) - 96));
     // console.log(fval);
-    var lval = sum(lname.split('').map((val)=>val.charCodeAt(0)-96));
+    var lval = sum(lname.split('').map(val => val.charCodeAt(0) - 96));
     // console.log(lval);
-    var total = sumFinal([fval,lval]);
-    var text  = convetToText(total);  
+    var total = sumFinal([fval, lval]);
+    var text = convetToText(total);
     return text;
   }
 
-  
-  let mExpText = calMinorExpressionNumber('waseem','ali');
-  var stack = []
+  let mExpText = calMinorExpressionNumber('waseem', 'ali');
+  var stack = [];
 
-  function calDesireNumber(fname,mname,lname) {
-
+  function calDesireNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
- 
-    var fval = sum(fname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var mval = sum(mname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var lval = sum(lname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
 
-    var total = sumFinal([fval,mval,lval]);
-    var text  = convetToText(total);  
+    var fval = sum(fname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    var mval = sum(mname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    var lval = sum(lname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+
+    var total = sumFinal([fval, mval, lval]);
+    var text = convetToText(total);
     return text;
   }
 
-  let  desireText = calDesireNumber('Waseem','ali','khan');
-  var stack = []
+  let desireText = calDesireNumber('Waseem', 'ali', 'khan');
+  var stack = [];
 
-  function calMinorDesireNumber(fname,lname) {
-
+  function calMinorDesireNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
- 
-    var fval = sum(fname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var lval = sum(lname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var total = sumFinal([fval,lval]);
-    var text  = convetToText(total);  
+
+    var fval = sum(fname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    var lval = sum(lname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    var total = sumFinal([fval, lval]);
+    var text = convetToText(total);
     return text;
   }
 
-  let mDesireText =calMinorDesireNumber('Waseem','ali');
-  
-  var stack = []
+  let mDesireText = calMinorDesireNumber('Waseem', 'ali');
 
-  function calPersonNumber(fname,mname,lname) {
+  var stack = [];
 
+  function calPersonNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-   
-    var fval = sum(fname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
+
+    var fval = sum(
+      fname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    );
     // console.log("fval: "+fval);
-    var mval = sum(mname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
+    var mval = sum(
+      mname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    );
     // console.log("mval: "+mval);
-    var lval = sum(lname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
+    var lval = sum(
+      lname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    );
     // console.log("lval: "+lval);
-    var total = sumFinal([fval,mval,lval]);
-    var text  = convetToText(total);  
+    var total = sumFinal([fval, mval, lval]);
+    var text = convetToText(total);
     return text;
   }
 
-  let personText = calPersonNumber('Waseem','ali','khan');
-  var stack = []
+  let personText = calPersonNumber('Waseem', 'ali', 'khan');
+  var stack = [];
 
-  function calMpersonNumber(fname,lname) {
-
+  function calMpersonNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
-    var fval = sum(fname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var lval = sum(lname.match(/[^aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    var total = sumFinal([fval,lval]);
-    var text  = convetToText(total);  
+    var fval = sum(
+      fname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    );
+    var lval = sum(
+      lname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    );
+    var total = sumFinal([fval, lval]);
+    var text = convetToText(total);
     return text;
   }
-  let mPersonText = calMpersonNumber('Waseem','ali');
+  let mPersonText = calMpersonNumber('Waseem', 'ali');
 
-  function calBridgeNumber(val1,val2){
+  function calBridgeNumber(val1, val2) {
     //console.log('IAML '+val1.split('/').map(Number)[0]);
-    val1 = val1.split('/').map(Number)[0]
-    val1 = String(val1).split('').map(Number).reduce((acc,val)=>acc+val);
-    val2 = val2.split('/').map(Number)[0]
-    val2 = String(val2).split('').map(Number).reduce((acc,val)=>acc+val);
+    val1 = val1.split('/').map(Number)[0];
+    val1 = String(val1)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+    val2 = val2.split('/').map(Number)[0];
+    val2 = String(val2)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
     var res = parseInt(val2) - parseInt(val1);
     return res.toString();
   }
 
   const simpleSum = (arr = []) => {
     let total = arr.reduce((acc, val) => acc + val);
-    if (total < 10 ) {
+    if (total < 10) {
       return total;
     }
     return sum(String(total).split('').map(Number));
   };
 
-  function calMaturityNumber(val1,val2) {
-    
-    val1 = val1.split('/').map(Number)[0]
-    val1 = String(val1).split('').map(Number).reduce((acc,val)=>acc+val);
-    val2 = val2.split('/').map(Number)[0]
-    val2 = String(val2).split('').map(Number).reduce((acc,val)=>acc+val);
-    var res = simpleSum([val1,val2]);
+  function calMaturityNumber(val1, val2) {
+    val1 = val1.split('/').map(Number)[0];
+    val1 = String(val1)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+    val2 = val2.split('/').map(Number)[0];
+    val2 = String(val2)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+    var res = simpleSum([val1, val2]);
     return res.toString();
   }
 
-// function to calculate life path number
+  // function to calculate life path number
   const CalAttitudeNumber = (date = '') => {
     let [month, day] = date.split('-');
-    var res = simpleSum([parseInt(month),parseInt(day)]);
+    var res = simpleSum([parseInt(month), parseInt(day)]);
     return res.toString();
-
   };
 
-  function calRtn(birthDay,fname) {
-
-    var fval = sum(fname.match(/[aeiou]/gi).map((val)=>val.charCodeAt(0)-96));
-    bn = birthDay.split('/').map(Number)[0]
-    bn = String(bn).split('').map(Number).reduce((acc,val)=>acc+val);
-    var res = simpleSum([parseInt(fval),parseInt(bn)]);
+  function calRtn(birthDay, fname) {
+    var fval = sum(fname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    bn = birthDay.split('/').map(Number)[0];
+    bn = String(bn)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+    var res = simpleSum([parseInt(fval), parseInt(bn)]);
     return res.toString();
-
   }
-  function calBalanceNumber(fname,mname,lname) {
-    
-    var fval  = fname[0].charCodeAt(0)-96;
-    var mval = mname[0].charCodeAt(0)-96;
-    var lval = lname[0].charCodeAt(0)-96;
+  function calBalanceNumber(fname, mname, lname) {
+    var fval = fname[0].charCodeAt(0) - 96;
+    var mval = mname[0].charCodeAt(0) - 96;
+    var lval = lname[0].charCodeAt(0) - 96;
     console.log(fval);
     console.log(mval);
     console.log(lval);
-    var res = simpleSum([fval,mval,lval]);
+    var res = simpleSum([fval, mval, lval]);
     return res.toString();
-  } 
-  function calkeramicNumber(fname,mname,lname) {
-    var all = 'abcdefghijklmnopqrstuvwxyz';
-    var regex = new RegExp(all, 'g' );
-    var fval = fname.match(regex);
-    console.log(fval);
+  }
+  var flags = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  function calkeramicNumber(fname, mname, lname) {
+    var text = '';
+    var fullname = '';
+    fullname = fullname.concat(fname, mname, lname);
+    // console.log("my full name is :"+fullname);
+    // console.log(fullname.split('').map((val)=>simpleSum(String(val.charCodeAt(0)-96).split('').map(Number))))
+    fullname.split('').map(
+      val =>
+        (flags[
+          simpleSum(
+            String(val.charCodeAt(0) - 96)
+              .split('')
+              .map(Number),
+          )
+        ] = 1),
+    );
+    // console.log(flags);
+    var first = 0;
+    flags.map((val, index) => {
+      if (val == 0 && index != 0) {
+        if (first == 0) {
+          text = text.concat(index);
+          first = 1;
+        } else {
+          text = text.concat(',', index);
+        }
+      }
+    });
+    return text;
+  }
+  function calSubConSelfNumber(karamicText) {
+    var len = keramicText.split(',').length;
+    // console.log(len);
+    return (9-len).toString();
+    
+  }
+  flags = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  function calHiddenPassionNumber(fname,mname,lname) {
+    var text = '';
+    var fullname = '';
+    fullname = fullname.concat(fname, mname, lname);
+    fullname.split('').map(
+      val =>
+        (flags[
+          simpleSum(
+            String(val.charCodeAt(0) - 96)
+              .split('')
+              .map(Number),
+          )
+        ] += 1),
+    );
+    var maxValue = Math.max(...flags);
+    console.log(Math.max(...flags));
+    var indices = [];
+    var text = '';
+    var first = 0;
+    for (var i = 0;i<flags.length;i++){
+      if(flags[i]==maxValue){
+        if(first ==0){
+          text = text.concat(i.toString());
+          first = 1;
+        }else{
+          text = text.concat(',',i.toString());
+          
+        }
+      }
+    }
+    const index = flags.indexOf(maxValue);
+
+    console.log(text); // 👉️ 3
+    // console.log(flags)
+
+
+
+    
 
   }
-  [lpn, seLpn] = useState(lpnText);
-  [bn,setBn] = useState(bnText);
-  [exp,setExp] = useState(expText);
-  [mExp,setMexp] = useState(mExpText);
 
-  let lpExpBrText = calBridgeNumber(lpn,exp);
-  let hdPerBrText = calBridgeNumber(desireText,personText);
-  let maturityText = calMaturityNumber(lpn,exp);
+  [lpn, seLpn] = useState(lpnText);
+  [bn, setBn] = useState(bnText);
+  [exp, setExp] = useState(expText);
+  [mExp, setMexp] = useState(mExpText);
+
+  let lpExpBrText = calBridgeNumber(lpn, exp);
+  let hdPerBrText = calBridgeNumber(desireText, personText);
+  let maturityText = calMaturityNumber(lpn, exp);
   let attitudeText = CalAttitudeNumber(stval);
-  let rtnText = calRtn(bn,'waseem');
-  let balanceText = calBalanceNumber('waseem','ali','khan');
-  let keramicText =  calkeramicNumber('waseem','ali','khan');
+  let rtnText = calRtn(bn, 'waseem');
+  let balanceText = calBalanceNumber('waseem', 'ali', 'khan');
+  let keramicText = calkeramicNumber('waseem', 'ali', 'khan');
+  let subConText = calSubConSelfNumber(keramicText);
+  let hiddenPassionText = calHiddenPassionNumber('waseem', 'ali', 'khan');
 
   return (
     <ImageBackground
@@ -412,12 +506,12 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Subconcious Self Number"
-                value="30/3"></ValueBox>
+                value={subConText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Karmic Lesson"
-                value="30/3"></ValueBox>
+                value={keramicText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
