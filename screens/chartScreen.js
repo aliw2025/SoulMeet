@@ -281,6 +281,13 @@ const ChartScreen = props => {
     var res = simpleSum([fval,mval,lval]);
     return res.toString();
   } 
+  function calkeramicNumber(fname,mname,lname) {
+    var all = 'abcdefghijklmnopqrstuvwxyz';
+    var regex = new RegExp(all, 'g' );
+    var fval = fname.match(regex);
+    console.log(fval);
+
+  }
   [lpn, seLpn] = useState(lpnText);
   [bn,setBn] = useState(bnText);
   [exp,setExp] = useState(expText);
@@ -292,6 +299,7 @@ const ChartScreen = props => {
   let attitudeText = CalAttitudeNumber(stval);
   let rtnText = calRtn(bn,'waseem');
   let balanceText = calBalanceNumber('waseem','ali','khan');
+  let keramicText =  calkeramicNumber('waseem','ali','khan');
 
   return (
     <ImageBackground
