@@ -374,11 +374,17 @@ const ChartScreen = props => {
     return text;
     // console.log(flags)
   }
-  function calPhysicalPlane(fname, mname, lname) {
-    var text = '';
+  
+  function calPlanes(fname, mname, lname) {
+    var physicalPlane = '';
+    var mentalPlane = '';
+    var intiuativePlane = '';
+    var emotionalPlane = '';
+
     var fullname = '';
     fullname = fullname.concat(fname, mname, lname);
-    var ans = sum(
+    stack = []
+    var ans = sumFinal(
       fullname.match(/[ewdm]/gi).map(val => {
         var x = val.charCodeAt(0)-96;
         x = sum(String(x).split('').map(Number));
@@ -386,8 +392,10 @@ const ChartScreen = props => {
         return x;
       }),
     );
-    console.log('ans 1: '+ans);
-     ans = sum(
+    var physicalPlane = convetToText(ans);
+    console.log('ans 1: '+physicalPlane);
+    stack = []
+     ans = sumFinal(
       fullname.match(/[ahjnpgl]/gi).map(val => {
         var x = val.charCodeAt(0)-96;
         x = sum(String(x).split('').map(Number));
@@ -395,8 +403,10 @@ const ChartScreen = props => {
         return x;
       }),
     );
-    console.log('ans 2: '+ans);
-    ans = sum(
+    var mentalPlane = convetToText(ans);
+    console.log('ans 2: '+mentalPlane);
+    stack = []
+    ans = sumFinal(
       fullname.match(/[iorzbstx]/gi).map(val => {
         var x = val.charCodeAt(0)-96;
         x = sum(String(x).split('').map(Number));
@@ -404,8 +414,11 @@ const ChartScreen = props => {
         return x;
       }),
     );
-    console.log('ans 3: '+ans);
-     ans = sum(
+    
+    var emotionalPlane = convetToText(ans);
+    console.log('ans 3s: '+emotionalPlane);
+    stack = []
+     ans = sumFinal(
       fullname.match(/[kfquycv]/gi).map(val => {
         var x = val.charCodeAt(0)-96;
         x = sum(String(x).split('').map(Number));
@@ -413,9 +426,10 @@ const ChartScreen = props => {
         return x;
       }),
     );
-    console.log('ans 4: '+ans);
-    // var ans = sum(fullname.match(/[ewdm]/gi).map((val)=>{val.charCodeAt(0) - 96}));
-    // console.log("physical plane: "+ans);
+    stack = []
+    var intiuativePlane = convetToText(ans);
+    console.log('ans 4: '+intiuativePlane);
+    return [physicalPlane,mentalPlane,emotionalPlane,intiuativePlane];
   }
   function calCornerStone(fname){
     var stone = fname[0];
@@ -436,7 +450,7 @@ const ChartScreen = props => {
   let keramicText = calkeramicNumber('waseem', 'ali', 'khan');
   let subConText = calSubConSelfNumber(keramicText);
   let hiddenPassionText = calHiddenPassionNumber('waseem', 'ali', 'khan');
-  let physicalPlaneText = calPhysicalPlane('waseem', 'ali', 'khan');
+  let [phyPlaneText,menPlaneText,emotPlaneText,intPlaneText] = calPlanes('waseem', 'ali', 'khan');
   let cornetStoneText = calCornerStone('waseem');
 
   return (
@@ -566,21 +580,26 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Hereditary Name"
                 value="30/3"></ValueBox>
+                <ValueBox
+                boxWidth={120}
+                marginRight={0}
+                heading="Physical Plane of Expression"
+                value={phyPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Mental Plane of Expression"
-                value="30/3"></ValueBox>
+                value={menPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Intutive Plane of Expression"
-                value="30/3"></ValueBox>
+                value={intPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Emotional Plane of Expression"
-                value="30/3"></ValueBox>
+                value={emotPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
