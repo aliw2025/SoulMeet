@@ -291,6 +291,7 @@ const ChartScreen = props => {
     var res = simpleSum([parseInt(fval), parseInt(bn)]);
     return res.toString();
   }
+
   function calBalanceNumber(fname, mname, lname) {
     var fval = fname[0].charCodeAt(0) - 96;
     var mval = mname[0].charCodeAt(0) - 96;
@@ -301,6 +302,7 @@ const ChartScreen = props => {
     var res = simpleSum([fval, mval, lval]);
     return res.toString();
   }
+
   var flags = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   function calkeramicNumber(fname, mname, lname) {
     var text = '';
@@ -335,11 +337,11 @@ const ChartScreen = props => {
   function calSubConSelfNumber(karamicText) {
     var len = keramicText.split(',').length;
     // console.log(len);
-    return (9-len).toString();
-    
+    return (9 - len).toString();
   }
+
   flags = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  function calHiddenPassionNumber(fname,mname,lname) {
+  function calHiddenPassionNumber(fname, mname, lname) {
     var text = '';
     var fullname = '';
     fullname = fullname.concat(fname, mname, lname);
@@ -358,26 +360,66 @@ const ChartScreen = props => {
     var indices = [];
     var text = '';
     var first = 0;
-    for (var i = 0;i<flags.length;i++){
-      if(flags[i]==maxValue){
-        if(first ==0){
+    for (var i = 0; i < flags.length; i++) {
+      if (flags[i] == maxValue) {
+        if (first == 0) {
           text = text.concat(i.toString());
           first = 1;
-        }else{
-          text = text.concat(',',i.toString());
-          
+        } else {
+          text = text.concat(',', i.toString());
         }
       }
     }
     const index = flags.indexOf(maxValue);
-
-    console.log(text); // 👉️ 3
+    return text;
     // console.log(flags)
-
-
-
-    
-
+  }
+  function calPhysicalPlane(fname, mname, lname) {
+    var text = '';
+    var fullname = '';
+    fullname = fullname.concat(fname, mname, lname);
+    var ans = sum(
+      fullname.match(/[ewdm]/gi).map(val => {
+        var x = val.charCodeAt(0)-96;
+        x = sum(String(x).split('').map(Number));
+        console.log(val+" : "+x);
+        return x;
+      }),
+    );
+    console.log('ans 1: '+ans);
+     ans = sum(
+      fullname.match(/[ahjnpgl]/gi).map(val => {
+        var x = val.charCodeAt(0)-96;
+        x = sum(String(x).split('').map(Number));
+        console.log(val+" : "+x);
+        return x;
+      }),
+    );
+    console.log('ans 2: '+ans);
+    ans = sum(
+      fullname.match(/[iorzbstx]/gi).map(val => {
+        var x = val.charCodeAt(0)-96;
+        x = sum(String(x).split('').map(Number));
+        console.log(val+" : "+x);
+        return x;
+      }),
+    );
+    console.log('ans 3: '+ans);
+     ans = sum(
+      fullname.match(/[kfquycv]/gi).map(val => {
+        var x = val.charCodeAt(0)-96;
+        x = sum(String(x).split('').map(Number));
+        console.log(val+" : "+x);
+        return x;
+      }),
+    );
+    console.log('ans 4: '+ans);
+    // var ans = sum(fullname.match(/[ewdm]/gi).map((val)=>{val.charCodeAt(0) - 96}));
+    // console.log("physical plane: "+ans);
+  }
+  function calCornerStone(fname){
+    var stone = fname[0];
+    return stone;
   }
 
   [lpn, seLpn] = useState(lpnText);
@@ -394,6 +436,8 @@ const ChartScreen = props => {
   let keramicText = calkeramicNumber('waseem', 'ali', 'khan');
   let subConText = calSubConSelfNumber(keramicText);
   let hiddenPassionText = calHiddenPassionNumber('waseem', 'ali', 'khan');
+  let physicalPlaneText = calPhysicalPlane('waseem', 'ali', 'khan');
+  let cornetStoneText = calCornerStone('waseem');
 
   return (
     <ImageBackground
@@ -516,7 +560,7 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Hidden Passion"
-                value="30/3"></ValueBox>
+                value={hiddenPassionText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -541,7 +585,7 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Corenerstone"
-                value="30/3"></ValueBox>
+                value={cornetStoneText}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Chapters of your LIfe
               </Text>
