@@ -24,7 +24,6 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const AreYouHere = ({navigation}) => {
   
-  
   const navigationAction = params => {
     navigation.navigate("BirthDay", {name: 'Jane'});
   }
@@ -48,7 +47,7 @@ const AreYouHere = ({navigation}) => {
             personality. Find the love of your life or make friends through this
             numerology/dating app.
           </Text>
-          <Text style={[styles.heading]}> Are you here for</Text>
+          <Text  adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}> Are you here for</Text>
           <View style={[styles.btn]}>
             <ButtonWithBg
              path = "BirthDay"
@@ -86,11 +85,18 @@ const styles = StyleSheet.create({
   },
   container: {
     marginTop: 50,
-    width: windowWidth * 0.8,
+    width: windowWidth - 80,
+    // marginLeft:40,
+    // marginLeft:40,
+    fontSize:14,
+    letterSpacing:1.5,
+    color:'black',
+   
   },
   mainPage: {
     flex: 1,
-    alignItems: 'center',
+    // backgroundColor:'pink',
+    // alignItems: 'center',
   },
   btnBg: {
     // width: 300,
@@ -103,12 +109,15 @@ const styles = StyleSheet.create({
   BackGrounimage: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    backgroundColor:'red',
   },
   heading: {
+    width:windowWidth-80,
     marginTop: 20,
-    fontSize: 40,
+    fontSize: 70,
     fontWeight: 'bold',
+    color:'black',
   },
   subHeading: {
     fontSize: 15,

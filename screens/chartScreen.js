@@ -562,7 +562,7 @@ const ChartScreen = props => {
     month,
     year,
   );
-  console.log('bn: '+bn);
+  
   return (
     <ImageBackground
       source={image}
@@ -830,17 +830,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    width: windowWidth * 0.8,
+    width: windowWidth- 80,
+    marginLeft:40,
+    marginRight:40,
+    // backgroundColor:'gray',
+    // justifyContent:'center',
+    // alignItems:'center',
+
+    
   },
   mainPage: {
     flex: 1,
-    alignItems: 'center',
+    // justifyContent:'center',
+    // alignItems: 'center',
   },
   heading: {
-    textAlign: 'left',
-    marginTop: 100,
+    // textAlign: 'left',
+    marginTop: windowHeight *0.12,
     fontSize: 40,
     fontWeight: 'bold',
+    color:'black',
   },
 });
 

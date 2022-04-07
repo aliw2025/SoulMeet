@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   buttonTxt: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize:16,
   },
 });
 export default ButtonWithBg;

@@ -22,34 +22,30 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const AdjustLabel = ({
-  fontSize, text, style, numberOfLines
-}) => {
+const AdjustLabel = ({fontSize, text, style, numberOfLines}) => {
   const [currentFont, setCurrentFont] = useState(fontSize);
 
   return (
     <Text
-      numberOfLines={ numberOfLines }
+      numberOfLines={numberOfLines}
       adjustsFontSizeToFit
-      style={ [style, { fontSize: currentFont }] }
-      onTextLayout={ (e) => {
-        const { lines } = e.nativeEvent;
+      style={[style, {fontSize: currentFont}]}
+      onTextLayout={e => {
+        const {lines} = e.nativeEvent;
         if (lines.length > numberOfLines) {
           setCurrentFont(currentFont - 1);
         }
-      } }
-    >
-      { text }
+      }}>
+      {text}
     </Text>
   );
 };
 
 const SelectLanguage = ({navigation}) => {
- 
   const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
-  
+
   const {country, setCountry} = useState < Country > null;
- 
+
   const {withCountryNameButton, setWithCountryNameButton} = useState(false);
   const {withFlag, setWithFlag} = useState(true);
   const {withEmoji, setWithEmoji} = useState(true);
@@ -58,8 +54,8 @@ const SelectLanguage = ({navigation}) => {
   const {withCallingCode, setWithCallingCode} = useState(false);
 
   const navigationAction = params => {
-    navigation.navigate("ChartScreen", {name: 'Jane'});
-  }
+    navigation.navigate('AreYouHere', {name: 'Jane'});
+  };
 
   const onSelect = (country: Country) => {
     console.log(country);
@@ -71,29 +67,24 @@ const SelectLanguage = ({navigation}) => {
     <ImageBackground
       source={image}
       resizeMode="cover"
-      
       style={styles.BackGrounimage}>
-      <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>Select Language</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>
+        Select Language
+      </Text>
       <Text style={[styles.subHeading]}>
-        
         Please select your preferrred Language
       </Text>
       <View style={[styles.abc]}>
-      <LanguagePickerBtn text = "English" >
-      </LanguagePickerBtn>
+        <LanguagePickerBtn text="English"></LanguagePickerBtn>
       </View>
-      <View style = {[{marginLeft:40,marginTop:20,}]}>
-      <ButtonWithBg
-        active = "true"
-       
-        image={buttonBgOrange}
-        text = "NEXT"
-        btnAction = {navigationAction}
-        ></ButtonWithBg>
+      <View style={[{marginLeft: 40, marginTop: 20}]}>
+        <ButtonWithBg
+          active="true"
+          image={buttonBgOrange}
+          text="NEXT"
+          btnAction={navigationAction}></ButtonWithBg>
       </View>
-      
-       
-    
+
       {/* <CountryPicker
         {...{
           countryCode,
@@ -117,15 +108,7 @@ const SelectLanguage = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   abc: {
-    zIndex:2,
-  },
-  btnBg: {
-    // width: 300,
-    height: 60,
-    justifyContent: 'center',
-    width: 320,
-    // margin:20,
-    // flex:1
+    zIndex: 2,
   },
   BackGrounimage: {
     flex: 1,
@@ -133,22 +116,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    marginLeft:40,
-    width:windowWidth-80,
-    marginRight:40,
-    fontSize: 40,
+    marginLeft: 40,
+    width: windowWidth - 80,
+    marginRight: 40,
+    fontSize: 70,
     fontWeight: 'bold',
-    color:'black',
+    color: '#000000B2',
     // backgroundColor:'gray',
   },
   subHeading: {
     fontSize: 15,
-    color:'black',
-    marginLeft:40,
-    width:windowWidth-80,
-    marginRight:40,
+    color: 'black',
+    marginLeft: 40,
+    width: windowWidth - 80,
+    marginRight: 40,
   },
- 
 });
 
 export default SelectLanguage;

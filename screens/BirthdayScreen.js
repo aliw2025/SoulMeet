@@ -152,6 +152,9 @@ const BirthDayScreen = ({navigation}) => {
     pday = days
     navigation.navigate("ProfileDetails1",{day: days,month:nmonths,year:years});
   }
+  function onSelect() {
+    hideList();
+  }
   
   initDays();
   initYears();
@@ -166,9 +169,9 @@ const BirthDayScreen = ({navigation}) => {
 
       <SafeAreaView>
         <View style={styles.mainPage}>
-          <Text style={[styles.heading]}> Choose Birthday</Text>
+          <Text  adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>Choose Birthday</Text>
           <View style={[styles.subHeading]}>
-            <Text>Please Choose your exact date of Birth</Text>
+            <Text>  Please Choose your exact date of Birth</Text>
           </View>
           <View style={[{zIndex: 3}]}>
             <DropDown
@@ -235,6 +238,8 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   bottomBtn: {
+    marginLeft:40,
+    marginRight:40,
     position: 'absolute',
     bottom: 40,
   },
@@ -256,7 +261,7 @@ const styles = StyleSheet.create({
   },
   mainPage: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   btnBg: {
     // width: 300,
@@ -272,14 +277,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
+    width:windowWidth - 80,
+    marginLeft:40,
+    marginRight:40,
     marginTop: 100,
-    fontSize: 40,
+    fontSize: 70  ,
     fontWeight: 'bold',
+    color:'black',
+    textAlign:'center',
+   
   },
   subHeading: {
-    marginTop: 10,
+    width:windowWidth - 80,
+    marginLeft:40,
+    marginRight:40,
+    marginTop: 0,
     fontSize: 15,
-    width: windowWidth * 0.75,
+    color:'#000000B2',
+    // backgroundColor:'purple'
   },
 });
 
