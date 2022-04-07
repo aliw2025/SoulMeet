@@ -5,6 +5,15 @@
  * @format
  * @flow strict-local
  */
+//  book
+//  https://www.worldnumerology.com/numerology-course-classes/numerology-class-01-intro/
+//  http://numerology.center/pinnacle_cycles.php
+//  https://www.paulineedward.com/calculations/
+//  http://numerology.center/pinnacle_cycles.php
+//  https://www.worldnumerology.com/numerology-chart-calculator.php
+//  https://numerology.findyourfate.com/online-numerology/rationalfirst.php
+
+// reference links to the wbstie
 // libs
 import React from 'react';
 import type {Node} from 'react';
@@ -12,20 +21,21 @@ import {Dimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // importign screens
-import  HomeScreen from './screens/HomePage'
-import SelectLanguage from './screens/languageScreen'
-import  AreYouHere from './screens/AreYouHere'
-import BirthDayScreen from './screens/BirthdayScreen'
+import HomeScreen from './screens/HomePage';
+import SelectLanguage from './screens/languageScreen';
+import AreYouHere from './screens/AreYouHere';
+import BirthDayScreen from './screens/BirthdayScreen';
 import ChartScreen from './screens/chartScreen';
-import ProfileDetails1 from './screens/profileDetails1'
-import ProfileDetails2 from './screens/profileDetails2'
-import WhoAm from './screens/whoAm'
+import ProfileDetails1 from './screens/profileDetails1';
+import ProfileDetails2 from './screens/profileDetails2';
+import WhoAm from './screens/whoAm';
+import SummaryScreen  from './screens/SummaryScreen';
 
 // creating variables
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-// importing react-native 
+// importing react-native
 import {
   SafeAreaView,
   ScrollView,
@@ -37,6 +47,7 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
+
 // imporiting react libraries
 import {
   Colors,
@@ -47,7 +58,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const image = require('./grad.png');
-
 // main component of the app
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,12 +67,11 @@ const App: () => Node = () => {
   };
 
   return (
-   
-      <NavigationContainer>
+    <NavigationContainer>
       <Stack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}>
+        screenOptions={{
+          headerShown: false,
+        }}>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -93,24 +102,25 @@ const App: () => Node = () => {
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={ProfileDetails2}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="WhoAm"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={WhoAm}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="ChartScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={ChartScreen}
         />
-       
-       
-       
+        <Stack.Screen
+          name="SummaryScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={SummaryScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
-
+};
 
 // const HomeScreen = ({navigation}) => {
 //   return (
@@ -133,7 +143,7 @@ const App: () => Node = () => {
 //           </ScrollView>
 //         </View>
 //         <View style = {[styles.btn]}>
-//         <Button 
+//         <Button
 //           title="Go to Jane's profile"
 //           onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
 //         />
@@ -146,9 +156,9 @@ const App: () => Node = () => {
 const styles = StyleSheet.create({
   SafeAreaView: {
     flex: 1,
-  }, 
+  },
   btn: {
-     // backgroundColor: 'purple',
+    // backgroundColor: 'purple',
     flex: 1,
   },
   inside: {

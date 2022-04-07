@@ -164,7 +164,8 @@ const BirthDayScreen = ({navigation}) => {
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}
-      onTouchEnd={() => onSelect()}>
+      onTouchEnd={() => onSelect()}
+      >
       {/* <TouchableHighlight onPress={hideList} underlayColor="clear"> */}
 
       <SafeAreaView>

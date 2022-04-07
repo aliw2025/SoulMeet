@@ -38,7 +38,7 @@ const image = require('../assets/grad.png');
 
 const HomeScreen = ({navigation}) => {
   const navigationAction = params => {
-    navigation.navigate('SelectLanguage', {name: 'Jane'});
+    navigation.navigate('ChartScreen', {name: 'Jane'});
   };
 
   return (

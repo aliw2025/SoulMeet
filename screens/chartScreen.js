@@ -13,6 +13,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  Image,
   useColorScheme,
   TouchableOpacity,
   View,
@@ -32,6 +33,7 @@ const ChartScreen = props => {
   // var day = props.route.params.day;
   // var month = props.route.params.month;
   // var year = props.route.params.year;
+  var navigation = props.navigation;
   var day = 20;
   var month = 2;
   var year = 1996;
@@ -562,7 +564,12 @@ const ChartScreen = props => {
     month,
     year,
   );
-  
+
+  const navigationAction = params => {
+    
+    navigation.navigate("SummaryScreen",{name:'wase'});
+  }
+  var indeicator  = require('../assets/indicator.png')
   return (
     <ImageBackground
       source={image}
@@ -581,11 +588,15 @@ const ChartScreen = props => {
           <View style={[styles.container]}>
             <Text style={[styles.heading]}>Chart Calculator</Text>
           </View>
-
+         
           <ImageBackground
             source={card}
             resizeMode="stretch"
             style={[styles.card]}>
+          <Image
+          style={{alignSelf:'center',marginTop:-5}}
+          source={indeicator}
+          />
             <ScrollView style={[{flex: 1, marginTop: 20}]}>
               <InfoBox heading="Current Name" bodyText="Waseem ali"></InfoBox>
               <InfoBox
@@ -792,7 +803,9 @@ const ChartScreen = props => {
                 <ButtonWithBg
                   path="ProfileDetails1"
                   active="true"
-                  text="Next"></ButtonWithBg>
+                  text="Next"
+                  btnAction = {navigationAction}
+                  navigation={navigation}></ButtonWithBg>
               </View>
             </ScrollView>
           </ImageBackground>
