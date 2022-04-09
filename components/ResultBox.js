@@ -22,8 +22,8 @@ const ResultBox = props => {
  
   height = props.height;
   
-  console.log(width);
-  console.log("bool: "+props.haveHeading);
+  // console.log(width);
+  // console.log("bool: "+props.haveHeading);
   [haveHeading,setHaveHeading] = useState(props.haveHeading);
   return (
     <View style={[{width: width}, styles.infoBox]}>
@@ -49,10 +49,12 @@ const styles = StyleSheet.create({
     marginLeft:2,
     marginRight:2,
     zIndex: 1,
+    // backgroundColor:'pink',
   },
   orangeStrip: {
     backgroundColor: '#FFC700',
-    height: 27,
+    // height: 27,
+    padding:4,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -61,9 +63,12 @@ const styles = StyleSheet.create({
     // top:10,
   },
   headingText: {
+    width:'100%',
     fontWeight: 'bold',
+    textAlign: 'center',
     color: 'white',
     fontSize: 12,
+    // backgroundColor:'gray'
   },
   textBg: {
     top: -20,

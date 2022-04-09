@@ -30,6 +30,7 @@ import ProfileDetails1 from './screens/profileDetails1';
 import ProfileDetails2 from './screens/profileDetails2';
 import WhoAm from './screens/whoAm';
 import SummaryScreen  from './screens/SummaryScreen';
+import TestScreen from './screens/testScreen'
 
 // creating variables
 const Stack = createNativeStackNavigator();
@@ -116,6 +117,11 @@ const App: () => Node = () => {
           name="SummaryScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={SummaryScreen}
+        />
+        <Stack.Screen
+          name="TestScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={TestScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
