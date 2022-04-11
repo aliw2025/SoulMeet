@@ -55,19 +55,25 @@ const SummaryScreen = props => {
     console.log('hi waseem');
     setModalVisible(false);
   };
+  var box9 = ((windowWidth-80)-2*9)/9.0;
+  box9 = box9 - 1;
+  console.log(box9);
+  var box4 = ((windowWidth-80)-2*4)/4.0;
+  box4 = box4 - 1;
+  var box3 = ((windowWidth-80)-2*3)/3.0;
+  box3 = box3 - 1;
+
   // [lpnText, selpnText] = useState(lpnTextText);
   // [bn, setBn] = useState(bnText);
   var box2 = 40;
   var indeicator = require('../assets/indicator.png');
   return (
-    
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}>
-         {/* <TouchableOpacity onPress = {()=>onClick()}> */}
+      {/* <TouchableOpacity onPress = {()=>onClick()}> */}
       <SafeAreaView style={[{flex: 1}]}>
-        
         {/* <View> */}
         <TouchableOpacity>
           <View style={[styles.backBtn]}>
@@ -77,30 +83,7 @@ const SummaryScreen = props => {
             </Text>
           </View>
         </TouchableOpacity>
-        <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          // Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello WorldHello WorldHello WorldHello WorldHello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-       
-       
-       
+
         <View style={styles.mainPage}>
           <ImageBackground
             source={card}
@@ -122,6 +105,7 @@ const SummaryScreen = props => {
             <View style={{height: 80, marginTop: 10}}>
               <View
                 style={{
+                  // backgroundColor:'purple',
                   flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'center',
@@ -133,47 +117,47 @@ const SummaryScreen = props => {
                   haveHeading={true}
                   heading={1}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={2}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={3}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={4}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={5}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={6}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={7}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={8}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading={9}
                   bodyText="15%"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
               </View>
             </View>
 
@@ -201,55 +185,55 @@ const SummaryScreen = props => {
                   haveHeading={false}
                   heading={1}
                   bodyText="1"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={2}
                   bodyText="2"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={3}
                   bodyText="3"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={4}
                   bodyText="4"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={5}
                   bodyText="5"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={6}
                   bodyText="6"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={7}
                   bodyText="7"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={8}
                   bodyText="8"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
                 <ResultBox
                   height={box2}
                   haveHeading={false}
                   heading={9}
                   bodyText="9"
-                  width={33}></ResultBox>
+                  width={box9}></ResultBox>
               </View>
             </View>
             <Text
@@ -277,24 +261,24 @@ const SummaryScreen = props => {
                   haveHeading={true}
                   heading="Physical Transit"
                   bodyText="15%"
-                  
-                  width={74}></ResultBox>
+                  height= {50}
+                  width={box4}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading="Mental Transit"
                   bodyText="15%"
-                  width={74}></ResultBox>
+                  width={box4}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading="Spirtual Transit"
                   bodyText="15%"
-                  width={74}></ResultBox>
+                  width={box4}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading="Essence
                   Cycle"
                   bodyText="15%"
-                  width={74}></ResultBox>
+                  width={box4}></ResultBox>
               </View>
             </View>
             <Text
@@ -322,17 +306,17 @@ const SummaryScreen = props => {
                   haveHeading={true}
                   heading="Personal Year 2022"
                   bodyText="15%"
-                  width={99}></ResultBox>
+                  width={box3}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading="Personal Month Feburary"
                   bodyText="15%"
-                  width={99}></ResultBox>
+                  width={box3}></ResultBox>
                 <ResultBox
                   haveHeading={true}
                   heading="Personal Day Thursday"
                   bodyText="15%"
-                  width={99}></ResultBox>
+                  width={box3}></ResultBox>
               </View>
             </View>
             <View style={[{flex: 1, marginTop: 20}]}>
@@ -346,7 +330,66 @@ const SummaryScreen = props => {
             </View>
           </ImageBackground>
         </View>
-
+        { modalVisible &&
+          <View
+          style={{
+            backgroundColor: 'white',
+            width: windowWidth-80,
+            marginLeft:40,
+            marginRight:40,
+            height: 400,
+            position: 'absolute',
+            top: windowHeight*0.50-200,
+            left: 0,
+            zIndex:1,
+          }}></View>
+        }
+        {modalVisible && (
+          
+          
+          <View
+            style={{
+              position: 'absolute',
+              opacity: 0.9,
+              width: '100%',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 0,
+            }}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={false}
+              onRequestClose={() => {
+                // Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>
+                    Hello WorldHello WorldHello WorldHello WorldHello World!
+                  </Text>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            
+            <TouchableHighlight onPress={() => onClick()}>
+              <View
+                style={{
+                  backgroundColor: 'black',
+                  width: '100%',
+                  height: '100%',
+                }}></View>
+            </TouchableHighlight>
+          </View>
+        )}
         {/* </View> */}
         {/* </TouchableOpacity> */}
       </SafeAreaView>
@@ -398,54 +441,54 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
+    // backgroundColor:'red',
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: '#2196F3',
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 });
 
 export default SummaryScreen;
 
-
 // <Modal isVisible={isModalVisible}>
 // <View style = {{backgroundColor:'red'}}>
-// <TouchableOpacity 
-//     activeOpacity={1} 
+// <TouchableOpacity
+//     activeOpacity={1}
 //     onPress= {()=>onClick()}
 //   >
 //   <TouchableWithoutFeedback>
@@ -457,12 +500,14 @@ export default SummaryScreen;
 //           Want access? We just need your email address
 //         </Text>
 //       </Modal.Body>
-      {/* <Modal.Footer>
+{
+  /* <Modal.Footer>
       <View style={styles.button}>
         <Button title="No thanks" onPress={handleDecline} />
         <Button title="Sign me up!" onPress={handleSignUp} />
       </View>
-    </Modal.Footer> */}
+    </Modal.Footer> */
+}
 //     </View>
 //   </Modal.Container>
 //   </TouchableWithoutFeedback>

@@ -30,7 +30,7 @@ const ResultBox = props => {
       {/* orange box */}{
         haveHeading && <View style={[styles.orangeStrip]}>
         {/* orange box hreading */}
-        <Text style={[styles.headingText]}>{props.heading}</Text>
+        <Text adjustsFontSizeToFit numberOfLines={2} style={[styles.headingText]}>{props.heading}</Text>
       </View>
       }
       
