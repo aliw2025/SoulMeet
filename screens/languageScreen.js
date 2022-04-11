@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'gray',
   },
   subHeading: {
+    textAlign:'center',
     fontSize: 15,
     color: 'black',
     marginLeft: 40,

@@ -261,7 +261,7 @@ const SummaryScreen = props => {
                   haveHeading={true}
                   heading="Physical Transit"
                   bodyText="15%"
-                  height= {50}
+                  // height= {50}
                   width={box4}></ResultBox>
                 <ResultBox
                   haveHeading={true}
@@ -341,7 +341,7 @@ const SummaryScreen = props => {
             position: 'absolute',
             top: windowHeight*0.50-200,
             left: 0,
-            zIndex:1,
+            zIndex:2,
           }}></View>
         }
         {modalVisible && (
@@ -350,13 +350,13 @@ const SummaryScreen = props => {
           <View
             style={{
               position: 'absolute',
-              opacity: 0.9,
+              opacity: 0.7,
               width: '100%',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 0,
+              zIndex: 1,
             }}>
             <Modal
               animationType="slide"

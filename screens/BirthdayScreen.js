@@ -57,11 +57,13 @@ const BirthDayScreen = ({navigation}) => {
   const [years,SetYears] = useState('2022');
   const [months,SetMonths] = useState('Feburary'); 
   const [nmonths,SetNmonths] = useState(2); 
+  
+  const [zIndex1,setZIndex1] = useState(0);
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
   const [list2, setList2] = useState(false);
   const [list3, setList3] = useState(false);
-
+  const [pos,setPos] = useState('relative');
   //  variable for storing location of the arrowDown image
   const image2 = require('../assets/arrowDown.png');
 
@@ -118,8 +120,14 @@ const BirthDayScreen = ({navigation}) => {
   const btnAction = params => {
     //console.log(list1);
     if (list1 == false) {
+      setList2(false);
+      setList3(false);
       setList1(true);
+      setZIndex1(1);
+      setPos('absolute');
+      console.log(pos);
     } else if (list1 == true) {
+    
       setList1(false);
     }
   };
@@ -127,7 +135,11 @@ const BirthDayScreen = ({navigation}) => {
   const btnAction2 = params => {
     //console.log(list1);
     if (list2 == false) {
+      setList1(false);
+      setList3(false);
       setList2(true);
+      setZIndex1(1);
+      setPos('absolute');
     } else if (list2 == true) {
       setList2(false);
     }
@@ -136,7 +148,11 @@ const BirthDayScreen = ({navigation}) => {
   const btnAction3 = params => {
     //console.log(list1);
     if (list3 == false) {
+      setList1(false);
+      setList2(false);
       setList3(true);
+      setZIndex1(1);
+      setPos('absolute');
     } else if (list3 == true) {
       setList3(false);
     }
@@ -174,37 +190,59 @@ const BirthDayScreen = ({navigation}) => {
           <View style={[styles.subHeading]}>
             <Text>  Please Choose your exact date of Birth</Text>
           </View>
-          <View style={[{zIndex: 3}]}>
+          { (list1 || list2 || list3 ) &&
+            <View style = {{
+             
+              position:'absolute',
+              top:0,
+              bottom:0,
+              left:0,
+              right:0,
+              // opacity:0.7,
+                
+
+            }}>
+              <TouchableOpacity onPress={() => hideList()}>
+              <View
+                style={{
+                  // backgroundColor: 'black',
+                  width: '100%',
+                  height: '100%',
+                }}></View>
+            </TouchableOpacity>
+            </View>
+          }
+          <View >
             <DropDown
               feildName="Day"
               feildValue={days}
               btnAction={btnAction}></DropDown>
             {list1 && (
-              <View style={[styles.was]}>
+              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
                 <FlatListBasics
                   data={day}
                   onDaySelected={(index,item)=>onDaySelected({index,item})}></FlatListBasics>
               </View>
             )}
           </View>
-          <View style={[{zIndex: 2}]}>
+          <View >
             <DropDown
               feildName="Month"
               feildValue={months}
               btnAction={btnAction2}></DropDown>
             {list2 && (
-              <View style={[styles.was]}>
+              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
                 <FlatListBasics data={month}  onDaySelected={(index,item)=>onMonthSelected({index,item})}></FlatListBasics>
               </View>
             )}
           </View>
-          <View style={[{zIndex: 1}]}>
+          <View >
             <DropDown
               feildName="year"
               feildValue={years}
               btnAction={btnAction3}></DropDown>
             {list3 && (
-              <View style={[styles.was]}>
+              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
                 <FlatListBasics data={year}  onDaySelected={(index,item)=>onYearSelected({index,item})}></FlatListBasics>
               </View>
             )}
@@ -230,7 +268,7 @@ const styles = StyleSheet.create({
   was: {
     top: 60,
     // zIndex: 1,
-    position: 'absolute',
+    // position: 'absolute',
     paddingLeft: 20,
     backgroundColor: 'white',
     height: 200,
