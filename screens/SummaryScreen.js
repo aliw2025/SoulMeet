@@ -29,6 +29,10 @@ import {
 import TabTwoScreen from './testScreen';
 
 const image = require('../assets/grad.png');
+const flame = require('../assets/flame.png');
+const couple = require('../assets/couple.png');
+const network = require('../assets/network.png');
+
 const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -55,12 +59,12 @@ const SummaryScreen = props => {
     console.log('hi waseem');
     setModalVisible(false);
   };
-  var box9 = ((windowWidth-80)-2*9)/9.0;
+  var box9 = (windowWidth - 80 - 2 * 9) / 9.0;
   box9 = box9 - 1;
   console.log(box9);
-  var box4 = ((windowWidth-80)-2*4)/4.0;
+  var box4 = (windowWidth - 80 - 2 * 4) / 4.0;
   box4 = box4 - 1;
-  var box3 = ((windowWidth-80)-2*3)/3.0;
+  var box3 = (windowWidth - 80 - 2 * 3) / 3.0;
   box3 = box3 - 1;
 
   // [lpnText, selpnText] = useState(lpnTextText);
@@ -330,23 +334,42 @@ const SummaryScreen = props => {
             </View>
           </ImageBackground>
         </View>
-        { modalVisible &&
-          <View
-          style={{
-            backgroundColor: 'white',
-            width: windowWidth-80,
-            marginLeft:40,
-            marginRight:40,
-            height: 400,
-            position: 'absolute',
-            top: windowHeight*0.50-200,
-            left: 0,
-            zIndex:2,
-          }}></View>
-        }
         {modalVisible && (
-          
-          
+          <View
+            style={{
+              backgroundColor: 'white',
+              width: windowWidth - 80,
+              marginLeft: 40,
+              marginRight: 40,
+              // height: 200,
+              position: 'absolute',
+              top: windowHeight * 0.5 - 200,
+              left: 0,
+              zIndex: 2,
+            }}>
+            <Text style={styles.mainHeading}>Select One</Text>
+            <View style={[styles.row,{justifyContent:'space-between'}]}>
+              
+              <View style={styles.cardBody}>
+                  <Image style={styles.tinyLogo} source={flame} />
+                <Text style={styles.name}>Twin flame match</Text>
+              </View>
+              <View style={styles.cardBody}>
+                <View>
+                  <Image style={styles.tinyLogo} source={couple} />
+                </View>
+                <Text style={styles.name}>Twin flame match</Text>
+              </View>
+            </View>
+            <View style={[styles.row, {marginBottom:40,justifyContent:'center'}]}>
+              <View style={styles.cardBody}>
+                <Image style={styles.tinyLogo} source={network} />
+                <Text style={styles.name}>Twin flame match</Text>
+              </View>
+            </View>
+          </View>
+        )}
+        {modalVisible && (
           <View
             style={{
               position: 'absolute',
@@ -358,7 +381,7 @@ const SummaryScreen = props => {
               bottom: 0,
               zIndex: 1,
             }}>
-            <Modal
+            {/* <Modal
               animationType="slide"
               transparent={true}
               visible={false}
@@ -378,8 +401,8 @@ const SummaryScreen = props => {
                   </Pressable>
                 </View>
               </View>
-            </Modal>
-            
+            </Modal> */}
+
             <TouchableHighlight onPress={() => onClick()}>
               <View
                 style={{
@@ -397,6 +420,45 @@ const SummaryScreen = props => {
   );
 };
 const styles = StyleSheet.create({
+  row: {
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop:20,
+    // height: '40%',
+    flex:1,
+    flexDirection:'row',
+    // backgroundColor: 'pink',
+  },
+  mainHeading: {
+    marginTop: 40,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 34,
+    color: 'black',
+  },
+  cardBody: {
+    // marginTop: 20,
+    // marginLeft: 20,
+    // backgroundColor: 'purple',
+    borderRadius: 10,
+    borderColor: '#E8E6EA',
+    borderWidth: 1,
+    padding: 10,
+    width: '45%',
+    // height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tinyLogo: {
+    // width:'80%',
+    // height:'80%',
+  },
+  name: {
+    marginTop: 20,
+    color: 'black',
+    width: '80%',
+    textAlign: 'center',
+  },
   backBtn: {
     backgroundColor: 'white',
     width: 50,

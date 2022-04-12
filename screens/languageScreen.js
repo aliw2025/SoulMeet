@@ -84,25 +84,6 @@ const SelectLanguage = ({navigation}) => {
           text="NEXT"
           btnAction={navigationAction}></ButtonWithBg>
       </View>
-
-      {/* <CountryPicker
-        {...{
-          countryCode,
-          withFilter,
-          withFlag,
-          withCountryNameButton,
-          withAlphaFilter,
-          withCallingCode,
-          withEmoji,
-          onSelect,
-        }}
-        visible
-        style={[styles.fuck]}
-      />
-      {country !== null && (
-        <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
-      )}
-    </View> */}
     </ImageBackground>
   );
 };
