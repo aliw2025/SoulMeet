@@ -50,11 +50,15 @@ const SummaryScreen = props => {
   var month = 2;
   var year = 1996;
   var stval = '';
-  const navigationAction = params => {
-    setModalVisible(true);
+  const navigationAction = (screen) => {
+   
+    console.log('fuck '+screen);
     // setIsModalVisible(true);
-    // props.navigation.navigate("TestScreen",{name:'wase'});
+    props.navigation.navigate(screen,{name:'wase'});
   };
+  const showModal =()=> {
+    setModalVisible(true);
+  }
   const onClick = () => {
     console.log('hi waseem');
     setModalVisible(false);
@@ -329,7 +333,7 @@ const SummaryScreen = props => {
                   path="ProfileDetails1"
                   active="true"
                   text="Next"
-                  btnAction={navigationAction}></ButtonWithBg>
+                  btnAction={showModal}></ButtonWithBg>
               </View>
             </View>
           </ImageBackground>
@@ -348,23 +352,42 @@ const SummaryScreen = props => {
               zIndex: 2,
             }}>
             <Text style={styles.mainHeading}>Select One</Text>
-            <View style={[styles.row,{justifyContent:'space-between'}]}>
-              
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.cardBody}>
-                  <Image style={styles.tinyLogo} source={flame} />
-                <Text style={styles.name}>Twin flame match</Text>
+                <TouchableHighlight
+                  underlayColor="clear"
+                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  <View style={{alignItems: 'center'}}>
+                    <Image style={styles.tinyLogo} source={flame} />
+                    <Text style={styles.name}>Twin flame match</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
               <View style={styles.cardBody}>
-                <View>
-                  <Image style={styles.tinyLogo} source={couple} />
-                </View>
-                <Text style={styles.name}>Twin flame match</Text>
+                <TouchableHighlight
+                  underlayColor="clear"
+                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  <View style={{alignItems: 'center'}}>
+                    <Image style={styles.tinyLogo} source={couple} />
+                    <Text style={styles.name}>Twin flame match</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
             </View>
-            <View style={[styles.row, {marginBottom:40,justifyContent:'center'}]}>
+            <View
+              style={[
+                styles.row,
+                {marginBottom: 40, justifyContent: 'center'},
+              ]}>
               <View style={styles.cardBody}>
-                <Image style={styles.tinyLogo} source={network} />
-                <Text style={styles.name}>Twin flame match</Text>
+                <TouchableHighlight
+                  underlayColor="clear"
+                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  <View style={{alignItems: 'center'}}>
+                    <Image style={styles.tinyLogo} source={couple} />
+                    <Text style={styles.name}>Twin flame match</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
             </View>
           </View>
@@ -423,10 +446,10 @@ const styles = StyleSheet.create({
   row: {
     marginRight: 20,
     marginLeft: 20,
-    marginTop:20,
+    marginTop: 20,
     // height: '40%',
-    flex:1,
-    flexDirection:'row',
+    flex: 1,
+    flexDirection: 'row',
     // backgroundColor: 'pink',
   },
   mainHeading: {
