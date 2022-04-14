@@ -52,7 +52,6 @@ const SuggestionScreen = props => {
 
   const navigationAction = params => {
     console.log('chal na bhai');
-   
     props.navigation.navigate("MatchProfileScreen", {name:'avvv'});
      //navigation.navigate("ChartScreen", {name: 'Jane'});
    };
@@ -72,10 +71,9 @@ const SuggestionScreen = props => {
           Suggested
         </Text>
         <Text style={{fontSize: 14, color: 'black'}}>
-        Twin flame match
+          Twin flame match
         </Text>
         </View>
-       
         <View>
           <TouchableOpacity>
             <View style={[styles.backBtn]}>
@@ -84,249 +82,22 @@ const SuggestionScreen = props => {
           </TouchableOpacity>
         </View>
       </View>
+
+      
       {/* image body */}
       <View style={{alignItems: 'center', marginTop: 10}}>
         <Image style={{opacity: 0.2}} source={photo}></Image>
-        <View style={{position: 'absolute', top: 20}}>
+        <View style={{position: 'absolute', top: 20,width:windowWidth-80,alignItems:'center',}}>
           <Image source={mainProfile}></Image>
-          <View
-            style={{
-              position: 'absolute',
-              backgroundColor: 'white',
-              opacity: 0.8,
-              top: '50%',
-              bottom: 0,
-              width: '100%',
-              borderRadius: 10,
-            }}></View>
-          <View
-            style={{
-              position: 'absolute',
-              top: '55%',
-            }}>
-            <View
-              style={{
-                marginRight: 20,
-                marginLeft: 20,
-                flexDirection: 'row',
-                marginLefmarginTop: 10,
-              }}>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  padding: 5,
-                  width: '60%',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 0,
-                }}>
-                Life Path
-              </Text>
-              <View style={{borderRadius: 10, backgroundColor: '#FFC700'}}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 15,
-                    paddingBottom: 10,
-                    padding: 5,
-                    color: 'white',
-                  }}>
-                  12/3
-                </Text>
+          <Text style = {styles.nameHeading}>Jessica Parker, 23</Text>
+          <View style={styles.profileCard}></View>
+          <View style={{position: 'absolute',top: '55%',}}>
+            <View style={styles.textView}>
+              <Text style={styles.firstFeild}>Life Path</Text>
+              <View style={styles.secFeild}>
+                <Text style={styles.textOrange}>12/3</Text>
               </View>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  marginLeft: 5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  padding: 5,
-                }}>
-                16/7
-              </Text>
-            </View>
-            <View
-              style={{
-                top: -15,
-                marginRight: 20,
-                marginLeft: 20,
-                flexDirection: 'row',
-                marginLefmarginTop: 10,
-              }}>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  padding: 5,
-                  width: '60%',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 0,
-                }}>
-                Life Path
-              </Text>
-              <View style={{borderRadius: 10, backgroundColor: '#FFC700'}}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 15,
-                    paddingBottom: 10,
-                    padding: 5,
-                    color: 'white',
-                  }}>
-                  12/3
-                </Text>
-              </View>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  marginLeft: 5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  padding: 5,
-                }}>
-                16/7
-              </Text>
-            </View>
-            <View
-              style={{
-                top: -30,
-                marginRight: 20,
-                marginLeft: 20,
-                flexDirection: 'row',
-                marginLefmarginTop: 10,
-              }}>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  padding: 5,
-                  width: '60%',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 0,
-                }}>
-                Life Path
-              </Text>
-              <View style={{borderRadius: 10, backgroundColor: '#FFC700'}}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 15,
-                    paddingBottom: 10,
-                    padding: 5,
-                    color: 'white',
-                  }}>
-                  12/3
-                </Text>
-              </View>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  marginLeft: 5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  padding: 5,
-                }}>
-                16/7
-              </Text>
-            </View>
-            <View
-              style={{
-                top: -45,
-                marginRight: 20,
-                marginLeft: 20,
-                flexDirection: 'row',
-                marginLefmarginTop: 10,
-              }}>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  padding: 5,
-                  width: '60%',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 0,
-                }}>
-                Life Path
-              </Text>
-              <View style={{borderRadius: 10, backgroundColor: '#FFC700'}}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 15,
-                    paddingBottom: 10,
-                    padding: 5,
-                    color: 'white',
-                  }}>
-                  12/3
-                </Text>
-              </View>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  marginLeft: 5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  padding: 5,
-                }}>
-                16/7
-              </Text>
-            </View>
-            <View
-              style={{
-                top: -60,
-                marginRight: 20,
-                marginLeft: 20,
-                flexDirection: 'row',
-                marginLefmarginTop: 10,
-              }}>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  padding: 5,
-                  width: '60%',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 0,
-                }}>
-                Life Path
-              </Text>
-              <View style={{borderRadius: 10, backgroundColor: '#FFC700'}}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 15,
-                    paddingBottom: 10,
-                    padding: 5,
-                    color: 'white',
-                  }}>
-                  12/3
-                </Text>
-              </View>
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                  marginLeft: 5,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  padding: 5,
-                }}>
-                16/7
-              </Text>
+              <Text style={styles.thirdFeild}>16/7</Text>
             </View>
           </View>
         </View>
@@ -344,7 +115,7 @@ const SuggestionScreen = props => {
         
         <TouchableOpacity>
          <View style = {{backgroundColor:'white',alignItems:'center',justifyContent:'center',borderRadius:360,width:70,height:70}} >
-         
+
           <Image
             // style={{position: 'absolute', alignSelf: 'center',}}
             source={cross}
@@ -396,6 +167,49 @@ const SuggestionScreen = props => {
   );
 };
 const styles = StyleSheet.create({
+
+  textOrange:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingTop: 15,
+    paddingBottom: 10,
+    padding: 5,
+    color: 'white',
+  },
+  firstFeild:{
+    paddingTop: 15,
+    paddingBottom: 10,
+    padding: 5,
+    width: '60%',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 0,
+  },
+  secFeild:{borderRadius: 10, backgroundColor: '#FFC700'},
+  thirdFeild:{
+    paddingTop: 15,
+    paddingBottom: 10,
+    marginLeft: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 5,
+  },
+  textView:{
+    marginRight: 20,
+    marginLeft: 20,
+    flexDirection: 'row',
+    marginLefmarginTop: 10,
+  },
+  profileCard:{
+    position: 'absolute',
+    backgroundColor: 'white',
+    opacity: 0.8,
+    top: '50%',
+    bottom: 0,
+    width: '100%',
+    borderRadius: 10,
+  },
+  nameHeading:{position:'absolute',top:'5%',color:'white',fontWeight:'bold',},
   topRow: {
     flexDirection: 'row',
     marginLeft: 40,
