@@ -597,7 +597,7 @@ const ChartScreen = props => {
           style={{alignSelf:'center',marginTop:-5}}
           source={indeicator}
           />
-            <ScrollView style={[{flex: 1, marginTop: 20}]}>
+          <ScrollView style={[{flex: 1, marginTop: 20}]}>
               <InfoBox heading="Current Name" bodyText="Waseem ali"></InfoBox>
               <InfoBox
                 heading="Full Name at Birth"

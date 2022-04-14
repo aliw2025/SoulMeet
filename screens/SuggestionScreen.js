@@ -37,11 +37,27 @@ const mainProfile = require('../assets/mainProfile.png');
 const cross = require('../assets/cross.png');
 const star = require('../assets/star.png');
 const heart = require('../assets/heart.png');
+const roundContainer = require('../assets/roundContainer.png');
+const WhiteContainer = require('../assets/whiteContainer.png');
+const message = require('../assets/message.png');
+const match = require('../assets/match.png');
+const grayHeart = require('../assets/grayHeart.png')
+const dot = require('../assets/dot.png')
+const people = require('../assets/people.png')
+
+
 
 //  the screen component
 const SuggestionScreen = props => {
+
+  const navigationAction = params => {
+    console.log('chal na bhai');
+   
+    props.navigation.navigate("MatchProfileScreen", {name:'avvv'});
+     //navigation.navigate("ChartScreen", {name: 'Jane'});
+   };
   return (
-    <SafeAreaView style={[{flex: 1}]}>
+    <SafeAreaView style={[{flex: 1,backgroundColor:"white"}]}>
       {/* top row sectoin */}
       <View style={styles.topRow}>
         <View>
@@ -51,9 +67,15 @@ const SuggestionScreen = props => {
             </View>
           </TouchableOpacity>
         </View>
+        <View>
         <Text style={{fontSize: 24, fontWeight: 'bold', color: 'black'}}>
           Suggested
         </Text>
+        <Text style={{fontSize: 14, color: 'black'}}>
+        Twin flame match
+        </Text>
+        </View>
+       
         <View>
           <TouchableOpacity>
             <View style={[styles.backBtn]}>
@@ -319,24 +341,55 @@ const SuggestionScreen = props => {
           marginLeft: 40,
           marginRight: 40,
         }}>
-        <View style={{padding: 20, borderRadius: 360,backgroundColor:'pink',}}>
-          <Image source={cross} />
+        
+        <TouchableOpacity>
+         <View style = {{backgroundColor:'white',alignItems:'center',justifyContent:'center',borderRadius:360,width:70,height:70}} >
+         
+          <Image
+            // style={{position: 'absolute', alignSelf: 'center',}}
+            source={cross}
+          />
         </View>
-        <View
-          style={{padding: 20, borderRadius: 360, backgroundColor: '#FFC700'}}>
-          <Image source={heart} />
-        </View>
+        </TouchableOpacity>
 
-        <View
-          style={{
-            shadowRadius: 10,
-           backgroundColor:'pink',
-            overflow: 'hidden',
-            shadowOpacity: 1,
-            padding: 20,
-            borderRadius: 360,
-          }}>
-          <Image source={star} />
+        <TouchableOpacity>
+        <View style = {{marginTop:15,}}>
+          <Image source={roundContainer}></Image>
+          <Image
+            style={{position: 'absolute', alignSelf: 'center', top: '25%'}}
+            source={heart}
+          />
+        </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <View style = {{shadowColor:'black',shadowRadius:20,backgroundColor:'white',alignItems:'center',justifyContent:'center',borderRadius:360,width:70,height:70}} >
+          {/* <Image source={WhiteContainer}></Image> */}
+          <Image
+            // style={{position: 'absolute', alignSelf: 'center',}}
+            source={star}
+          />
+        </View>
+        </TouchableOpacity>
+       
+      </View>
+      {/* bottom bar */}
+      <View style = {{paddingTop:10,paddingBottom:20,backgroundColor:'#F3F3F3',width:'100%'}}>
+        <View style={{justifyContent:'space-between',marginLeft:40,marginRight:40,flexDirection:'row'}}>
+        <TouchableOpacity onPress ={()=>navigationAction()}>
+          <Image source = {match}></Image>
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <View>
+            <Image source = {grayHeart}></Image>
+            <Image style = {{position:'absolute',top:-4,right:-4}} source = {dot}></Image>
+          </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image source = {message}></Image>
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image source = {people}></Image>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
