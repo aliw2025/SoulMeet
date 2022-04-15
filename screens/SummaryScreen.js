@@ -346,6 +346,7 @@ const SummaryScreen = props => {
               marginLeft: 40,
               marginRight: 40,
               // height: 200,
+              borderRadius:40,
               position: 'absolute',
               top: windowHeight * 0.5 - 200,
               left: 0,

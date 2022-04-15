@@ -33,6 +33,7 @@ import SummaryScreen  from './screens/SummaryScreen';
 import TestScreen from './screens/testScreen'
 import SuggestionScreen from './screens/SuggestionScreen'
 import MatchProfileScreen from './screens/MatchProfile'
+import ShadowTest from './screens/testShadow';
 
 // creating variables
 const Stack = createNativeStackNavigator();
@@ -135,6 +136,12 @@ const App: () => Node = () => {
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={MatchProfileScreen}
         />
+        <Stack.Screen
+          name="ShadowTest"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={ShadowTest}
+        />
+        
        
       </Stack.Navigator>
     </NavigationContainer>
