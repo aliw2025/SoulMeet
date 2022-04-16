@@ -52,8 +52,7 @@ const SuggestionScreen = props => {
   const [shadowRadius, setShadowRadius] = useState(0);
   const [shadowOpacity, setShadowOpacity] = useState(2);
   const navigationAction = params => {
-    
-    props.navigation.navigate('ShadowTest', {name: 'avvv'});
+    props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
   return (
@@ -117,14 +116,14 @@ const SuggestionScreen = props => {
               </View>
             </View>
             {/* 2nd row */}
-            <View style={[styles.row,{marginTop:-7}]}>
+            <View style={[styles.row, {marginTop: -7}]}>
               <View style={styles.firstFeild}>
                 <Text
                   style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                   Birthday
                 </Text>
               </View>
-              <View style={[styles.secFeild,{borderRadius:0,}]}>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
                 <Text style={styles.textOrange}>12/3</Text>
               </View>
               <View style={styles.thirdFeild}>
@@ -132,14 +131,14 @@ const SuggestionScreen = props => {
               </View>
             </View>
             {/* 3rd row */}
-            <View style={[styles.row,{marginTop:-7}]}>
+            <View style={[styles.row, {marginTop: -7}]}>
               <View style={styles.firstFeild}>
                 <Text
                   style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                   Expressoin/Destiny
                 </Text>
               </View>
-              <View style={[styles.secFeild,{borderRadius:0,}]}>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
                 <Text style={styles.textOrange}>12/3</Text>
               </View>
               <View style={styles.thirdFeild}>
@@ -147,14 +146,14 @@ const SuggestionScreen = props => {
               </View>
             </View>
             {/* fourth row */}
-            <View style={[styles.row,{marginTop:-7}]}>
+            <View style={[styles.row, {marginTop: -7}]}>
               <View style={styles.firstFeild}>
                 <Text
                   style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                 Soul Urge/Heart's Desire
+                  Soul Urge/Heart's Desire
                 </Text>
               </View>
-              <View style={[styles.secFeild,{borderRadius:0,}]}>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
                 <Text style={styles.textOrange}>12/3</Text>
               </View>
               <View style={styles.thirdFeild}>
@@ -162,11 +161,11 @@ const SuggestionScreen = props => {
               </View>
             </View>
             {/* fifthrow */}
-            <View style={[styles.row,{marginTop:-9}]}>
+            <View style={[styles.row, {marginTop: -9}]}>
               <View style={styles.firstFeild}>
                 <Text
                   style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                 Personality
+                  Personality
                 </Text>
               </View>
               <View style={styles.secFeild}>
@@ -180,104 +179,49 @@ const SuggestionScreen = props => {
         </View>
       </View>
       {/* reaction buttons */}
-      <View
-        style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: 40,
-          marginLeft: 40,
-          marginRight: 40,
-        }}>
+      <View style={[styles.selectionRow]}>
+        {/* cross */}
         <TouchableOpacity>
-          <View
-            style={{
-              backgroundColor: 'white',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 360,
-              width: 70,
-              height: 70,
-              // shadowOffset: {
-              //   // width: shadowOffsetWidth,
-              //   width:10,
-              //   // height: -shadowOffsetHeight
-              //   height:-1,
-              // },
-              // // shadowOpacity:shadowOpacity,
-              // shadowOpacity:0.9,
-              // shadowRadius:shadowRadius,
-              // shadowRadius:20,
-              elevation:0.9 
-            }}>
-            <Image
-              // style={{position: 'absolute', alignSelf: 'center',}}
-              source={cross}
-            />
+          <View style={[styles.roundBtn]}>
+            <Image source={cross} />
           </View>
         </TouchableOpacity>
-
+        {/* love */}
         <TouchableOpacity>
           <View style={{marginTop: 15}}>
             <Image source={roundContainer}></Image>
-            <Image
-              style={{position: 'absolute', alignSelf: 'center', top: '25%'}}
-              source={heart}
-            />
+            <Image style={{position: 'absolute', alignSelf: 'center', top: '25%'}} source={heart}/>
           </View>
         </TouchableOpacity>
+        {/* star */}
         <TouchableOpacity>
-          <View
-            style={{
-              shadowColor: 'black',
-              shadowRadius: 20,
-              backgroundColor: 'white',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 360,
-              width: 70,
-              height: 70,
-              elevation:1
-            }}>
-            {/* <Image source={WhiteContainer}></Image> */}
-            <Image
-              // style={{position: 'absolute', alignSelf: 'center',}}
-              source={star}
-            />
+          <View style={[styles.roundBtn]}>
+            <Image source={star} />
           </View>
         </TouchableOpacity>
       </View>
+
       {/* bottom bar */}
       <View
-        style={{
-          position:'absolute',
-          bottom:0,
-          paddingTop: 10,
-          paddingBottom: 20,
-          backgroundColor: '#F3F3F3',
-          width: '100%',
-        }}>
+        style={[styles.bottomNav]}>
         <View
-          style={{
-            justifyContent: 'space-between',
-            marginLeft: 40,
-            marginRight: 40,
-            flexDirection: 'row',
-          }}>
+          style={[styles.navRow]}>
+            {/* match */}
           <TouchableOpacity onPress={() => navigationAction()}>
             <Image source={match}></Image>
           </TouchableOpacity>
+          {/* notification */}
           <TouchableOpacity>
             <View>
               <Image source={grayHeart}></Image>
-              <Image
-                style={{position: 'absolute', top: -4, right: -4}}
-                source={dot}></Image>
+              <Image style={{position: 'absolute', top: -4, right: -4}} source={dot}></Image>
             </View>
           </TouchableOpacity>
+          {/* message */}
           <TouchableOpacity>
             <Image source={message}></Image>
           </TouchableOpacity>
+          {/* profile */}
           <TouchableOpacity>
             <Image source={people}></Image>
           </TouchableOpacity>
@@ -287,6 +231,37 @@ const SuggestionScreen = props => {
   );
 };
 const styles = StyleSheet.create({
+  bottomNav:{
+    position: 'absolute',
+    bottom: 0,
+    paddingTop: 10,
+    paddingBottom: 20,
+    backgroundColor: '#F3F3F3',
+    width: '100%',
+  },
+  navRow:{
+    justifyContent: 'space-between',
+    marginLeft: 40,
+    marginRight: 40,
+    flexDirection: 'row',
+  },
+  selectionRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 40,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  roundBtn: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 360,
+    width: 80,
+    height: 80,
+    elevation: 1,
+  },
   textOrange: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -354,6 +329,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   topRow: {
+    marginTop:10,
     flexDirection: 'row',
     marginLeft: 40,
     marginRight: 40,
@@ -367,6 +343,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    borderWidth:1,
+    borderColor:'#E8E6EA'
     // position: 'absolute',
   },
   BackGrounimage: {
