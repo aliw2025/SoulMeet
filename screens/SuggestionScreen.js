@@ -26,8 +26,6 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-import TabTwoScreen from './testScreen';
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const arrow = require('../assets/arrow.png');
@@ -261,6 +259,10 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     elevation: 1,
+    shadowOffset: { width: 0.5, height: -0.5 },
+    shadowColor: 'black',
+    shadowOpacity:0.3,
+    
   },
   textOrange: {
     fontSize: 16,

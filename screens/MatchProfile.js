@@ -26,7 +26,7 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-import TabTwoScreen from './testScreen';
+
 const card = require('../assets/card.png');
 
 var indeicator = require('../assets/indicator.png');
@@ -47,20 +47,84 @@ const match = require('../assets/match.png');
 const grayHeart = require('../assets/grayHeart.png');
 const dot = require('../assets/dot.png');
 const people = require('../assets/people.png');
+const pin = require('../assets/pin.png');
+const dbtick = require('../assets/dbtick.png')
 var text = [];
 for (var i = 0; i < 100; i++) {
   var c = 'this is text';
   c = c.concat(': ', i.toString());
   text.push(c);
 }
+
+const TableCell = props => {
+  var bottomLeft = 0;
+  var bottomRight = 0;
+  var rad = 0;
+  var height = 0;
+  if (props.last == true) {
+    bottomLeft = 20;
+    bottomRight = 20;
+    rad = 1;
+   
+  }
+  return (
+    <View
+      style={[
+        styles.tableCell,
+        {
+          borderBottomRightRadius: bottomRight,
+          borderBottomLeftRadius: bottomLeft,
+          borderWidth: rad,
+        },
+      ]}>
+      <Text adjustsFontSizeToFit style={styles.headingText}>
+        7 Heart’s Desire
+      </Text>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '80%',
+          backgroundColor: '#E8E6EA',
+          // backgroundColor:'pink',
+          height: 1,
+
+          // borderWidth:1
+        }}></View>
+    </View>
+  );
+};
+
+const TableRow = props => {
+  var x = 40;
+  if (props.last == true) {
+    x = 50;
+   
+  }
+  return (
+    <View style={[styles.tableRow, {height: x}]}>
+      <View style={styles.matchedView}></View>
+      <TableCell></TableCell>
+      <TableCell last={props.last}></TableCell>
+      <TableCell></TableCell>
+    </View>
+  );
+};
 //  the screen component
 const MatchProfileScreen = props => {
+  const navigationAction = params => {
+    console.log('i am nav');
+    // props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
+    props.navigation.navigate("ItsAMatchScreen", {name: 'Jane'});
+  };
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
-      {/* image body */}
+      {/* image container */}
       <View style={{alignItems: 'center', marginTop: 0}}>
+        {/* image of person */}
         <Image style={{width: '100%'}} source={photo}></Image>
       </View>
+      {/* background white card */}
       <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
         <View style={[styles.selectionRow]}>
           {/* cross */}
@@ -86,7 +150,6 @@ const MatchProfileScreen = props => {
             </View>
           </TouchableOpacity>
         </View>
-
         <ScrollView style={[{flex: 1, marginTop: 20}]}>
           <View
             style={{
@@ -128,33 +191,66 @@ const MatchProfileScreen = props => {
             </View>
             {/* body area */}
             {/* row 1 */}
-            <View style={styles.tableRow}>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
+            <TableRow></TableRow>
+            <TableRow></TableRow>
+            <TableRow></TableRow>
+            <TableRow></TableRow>
+            <TableRow last={true}></TableRow>
+          </View>
+          {/* match area */}
+          <View
+            style={{
+              marginTop: 25,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              Overall Match:
+            </Text>
+            <Text style={{color: 'green', fontSize: 16, fontWeight: 'bold'}}>
+              {' '}
+              85%
+            </Text>
+          </View>
+          {/* location area*/}
+          <View style={styles.locationView}>
+            <View>
+              <Text style={styles.locationHeading}>Location</Text>
+              <Text style={styles.locationName}>chicago, IL United States</Text>
             </View>
-            <View style={styles.tableRow}>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
-              <View style={styles.tableCell}>
-                <Text style={styles.headingText}>Compatibility</Text>
-                <View style = {{position:'absolute',bottom:0,width:'80%',backgroundColor:'#E8E6EA',height:1}}></View>
-              </View>
+            <View style={styles.pinView}>
+              <Image source={pin}></Image>
+              <Text style={styles.distanceText}>1 Km</Text>
+            </View>
+          </View>
+          {/* about view */}
+          <View style = {{marginTop:30,marginLeft:40,marginRight:40,}}>
+            <Text style={styles.locationHeading}>About</Text>
+            <Text>
+              My name is Jessica Parker and I enjoy meeting new people and
+              finding ways to help them have an uplifting experience. I enjoy
+              reading..
+            </Text>
+          </View>
+          {/* intrests */}
+          <View style = {{marginTop:30,marginLeft:40,marginRight:40,}}>
+            <Text style={styles.locationHeading}>Interests</Text>
+            <View style = {{marginTop:10,flexDirection:'row'}}>
+              <TouchableOpacity style = {{width:'33%'}}onPress={()=>{
+                  navigationAction();
+              }} >
+                <View style = {styles.intrestView}>
+                  <Image source = {dbtick}></Image>
+                  <Text>Travelling</Text>
+                  </View>
+              </TouchableOpacity>
+              <TouchableOpacity style = {{width:'33%'}}>
+                <View style = {styles.intrestView}>
+                  <Image source = {dbtick}></Image>
+                  <Text>Travelling</Text>
+                  </View>
+              </TouchableOpacity>
+                
             </View>
           </View>
         </ScrollView>
@@ -163,39 +259,83 @@ const MatchProfileScreen = props => {
   );
 };
 const styles = StyleSheet.create({
+  intrestView:{
+    marginLeft:1,
+
+    // width:'33%',
+    justifyContent:'center',
+    paddingTop:5,
+    paddingBottom:5,
+    alignItems:'center',
+    flexDirection:'row',
+    borderRadius:10,
+    borderColor:'#FFC700',
+    borderWidth:1,
+  },
+  locationHeading: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  pinView: {
+    flexDirection: 'row',
+    // height:'50%',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    // backgroundColor: 'pink',
+    padding: 5,
+    // backgroundColor:'#FFC700',
+    // opacity:0.5
+  },
+  distanceText: {
+    marginLeft: 5,
+  },
+  locationView: {
+    marginTop: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   tableCell: {
     width: '33%',
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    borderRightWidth:1,
-    borderColor:'#E8E6EA'
-    // backgroundColor:'purple'
+    borderRightWidth: 1,
+    borderColor: '#E8E6EA',
   },
   tableRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 40,
     alignItems: 'center',
+    //  backgroundColor:'#FFC70033'
     // backgroundColor:'pink',
+  },
+  matchedView: {
+    width: '100%',
+    height: 30,
+    position: 'absolute',
+    backgroundColor: '#FFC70033',
   },
   headingText: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: 10,
   },
   heading2: {
     width: '33%',
     height: '100%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    // borderWidth:2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   tableCard: {
     width: windowWidth - 80,
     marginLeft: 40,
-    height: 150,
+    // height: 150,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#E8E6EA',
@@ -243,6 +383,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     elevation: 1,
+    shadowOffset: {width: 0.5, height: -0.5},
+    shadowColor: 'black',
+    shadowOpacity: 0.3,
   },
   card: {
     top: -50,

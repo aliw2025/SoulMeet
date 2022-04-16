@@ -26,12 +26,12 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-import TabTwoScreen from './testScreen';
 
 const image = require('../assets/grad.png');
 const flame = require('../assets/flame.png');
 const couple = require('../assets/couple.png');
 const network = require('../assets/network.png');
+
 
 const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
@@ -346,7 +346,6 @@ const SummaryScreen = props => {
               marginLeft: 40,
               marginRight: 40,
               // height: 200,
-              borderRadius:40,
               position: 'absolute',
               top: windowHeight * 0.5 - 200,
               left: 0,
