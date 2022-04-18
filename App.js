@@ -33,6 +33,7 @@ import SummaryScreen  from './screens/SummaryScreen';
 import SuggestionScreen from './screens/SuggestionScreen'
 import MatchProfileScreen from './screens/MatchProfile'
 import ItsAMatchScreen from './screens/ItsAMatchScreen'
+import MatchesScreen from './screens/MatchesScreen'
 // import ShadowTest from './screens/testShadow';
 
 // creating variables
@@ -135,6 +136,11 @@ const App: () => Node = () => {
           name="ItsAMatchScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={ItsAMatchScreen}
+        />
+          <Stack.Screen
+          name="MatchesScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={MatchesScreen}
         />
         
        
