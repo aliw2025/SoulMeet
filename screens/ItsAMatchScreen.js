@@ -100,6 +100,7 @@ const ItsAMatchScreen = props => {
                 // { rotateX: "90deg" },
                 {rotateZ: '10deg'},
               ],
+              elevation:2,
             }}>
             <Image
               source={mainProfile}
@@ -132,7 +133,6 @@ const ItsAMatchScreen = props => {
             position: 'absolute',
             top: '30%',
             left: 0,
-
             // alignSelf: 'center',
             // backgroundColor: 'orange',
           }}>
@@ -155,6 +155,7 @@ const ItsAMatchScreen = props => {
               shadowColor: 'black',
               shadowOpacity: 0.1,
               shadowRadius: 10,
+              elevation:1,
             }}>
             <Image
               source={photo}

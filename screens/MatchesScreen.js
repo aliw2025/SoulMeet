@@ -9,7 +9,6 @@ import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 
 // import {Modal} from '../components/Modal';
-
 import {
   SafeAreaView,
   ScrollView,
@@ -17,6 +16,7 @@ import {
   StyleSheet,
   Text,
   Modal,
+  FlatList,
   Image,
   useColorScheme,
   TouchableOpacity,
@@ -46,105 +46,150 @@ import {
 const windowWidth = Dimensions.get('window').width;
 const photo = require('../assets/girl.png');
 const love = require('../assets/love.png');
+const black = require('../assets/black.png');
 const attachment = require('../assets/attachment.png');
+const whiteCross = require('../assets/whiteCross.png');
+const whiteheart = require('../assets/whiteHeart.png');
+
+
 
 
 const mainProfile = require('../assets/mainProfile.png');
-var images = []
-    for(var i=0; i<10;i++){
-        images.push(photo)
-    }
-    console.log("images: "+images);
+var images = [];
+for (var i = 0; i < 10; i++) {
+  if(i%2==0){
+    images.push({id: i, image: mainProfile});
+  }else{
+    images.push({id: i, image: photo});
+  }
+  
+}
+console.log();
 //  the screen component
 const MatchesScreen = props => {
-  //   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
-  //   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
-  //   const [shadowRadius, setShadowRadius] = useState(0);
-  //   const [shadowOpacity, setShadowOpacity] = useState(2);
+  const [imageList, setImageList] = useState(images);
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    
+
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginLeft: 40,
-              marginRight: 40,
-              alignItems:'center',
-            }}>
-            <View>
-              <Text style={styles.nameHeading}>Matches</Text>
-            </View>
-            <TouchableOpacity>
-              <View style={[styles.backBtn]}>
-                <Image source={attachment}></Image>
-              </View>
-            </TouchableOpacity>
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginLeft: 40,
+          marginRight: 40,
+          marginTop: 40,
+          alignItems: 'center',
+        }}>
+        <View>
+          <Text style={styles.nameHeading}>Matches</Text>
+        </View>
+        <TouchableOpacity>
+          <View style={[styles.backBtn]}>
+            <Image source={attachment}></Image>
           </View>
+        </TouchableOpacity>
+      </View>
       {/* iis a match text */}
-     
+
       <Text style={[styles.matchSubHeading]}>
-      This is a list of people who have liked you and your matches.
+        This is a list of people who have liked you and your matches.
       </Text>
-      <View style = {{marginLeft:40,marginRight:40,marginTop:20,}}>
-      <ButtonWithBg
-        path="ProfileDetails1"
-        active="true"
-        text="Say hello"
-        btnAction={navigationAction}
-        ></ButtonWithBg>
-        
-      </View>
-      <View style = {{marginLeft:40,marginRight:40,marginTop:20,}}>
-      <ButtonWithBg
-        path="ProfileDetails1"
-        active="true"
-        text="Keep swiping"
-        btnAction={navigationAction}
-        ></ButtonWithBg>
-      </View>
-      {/* image galery */}
-      <ScrollView>
-      <View style = {{width:windowWidth-80,alignSelf:'center'}}>
-         {
-
-             images.map((val,index)=>{
-                if(index%2==0){
-                    return(
-                        <View style ={{flexDirection:'row'}}>
-
-                        <Image source = {val} style={{width:'50%',height:100}} ></Image>
-
-                        </View>
-                    );
-                    
-                }
-                else{
-                    return(
-                        <Image source = {val} style={{height:100,width:'50%',alignSelf:'flex-end'}} ></Image>
-                    )
-                    
-                }
-
-             })
-         }
+      
+      <View
+        style={{marginTop: 40, width: windowWidth - 80, alignSelf: 'center'}}>
+        <FlatList
+          data={imageList}
+          numColumns={2}
+          renderItem={({item}) => {
           
-
+            var alignment = '';
+            if(item.id%2==0){
+              
+              alignment = 'flex-start';
+              console.log('item: '+alignment);
+            }else{
+             
+              alignment = 'flex-end';
+            }
+            return (
+              <View style={[styles.imageContainerStyle]}>
+                <TouchableOpacity
+                  key={item.id}
+                  style={{flex: 1}}
+                  // onPress={() => {
+                  //   // sho wModalFunction(true, item.src);
+                  // }}
+                >
+                  <Image  blurRadius={0} style={[styles.imageStyle,{alignSelf:alignment}]} source={item.image} />
+                </TouchableOpacity>
+                <Text style = {styles.name}>Leilani, 19</Text>
+                <View  style = {[styles.blurView,{alignSelf:alignment}]}>
+                 
+                </View>
+                <View style = {[styles.blurView,{backgroundColor:'clear',opacity:1,alignSelf:alignment}]}> 
+                  <Image source = {whiteCross}></Image>
+                  <Image source = {whiteheart}></Image>
+                </View>
+              </View>
+            );
+          }}
+          //  keyExtractor={(item, index) => index.toString()}
+        />
       </View>
-      </ScrollView>
-      
 
       
-
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  name:{
+    color:'white',
+    fontWeight:'bold',
+    position:'absolute',
+    bottom:60,
+    marginLeft:15,
+    fontSize:16,
+  },
+  blurImg:{
+    width:'100%',
+    height:'100%',
+  },
+  blurView:{
+    width:'95%',
+    height:50,
+    backgroundColor:'black',
+    position:'absolute',
+    bottom:0,
+    opacity:0.5,
+    blurRadius:10,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+
+  },
+  imageContainerStyle: {
+    marginTop: 10,
+    width: '50%',
+    height: 200,
+    // backgroundColor: 'pink',
+    // height:100,
+  },
+  imageStyle: {
+    width: '95%',
+    height: '100%',
+    borderRadius: 20,
+    resizeMode: 'cover',
+    // resizeMode:'contain',
+    // resizeMode:'center',
+    // resizeMode:'stretch',
+  },
   matchHeading: {
     marginTop: 40,
     textAlign: 'center',
