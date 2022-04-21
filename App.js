@@ -29,11 +29,12 @@ import ChartScreen from './screens/chartScreen';
 import ProfileDetails1 from './screens/profileDetails1';
 import ProfileDetails2 from './screens/profileDetails2';
 import WhoAm from './screens/whoAm';
-import SummaryScreen  from './screens/SummaryScreen';
-import SuggestionScreen from './screens/SuggestionScreen'
-import MatchProfileScreen from './screens/MatchProfile'
-import ItsAMatchScreen from './screens/ItsAMatchScreen'
-import MatchesScreen from './screens/MatchesScreen'
+import SummaryScreen from './screens/SummaryScreen';
+import SuggestionScreen from './screens/SuggestionScreen';
+import MatchProfileScreen from './screens/MatchProfile';
+import ItsAMatchScreen from './screens/ItsAMatchScreen';
+import MatchesScreen from './screens/MatchesScreen';
+import MessagesScreen from './screens/MessagesScreen';
 // import ShadowTest from './screens/testShadow';
 
 // creating variables
@@ -137,13 +138,16 @@ const App: () => Node = () => {
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={ItsAMatchScreen}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="MatchesScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={MatchesScreen}
         />
-        
-       
+        <Stack.Screen
+          name="MessagesScreen"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={MessagesScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

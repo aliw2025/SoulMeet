@@ -7,6 +7,7 @@ import {Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
+import {BlurView} from '@react-native-community/blur';
 
 // import {Modal} from '../components/Modal';
 import {
@@ -51,26 +52,25 @@ const attachment = require('../assets/attachment.png');
 const whiteCross = require('../assets/whiteCross.png');
 const whiteheart = require('../assets/whiteHeart.png');
 
-
-
-
 const mainProfile = require('../assets/mainProfile.png');
+const mainProfile2 = require('../assets/redhaird.png');
+
 var images = [];
 for (var i = 0; i < 10; i++) {
-  if(i%2==0){
+  if(i==3){
+    images.push({id: i, image: mainProfile2});
+  }else if (i % 2 == 0) {
     images.push({id: i, image: mainProfile});
-  }else{
+  } else {
     images.push({id: i, image: photo});
   }
-  
 }
 console.log();
 //  the screen component
 const MatchesScreen = props => {
   const [imageList, setImageList] = useState(images);
   const navigationAction = params => {
-    props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-
+    props.navigation.navigate('MessagesScreen', {name: 'avvv'});
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
   return (
@@ -90,6 +90,7 @@ const MatchesScreen = props => {
         <TouchableOpacity>
           <View style={[styles.backBtn]}>
             <Image source={attachment}></Image>
+           
           </View>
         </TouchableOpacity>
       </View>
@@ -98,21 +99,20 @@ const MatchesScreen = props => {
       <Text style={[styles.matchSubHeading]}>
         This is a list of people who have liked you and your matches.
       </Text>
-      
+      <View style = {[styles.searchBox]}>
+        
+      </View>
       <View
         style={{marginTop: 40, width: windowWidth - 80, alignSelf: 'center'}}>
         <FlatList
           data={imageList}
           numColumns={2}
           renderItem={({item}) => {
-          
             var alignment = '';
-            if(item.id%2==0){
-              
+            if (item.id % 2 == 0) {
               alignment = 'flex-start';
-              console.log('item: '+alignment);
-            }else{
-             
+              console.log('item: ' + alignment);
+            } else {
               alignment = 'flex-end';
             }
             return (
@@ -120,59 +120,85 @@ const MatchesScreen = props => {
                 <TouchableOpacity
                   key={item.id}
                   style={{flex: 1}}
-                  // onPress={() => {
-                  //   // sho wModalFunction(true, item.src);
-                  // }}
+                  onPress={() => {
+                    navigationAction();
+                  }}
                 >
-                  <Image  blurRadius={0} style={[styles.imageStyle,{alignSelf:alignment}]} source={item.image} />
+                  <Image
+                    blurRadius={0}
+                    style={[styles.imageStyle, {alignSelf: alignment}]}
+                    source={item.image}
+                  />
                 </TouchableOpacity>
-                <Text style = {styles.name}>Leilani, 19</Text>
-                <View  style = {[styles.blurView,{alignSelf:alignment}]}>
+                <Text style={styles.name}>Leilani, 19</Text>
+                <View style = {[styles.parentBlur,{alignSelf:alignment}]}>
+                
+                <BlurView
+                  blurType="dark"
+                  blurAmount={10}
                  
+                  reducedTransparencyFallbackColor="white"
+                  style={[styles.blurView, {alignSelf: alignment}]}>
+                      <View style ={[styles.box,{borderRightWidth:1,borderColor:'white'}]}>
+                        <Image  source={whiteCross}></Image>
+                      </View>
+                      <View style ={styles.box}>
+                        <Image source={whiteheart}></Image>
+                      </View>
+                  </BlurView>
                 </View>
-                <View style = {[styles.blurView,{backgroundColor:'clear',opacity:1,alignSelf:alignment}]}> 
-                  <Image source = {whiteCross}></Image>
-                  <Image source = {whiteheart}></Image>
-                </View>
+               
               </View>
             );
           }}
           //  keyExtractor={(item, index) => index.toString()}
         />
       </View>
-
-      
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  name:{
-    color:'white',
-    fontWeight:'bold',
-    position:'absolute',
-    bottom:60,
-    marginLeft:15,
-    fontSize:16,
-  },
-  blurImg:{
-    width:'100%',
+  box:{
     height:'100%',
+    width:'50%',
+    alignItems:'center',
+    justifyContent:'center',
+    // alignSelf:'center',
+    // backgroundColor:'red',
   },
-  blurView:{
-    width:'95%',
+  name: {
+    color: 'white',
+    fontWeight: 'bold',
+    position: 'absolute',
+    bottom: 60,
+    marginLeft: 15,
+    fontSize: 16,
+  },
+  blurImg: {
+    width: '100%',
+    height: '100%',
+  },
+  parentBlur:{
     height:50,
-    backgroundColor:'black',
-    position:'absolute',
-    bottom:0,
-    opacity:0.5,
-    blurRadius:10,
+    width: '95%',
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20,
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center'
-
+    //  makes it work
+    overflow:'hidden',
+    position: 'absolute',
+    bottom: 0,
+  },
+  blurView: {
+    
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 0.8,
+    flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   imageContainerStyle: {
     marginTop: 10,
