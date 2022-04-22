@@ -46,12 +46,15 @@ import {
 // const dot = require('../assets/dot.png');
 // const people = require('../assets/people.png');
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const photo = require('../assets/girl.png');
 const love = require('../assets/love.png');
 const black = require('../assets/black.png');
 const attachment = require('../assets/setting.png');
 const whiteCross = require('../assets/whiteCross.png');
 const whiteheart = require('../assets/whiteHeart.png');
+const card = require('../assets/card.png');
+
 
 const mainProfile = require('../assets/mainProfile.png');
 const mainProfile2 = require('../assets/redhaird.png');
@@ -71,6 +74,7 @@ for (var i = 0; i < 10; i++) {
 //  the screen component
 const MessagesScreen = props => {
   const [text, onChangeText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   // console.log('text: '+text);
 
   const [imageList, setImageList] = useState(images);
@@ -154,6 +158,7 @@ const MessagesScreen = props => {
             return (
               <TouchableHighlight underlayColor='#F3F3F3' onPress={()=>{
                 console.log('sing is king');
+                setModalVisible(true);
               }} >
                 <View style={[styles.MessageRow]}>
                 <TouchableHighlight style = {{width:'20%'}}underlayColor="clear" onPress={()=>{
@@ -182,6 +187,24 @@ const MessagesScreen = props => {
           //  keyExtractor={(item, index) => index.toString()}
         />
       </View>
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            this.setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
+            
+            </ImageBackground>
+
+            </View>
+          </View>
+        </Modal>
     </SafeAreaView>
   );
 };
@@ -303,6 +326,50 @@ const styles = StyleSheet.create({
     // marginLeft: 40,
     color: 'black',
     fontWeight: 'bold',
+  },
+  // new
+  centeredView: {
+    flex: 1,
+    // height:windowHeight,
+    width:windowWidth,
+    // backgroundsColor:'pink',
+    // flexDirection:'row',
+    
+  },
+  modalView: {
+    marginTop:150,
+    alignSelf:'flex-end',
+    backgroundColor: "gray",
+    width:'100%',
+    height:'82%',
+    
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  card: {
+    // top: -50,
+    flex: 1,
+    // marginTop: 20,
+    height: windowHeight,
+    width: '100%',
   },
 });
 
