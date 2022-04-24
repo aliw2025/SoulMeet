@@ -209,7 +209,7 @@ const BirthDayScreen = ({navigation}) => {
             </TouchableOpacity>
             </View>
           }
-          <View style = {{zIndex :3}}>
+          <View >
             <DropDown
               feildName="Day"
               feildValue={days}
@@ -222,7 +222,7 @@ const BirthDayScreen = ({navigation}) => {
               </View>
             )}
           </View>
-          <View style = {{zIndex :2}} >
+          <View >
             <DropDown
               feildName="Month"
               feildValue={months}

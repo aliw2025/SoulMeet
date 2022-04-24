@@ -3,11 +3,12 @@ import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions, TouchableHighlightBase} from 'react-native';
+import {Platform,Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 import {BlurView} from '@react-native-community/blur';
+
 
 // import {Modal} from '../components/Modal';
 import {
@@ -71,6 +72,7 @@ const MatchesScreen = props => {
   const [imageList, setImageList] = useState(images);
   const navigationAction = params => {
     props.navigation.navigate('MessagesScreen', {name: 'avvv'});
+  
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
   return (
@@ -115,6 +117,42 @@ const MatchesScreen = props => {
             } else {
               alignment = 'flex-end';
             }
+            if(Platform.OS === 'ios'){
+              return (
+                <View style={[styles.imageContainerStyle]}>
+                  <TouchableOpacity
+                    key={item.id}
+                    style={{flex: 1}}
+                    onPress={() => {
+                      navigationAction();
+                    }}
+                  >
+                    <Image
+                      blurRadius={0}
+                      style={[styles.imageStyle, {alignSelf: alignment}]}
+                      source={item.image}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.name}>Leilani, 19</Text>
+                  <View style = {[styles.parentBlur,{alignSelf:alignment}]}>
+                 
+                  <BlurView
+                    // blurType="dark"
+                    // blurAmount={10}
+                    // reducedTransparencyFallbackColor="white"
+                    style={[styles.blurView, {alignSelf: alignment}]}>
+                        <View style ={[styles.box,{borderRightWidth:1,borderColor:'white'}]}>
+                          <Image  source={whiteCross}></Image>
+                        </View>
+                        <View style ={styles.box}>
+                          <Image source={whiteheart}></Image>
+                        </View>
+                    </BlurView>
+                  </View>
+                 
+                </View>
+              );
+            }
             return (
               <View style={[styles.imageContainerStyle]}>
                 <TouchableOpacity
@@ -132,20 +170,19 @@ const MatchesScreen = props => {
                 </TouchableOpacity>
                 <Text style={styles.name}>Leilani, 19</Text>
                 <View style = {[styles.parentBlur,{alignSelf:alignment}]}>
-                
-                <BlurView
-                  blurType="dark"
-                  blurAmount={10}
-                 
-                  reducedTransparencyFallbackColor="white"
-                  style={[styles.blurView, {alignSelf: alignment}]}>
+               
+                <View
+                  // blurType="dark"
+                  // blurAmount={10}
+                  // reducedTransparencyFallbackColor="white"
+                  style={[styles.blurView, {alignSelf: alignment,backgroundColor:'black',opacity:0.5}]}>
                       <View style ={[styles.box,{borderRightWidth:1,borderColor:'white'}]}>
                         <Image  source={whiteCross}></Image>
                       </View>
                       <View style ={styles.box}>
                         <Image source={whiteheart}></Image>
                       </View>
-                  </BlurView>
+                  </View>
                 </View>
                
               </View>

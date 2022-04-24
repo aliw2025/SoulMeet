@@ -35,6 +35,9 @@ import MatchProfileScreen from './screens/MatchProfile';
 import ItsAMatchScreen from './screens/ItsAMatchScreen';
 import MatchesScreen from './screens/MatchesScreen';
 import MessagesScreen from './screens/MessagesScreen';
+import SignIn from './screens/SignIn'
+import SignUp from './screens/SignUp'
+
 // import ShadowTest from './screens/testShadow';
 
 // creating variables
@@ -78,6 +81,16 @@ const App: () => Node = () => {
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          // options={{title: (props)=> <EmptyHeader/>}}
+        />
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
+          // options={{title: (props)=> <EmptyHeader/>}}
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -148,7 +161,9 @@ const App: () => Node = () => {
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={MessagesScreen}
         />
+        
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 };
