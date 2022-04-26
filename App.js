@@ -81,6 +81,12 @@ const App: () => Node = () => {
         screenOptions={{
           headerShown: false,
         }}>
+        
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          // options={{title: (props)=> <EmptyHeader/>}}
+        />
         <Stack.Screen
           name="SignUp"
           component={SignUp}
@@ -89,11 +95,6 @@ const App: () => Node = () => {
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
           // options={{title: (props)=> <EmptyHeader/>}}
         />
         <Stack.Screen

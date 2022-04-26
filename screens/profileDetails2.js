@@ -37,12 +37,17 @@ const ProfileDetails2 = (props) => {
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
+  var fname = props.route.params.fname;
+  var mname = props.route.params.mname;
+  var lname = props.route.params.lname;
   //   // array fo
   const [text, onChangeText] = React.useState("Useless Text");
   
   const navigationAction = params => {
    
-   props.navigation.navigate("WhoAm", {day: day,month:month,year:year});
+   props.navigation.navigate("WhoAm", {day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
+  //  props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
+
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   }
   return (

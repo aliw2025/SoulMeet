@@ -19,11 +19,16 @@ const image2 = require('../assets/arrowDown.png');
 const windowWidth = Dimensions.get('window').width;
 
 const CustomTextInput = props => {
+  var secureTextEntry = false;
+  
   const [text, onChangeText] = React.useState(props.feildValue);
   const ref_input = useRef();
   const btnAction = params => {
     ref_input.current.focus();
   };
+  if(props.secureTextEntry==true){
+    secureTextEntry = true;
+  }
   return (
     <View style={[styles.textBg]}>
       <TouchableHighlight onPress={btnAction} underlayColor="clear">
@@ -31,8 +36,9 @@ const CustomTextInput = props => {
           <View style={[styles.whiteLine]}></View>
           <Text style={[styles.feildName]}>{props.feildName}</Text>
           <TextInput
+            secureTextEntry = {secureTextEntry}
             ref={ref_input}
-            onChangeText={onChangeText}
+            onChangeText={props.onChangeText}
             value={text}
             style={[styles.feildValue]}></TextInput>
         </View>

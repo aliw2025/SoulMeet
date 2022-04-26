@@ -21,6 +21,7 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
+  TouchableHighlight,
   View,
   Button,
   ImageBackground,
@@ -38,7 +39,7 @@ const image = require('../assets/grad.png');
 
 const HomeScreen = ({navigation}) => {
   const navigationAction = params => {
-    navigation.navigate('SelectLanguage', {name: 'Jane'});
+    navigation.navigate('SignUp', {name: 'Jane'});
   };
 
   return (
@@ -62,10 +63,14 @@ const HomeScreen = ({navigation}) => {
         </View>
         <View style={[styles.signInBox]}>
           <Text style={[{color: 'black'}]}>Already have an account?</Text>
-          <Text style={[{color: '#FFC700', fontWeight: 'bold'}]}>
-            {' '}
-            Sign In{' '}
-          </Text>
+          <TouchableHighlight  underlayColor="clear"  onPress = {()=>{
+             navigation.navigate('SignIn', {name: 'Jane'});
+          }}>
+            <Text style={[{color: '#FFC700', fontWeight: 'bold'}]}>
+              {' '}
+              Sign In{' '}
+            </Text>
+          </TouchableHighlight>
         </View>
       </SafeAreaView>
     </ImageBackground>

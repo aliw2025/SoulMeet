@@ -3,7 +3,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions} from 'react-native';
+import {Dimensions,Keyboard} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
@@ -33,6 +33,39 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
 const ProfileDetails1 = (props) => {
+  const [koffset,setKoffset] = useState(0);
+  const [fname,setFname] = useState('');
+  const [mname,setMname] = useState('');
+  const [lname,setLname] = useState('');
+//   componentDidMount() {
+//     keyboardDidShowListener = Keyboard.addListener(
+//         'keyboardDidShow',
+//         keyboardDidShow,
+//     );
+//     keyboardDidHideListener = Keyboard.addListener(
+//         'keyboardDidHide',
+//         keyboardDidHide,
+//     );
+// }
+
+// componentWillUnmount() {
+//     keyboardDidShowListener.remove();
+//     keyboardDidHideListener.remove();
+// }
+// var pos = 'relative';
+
+// _keyboardDidShow(event) {
+//     // this.setState({
+//     //     keyboardOffset: event.endCoordinates.height,
+//     // })
+//     pos = 'absolute';
+//     setKoffset(event.endCoordinates.height)
+// }
+
+// _keyboardDidHide() {
+//   pos = 'relative';
+//   etKoffset(0)
+// }
   // console.log(props.route.params);
   var day = props.route.params.day;
   var month = props.route.params.month;
@@ -43,7 +76,7 @@ const ProfileDetails1 = (props) => {
   const [text, onChangeText] = React.useState("Useless Text");
   const navigationAction = params => {
     
-    props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year});
+    props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
   }
   
   return (
@@ -68,12 +101,13 @@ const ProfileDetails1 = (props) => {
               symbols.
             </Text>
           </View>
-          <CustomTextInput feildName="First Name"></CustomTextInput>
-          <CustomTextInput feildName="Middle Name"></CustomTextInput>
-          <CustomTextInput feildName="Last Name"></CustomTextInput>
-          <CustomTextInput feildName="Profile Display Name"></CustomTextInput>
-
-
+          <CustomTextInput  onChangeText = {setFname} feildName="First Name"></CustomTextInput>
+          <CustomTextInput onChangeText = {setMname} feildName="Middle Name"></CustomTextInput>
+          <CustomTextInput onChangeText = {setLname} feildName="Last Name"></CustomTextInput>
+          {/* <View style = {{position:'pos',bottom:keyboardOffset,}}> */}
+            <CustomTextInput feildName="Profile Display Name"></CustomTextInput>
+          {/* </View> */}
+          
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
               active="true"

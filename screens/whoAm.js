@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -9,7 +9,8 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import CustomTextInput from '../components/CustomTextInput';
 import ButtonWithTick from '../components/ButtonWithTick';
-
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 // react items
 import {
   SafeAreaView,
@@ -32,17 +33,70 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
-const WhoAm = (props) => {
+const WhoAm = props => {
   // console.log(props.route.params);
+  // data variables
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
-  //   // array fo
+  var fname = props.route.params.fname;
+  var mname = props.route.params.mname;
+  var lname = props.route.params.lname;
+  // authentication variables
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+  // firestore refrence
+  let db = firestore();
+
+  // unused variables
   const [text, onChangeText] = React.useState('Useless Text');
 
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (user) {
+      // console.log(user);
+      // navigation.navigate('SelectLanguage', {name: 'Jane'});
+    }
+
+    if (initializing) setInitializing(false);
+  }
+  // keep track of changes in authetication
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    console.log('null');
+    return null;
+  }
+
+  // console.log(auth().currentUser);
   const navigationAction = params => {
-  
-    props.navigation.navigate("ChartScreen",{day: day,month:month,year:year});
+    if (user) {
+      saveData();
+    }
+    props.navigation.navigate('ChartScreen', {
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+    });
+  };
+  function saveData(params) {
+    db.collection('users').doc(user.uid).set({
+      uid: user.uid,
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+      // king:'waseem is king'
+    }).then().catch((err) => console.log(err));
   }
   // const onChangeText = params => {};
   return (
@@ -57,7 +111,10 @@ const WhoAm = (props) => {
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={[styles.backBtn]}>
-              <Text style = {[{color:'#FFC700',fontSize:20,fontWeight:'bold'}]}>{'<'}</Text>
+              <Text
+                style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
+                {'<'}
+              </Text>
             </View>
           </TouchableOpacity>
           <Text style={[styles.heading]}>I am a</Text>
@@ -71,7 +128,7 @@ const WhoAm = (props) => {
               text="Woman"
               image={buttonBgOrange}
               // navigation={navigation}
-             ></ButtonWithTick>
+            ></ButtonWithTick>
           </View>
           <View style={[styles.bottomBtn]}>
             <ButtonWithTick
@@ -83,7 +140,7 @@ const WhoAm = (props) => {
               text="Man"
               image={buttonBgOrange}
               //  navigation={navigation}
-             ></ButtonWithTick>
+            ></ButtonWithTick>
           </View>
           <View style={[styles.bottomBtn]}>
             <ButtonWithTick
@@ -94,19 +151,17 @@ const WhoAm = (props) => {
               text="Choose Another"
               image={buttonBgOrange}
               // navigation={navigation}
-             ></ButtonWithTick>
+            ></ButtonWithTick>
           </View>
           <View
             style={
               ([styles.bottomBtn], {position: 'absolute', bottom: 20, left: 40})
             }>
             <ButtonWithBg
-             
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              btnAction = {navigationAction}
-             ></ButtonWithBg>
+              btnAction={navigationAction}></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>
@@ -122,7 +177,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:10,
+    borderRadius: 10,
     position: 'absolute',
     top: 40,
     left: 40,

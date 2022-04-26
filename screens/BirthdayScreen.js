@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -7,6 +7,9 @@ import {Dimensions} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 
 // react items
 import {
@@ -35,7 +38,6 @@ const BirthDayScreen = ({navigation}) => {
   var day = [];
   // array for years
   var year = [];
-
   // data array for months
   var month = [
     {key: 'January'},
@@ -51,6 +53,8 @@ const BirthDayScreen = ({navigation}) => {
     {key: 'Novermber'},
     {key: 'December'},
   ];
+  //  variable for storing location of the arrowDown image
+  const image2 = require('../assets/arrowDown.png');
 
   // state variables for days
   const [days, SetDays] = useState('12');
@@ -64,8 +68,34 @@ const BirthDayScreen = ({navigation}) => {
   const [list2, setList2] = useState(false);
   const [list3, setList3] = useState(false);
   const [pos,setPos] = useState('relative');
-  //  variable for storing location of the arrowDown image
-  const image2 = require('../assets/arrowDown.png');
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  // store reference of firebase user
+  const [user, setUser] = useState();
+  
+  // if (initializing) return null;
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if(user){
+      console.log(user);
+      // navigation.navigate('SelectLanguage', {name: 'Jane'});
+    }
+   
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    console.log('initizing');
+    return null;
+  }
+  
 
   //  function to initlaize the days
   function initDays() {
@@ -174,6 +204,23 @@ const BirthDayScreen = ({navigation}) => {
   
   initDays();
   initYears();
+
+  var db = firestore();
+  console.log('adding data');
+  console.log('user db os '+db.collection('users'));
+//   db.collection("users").add({
+//     first: "Ada",
+//     last: "Lovelace",
+//     born: 1815
+// })
+// .then((docRef) => {
+//     console.log("Document written with ID: ", docRef.id);
+// })
+// .catch((error) => {
+//     console.error("Error adding document: ", error);
+// });
+
+
 
   return (
     <ImageBackground

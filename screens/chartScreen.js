@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -6,6 +6,8 @@ import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import {
   SafeAreaView,
@@ -30,14 +32,53 @@ const windowHeight = Dimensions.get('window').height;
 //  the screen component
 const ChartScreen = props => {
   // console.log(props.route.params);
-  // var day = props.route.params.day;
-  // var month = props.route.params.month;
-  // var year = props.route.params.year;
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year = props.route.params.year;
+  var fname = props.route.params.fname;
+  var mname = props.route.params.mname;
+  var lname = props.route.params.lname;
   var navigation = props.navigation;
-  var day = 20;
-  var month = 2;
-  var year = 1996;
+   // authentication variables
+   const [initializing, setInitializing] = useState(true);
+   const [user, setUser] = useState();
+   // firestore refrence
+   let db = firestore();
+   // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (user) {
+      // console.log(user);
+      // navigation.navigate('SelectLanguage', {name: 'Jane'});
+    }
+
+    if (initializing) setInitializing(false);
+  }
+  // keep track of changes in authetication
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  
+
+  function saveData(params) {
+    db.collection('users').doc(user.uid).update({
+      numbers:{
+        lifePathNumber:lpnText,
+        birthDayNumber:bnText,
+        expressionDestiny:exp,
+        minorExpression:mExp,
+        soulUrge:desireText,
+      },
+    }).then().catch((err) => console.log(err));
+  }
+ 
+  // var day = 20;
+  // var month = 2;
+  // var year = 1996;
   var stval = '';
+
 
   stval = stval.concat(
     year.toString(),
@@ -46,7 +87,7 @@ const ChartScreen = props => {
     '-',
     month.toString(),
   );
-  
+  console.log('i am :'+fname+' '+mname+' '+lname+' '+stval);
   var stack = [];
   /**
    * function to calculate sum recursivley and reduce sum to single
@@ -169,7 +210,7 @@ const ChartScreen = props => {
     return text;
   }
   stack = [];
-  let expText = calExpressionNumber('waseem', 'ali', 'khan');
+  let expText = calExpressionNumber(fname, mname, lname);
 
  
   function calMinorExpressionNumber(fname, lname) {
@@ -191,11 +232,24 @@ const ChartScreen = props => {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-
-    var fval = sum(fname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
-    var mval = sum(mname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
-    var lval = sum(lname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
-
+    
+    
+    var fval = 0;
+    let arr = fname.match(/[aeiou]/gi);
+    if(arr!=null){
+      fval = sum(arr.map(val => val.charCodeAt(0) - 96));
+    }
+    var mval = 0;
+    let arr2 = mname.match(/[aeiou]/gi);
+    if(arr2!=null){
+      mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
+    }
+    var lval = 0;
+    let arr3 = lname.match(/[aeiou]/gi);
+    if(arr3!=null){
+      lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
+    }
+    
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
@@ -205,9 +259,17 @@ const ChartScreen = props => {
   function calMinorDesireNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
-
-    var fval = sum(fname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
-    var lval = sum(lname.match(/[aeiou]/gi).map(val => val.charCodeAt(0) - 96));
+    var fval = 0;
+    let arr = fname.match(/[aeiou]/gi);
+    if(arr!=null){
+      fval = sum(arr.map(val => val.charCodeAt(0) - 96));
+    }
+    var lval = 0;
+    let arr3 = lname.match(/[aeiou]/gi);
+    if(arr3!=null){
+      lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
+    }
+   
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
@@ -221,36 +283,54 @@ const ChartScreen = props => {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-
-    var fval = sum(
-      fname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    let arr = fname.match(/[^aeiou]/gi);
+    var fval = 0;
+    if(arr!=null){
+      fval =  sum(
+        arr.map(val => val.charCodeAt(0) - 96),
+      );
+    }
+   
+    let arr2 =  mname.match(/[^aeiou]/gi);
+    var mval = 0;
+    if(arr2!=null){
+      mval =  sum(
+        arr2.map(val => val.charCodeAt(0) - 96),
+       );
+    }
+   let arr3 = lname.match(/[^aeiou]/gi);
+   var lval = 0;
+   if(arr3!=null){
+    lval = sum(
+      arr3.map(val => val.charCodeAt(0) - 96),
     );
-    // console.log("fval: "+fval);
-    var mval = sum(
-      mname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
-    );
-    // console.log("mval: "+mval);
-    var lval = sum(
-      lname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
-    );
-    // console.log("lval: "+lval);
+   }
+   
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
   }
 
  
-  
 
   function calMpersonNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
-    var fval = sum(
-      fname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
+    let arr = fname.match(/[^aeiou]/gi);
+    var fval = 0;
+    if(arr!=null){
+      fval =  sum(
+        arr.map(val => val.charCodeAt(0) - 96),
+      );
+    }
+    
+   let arr3 = lname.match(/[^aeiou]/gi);
+   var lval = 0;
+   if(arr3!=null){
+    lval = sum(
+      arr3.map(val => val.charCodeAt(0) - 96),
     );
-    var lval = sum(
-      lname.match(/[^aeiou]/gi).map(val => val.charCodeAt(0) - 96),
-    );
+   }
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
@@ -307,7 +387,11 @@ const ChartScreen = props => {
   function calRtn(birthDay, fname) {
 
     fname = fname.toLowerCase();
-    var fval = simpleSum(fname.match(/[a-z]/gi).map(val => val.charCodeAt(0) - 96));
+    let arr = fname.match(/[a-z]/gi);
+    var fval = 0;
+    if(arr!=null){
+      fval = simpleSum(arr.map(val => val.charCodeAt(0) - 96));
+    }
     console.log("ffval: "+fval);
     let birthDayNo = birthDay.split('/').map(Number)[0];
     birthDayNo = String(birthDayNo)
@@ -422,59 +506,75 @@ const ChartScreen = props => {
     var fullname = '';
     fullname = fullname.concat(fname, mname, lname);
     stack = [];
-    var ans = sumFinal(
-      fullname.match(/[ewdm]/gi).map(val => {
-        var x = val.charCodeAt(0) - 96;
-        x = sum(String(x).split('').map(Number));
-        console.log(val + ' : ' + x);
-        return x;
-      }),
-    );
+    let arr1 =  fullname.match(/[ewdm]/gi);
+    var ans = 0;
+    if(arr1!=null){
+      ans = sumFinal(
+        arr1.map(val => {
+           var x = val.charCodeAt(0) - 96;
+           x = sum(String(x).split('').map(Number));
+           console.log(val + ' : ' + x);
+           return x;
+         }),
+       );
+    }
     var physicalPlane = convetToText(ans);
     console.log('ans 1: ' + physicalPlane);
     stack = [];
-    ans = sumFinal(
-      fullname.match(/[ahjnpgl]/gi).map(val => {
-        var x = val.charCodeAt(0) - 96;
-        x = sum(String(x).split('').map(Number));
-        console.log(val + ' : ' + x);
-        return x;
-      }),
-    );
+    ans = 0;
+    let arr2 = fullname.match(/[ahjnpgl]/gi);
+    if(arr2 != null){
+      ans = sumFinal(
+        arr2.map(val => {
+          var x = val.charCodeAt(0) - 96;
+          x = sum(String(x).split('').map(Number));
+          console.log(val + ' : ' + x);
+          return x;
+        }),
+      );
+    }
     var mentalPlane = convetToText(ans);
     console.log('ans 2: ' + mentalPlane);
     stack = [];
-    ans = sumFinal(
-      fullname.match(/[iorzbstx]/gi).map(val => {
-        var x = val.charCodeAt(0) - 96;
-        x = sum(String(x).split('').map(Number));
-        console.log(val + ' : ' + x);
-        return x;
-      }),
-    );
-
+    ans = 0;
+    let arr3 = fullname.match(/[iorzbstx]/gi);
+    if(arr3 !=null){
+      ans = sumFinal(
+        arr3.map(val => {
+          var x = val.charCodeAt(0) - 96;
+          x = sum(String(x).split('').map(Number));
+          console.log(val + ' : ' + x);
+          return x;
+        }),
+      );
+    }
     var emotionalPlane = convetToText(ans);
     console.log('ans 3s: ' + emotionalPlane);
     stack = [];
-    ans = sumFinal(
-      fullname.match(/[kfquycv]/gi).map(val => {
-        var x = val.charCodeAt(0) - 96;
-        x = sum(String(x).split('').map(Number));
-        console.log(val + ' : ' + x);
-        return x;
-      }),
-    );
+    ans = 0;
+    let arr4 = fullname.match(/[kfquycv]/gi);
+    if(arr4!=null){
+      ans = sumFinal(
+        arr4.map(val => {
+          var x = val.charCodeAt(0) - 96;
+          x = sum(String(x).split('').map(Number));
+          console.log(val + ' : ' + x);
+          return x;
+        }),
+      );
+    }
     stack = [];
     var intiuativePlane = convetToText(ans);
     console.log('ans 4: ' + intiuativePlane);
     return [physicalPlane, mentalPlane, emotionalPlane, intiuativePlane];
   }
+
   function calCornerStone(fname) {
     fname = fname.toLowerCase();
-   
     var stone = fname[0];
     return stone;
   }
+
   function calPeriodCycles(day, month, year) {
     day = sum(String(day).split('').map(Number));
     month = sum(String(month).split('').map(Number));
@@ -518,15 +618,16 @@ const ChartScreen = props => {
   stack = [];
   var lpnText  = CalLifePathNumber(stval);
   stack = [];
-  let desireText = calDesireNumber('Waseem', 'ali', 'khan');
+  console.log('i am 2:'+fname+' '+mname+' '+lname+' '+stval);
+  let desireText = calDesireNumber(fname, mname, lname);
   stack = [];
-  let mExpText = calMinorExpressionNumber('waseem', 'ali');
+  let mExpText = calMinorExpressionNumber(fname, mname);
   stack = [];
-  let mDesireText = calMinorDesireNumber('Waseem', 'ali');
+  let mDesireText = calMinorDesireNumber(fname, mname);
   stack = [];
-  let personText = calPersonNumber('Waseem', 'ali', 'khan');
+  let personText = calPersonNumber(fname, mname, lname);
   stack = [];
-  let mPersonText = calMpersonNumber('Waseem', 'ali');
+  let mPersonText = calMpersonNumber(fname, mname);
 
   // [lpnText, selpnText] = useState(lpnTextText);
   // [bn, setBn] = useState(bnText);
@@ -538,17 +639,17 @@ const ChartScreen = props => {
   let hdPerBrText = calBridgeNumber(desireText, personText);
   let maturityText = calMaturityNumber(lpnText, exp);
   let attitudeText = CalAttitudeNumber(stval);
-  let rtnText = calRtn(bnText, 'waseem');
-  let balanceText = calBalanceNumber('waseem', 'ali', 'khan');
-  let keramicText = calkeramicNumber('waseem', 'ali', 'khan');
+  let rtnText = calRtn(bnText, fname);
+  let balanceText = calBalanceNumber(fname, mname, lname);
+  let keramicText = calkeramicNumber(fname, mname, lname);
   let subConText = calSubConSelfNumber(keramicText);
-  let hiddenPassionText = calHiddenPassionNumber('waseem', 'ali', 'khan');
+  let hiddenPassionText = calHiddenPassionNumber(fname, mname, lname);
   let [phyPlaneText, menPlaneText, emotPlaneText, intPlaneText] = calPlanes(
-    'waseem',
-    'ali',
-    'khan',
+    fname,
+    mname,
+    lname,
   );
-  let cornetStoneText = calCornerStone('waseem');
+  let cornetStoneText = calCornerStone(fname);
   let [periodCyleText1, periodCyleText2, periodCyleText3] = calPeriodCycles(
     day,
     month,
@@ -566,10 +667,20 @@ const ChartScreen = props => {
   );
 
   const navigationAction = params => {
-    
+    if (user) {
+      saveData();
+    }
     navigation.navigate("SummaryScreen",{name:'wase'});
   }
   var indeicator  = require('../assets/indicator.png')
+  var fullName = '';
+  fullName = fullName.concat(fname,' ',mname,' ',lname);
+  var nickName = '';
+  nickName = nickName.concat(fname,' ',mname);
+  if (initializing) {
+    console.log('null');
+    return null;
+  }
   return (
     <ImageBackground
       source={image}
@@ -598,18 +709,19 @@ const ChartScreen = props => {
           source={indeicator}
           />
           <ScrollView style={[{flex: 1, marginTop: 20}]}>
-              <InfoBox heading="Current Name" bodyText="Waseem ali"></InfoBox>
+              <InfoBox heading="Current Name" bodyText={nickName}></InfoBox>
               <InfoBox
                 heading="Full Name at Birth"
-                bodyText="Waseem ali khan"></InfoBox>
+                bodyText = {fullName}></InfoBox>
               <InfoBox
                 heading="Date of Birth"
-                bodyText="October 30,1996"></InfoBox>
+                bodyText={stval}></InfoBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Life Path Number"
                 value={lpnText}></ValueBox>
+               
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -625,6 +737,7 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Minor Expression / Destiny"
                 value={mExp}></ValueBox>
+                 
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
@@ -649,6 +762,7 @@ const ChartScreen = props => {
                 style={[
                   {backgroundColor: '#00000033', width: '60%', height: 1},
                 ]}></View>
+                 
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -665,6 +779,7 @@ const ChartScreen = props => {
                 heading="Life Path/Expression
                 Bridge Number"
                 value={lpExpBrText}></ValueBox>
+                
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -691,6 +806,7 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Karmic Lesson"
                 value={keramicText}></ValueBox>
+                
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -716,6 +832,29 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Intutive Plane of Expression"
                 value={intPlaneText}></ValueBox>
+                {/* numners:{
+                  lifePathNumber:lpnText,
+                  birthDayNumber:bnText,
+                  expressionDestiny:exp,
+                  minorExpression:mExp,
+                  soulUrge:desireText,
+                  minorSoulUrger:mDesireText,
+                  personality:personText,
+                  minorPersonality:mPersonText,
+                  maturity:maturityText,
+                  attitude:attitudeText,
+                  lifePathExpBrdige:lpExpBrText,
+                  heartDesirePersonaliyBriger:hdPerBrText,
+                  rationalThaughtNumber:rtnText,
+                  balanceNumber:balanceText,
+                  subConNumber:subConText,
+                  kermicLesson:keramicText,
+                  hiddenPassion:hiddenPassionText,
+                  physicalPlane:phyPlaneText,
+                  mentalPlane:menPlaneText,
+                  intiuativePlane:intPlaneText,
+                  emotionalPlane:emotPlaneText,
+                } */}
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
