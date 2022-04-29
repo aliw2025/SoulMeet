@@ -101,6 +101,7 @@ const SummaryScreen = props => {
               style={{alignSelf: 'center', marginTop: -5}}
               source={indeicator}
             />
+            <ScrollView>
             <Text
               style={{
                 textAlign: 'center',
@@ -336,6 +337,7 @@ const SummaryScreen = props => {
                   btnAction={showModal}></ButtonWithBg>
               </View>
             </View>
+            </ScrollView>
           </ImageBackground>
         </View>
         {modalVisible && (
