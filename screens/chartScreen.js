@@ -97,6 +97,9 @@ const ChartScreen = props => {
     // if (arr.length === 1) {
     //   return +arr[0];
     // }
+    if(arr.length == 0){
+      return 0;
+    }
     let total = arr.reduce((acc, val) => acc + val);
     if (total < 10 || total == 11 || total == 22 || total == 33) {
       return total;
@@ -196,7 +199,6 @@ const ChartScreen = props => {
   
   function calExpressionNumber(fname, mname, lname) {
     let c = 'c';
-
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
@@ -406,9 +408,21 @@ const ChartScreen = props => {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-    var fval = fname[0].charCodeAt(0) - 96;
-    var mval = mname[0].charCodeAt(0) - 96;
-    var lval = lname[0].charCodeAt(0) - 96;
+
+    var fval = 0;
+    if(fname.length!=0){
+       fval = fname[0].charCodeAt(0) - 96;
+    }
+    var mval = 0;
+    if(mname.length!=0){
+       mval = mname[0].charCodeAt(0) - 96;
+    }
+
+    var lval = 0;
+    if(lname.length!=0){
+       lval = lname[0].charCodeAt(0) - 96;
+    }
+   
     // console.log(fval);
     // console.log(mval);
     // console.log(lval);

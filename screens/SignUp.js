@@ -44,7 +44,6 @@ const SignUp = ({navigation}) => {
 
   // if (initializing) return null;
 
-
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
@@ -52,9 +51,9 @@ const SignUp = ({navigation}) => {
       console.log(user);
       navigation.navigate('SelectLanguage', {name: 'Jane'});
     }
-   
     if (initializing) setInitializing(false);
   }
+
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);

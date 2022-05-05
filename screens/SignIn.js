@@ -36,6 +36,7 @@ const SignIn = ({navigation}) => {
     const status = sigInUser({email:emailText,password:passText});
    
   };
+
   function sigInUser(user) {
     var returnStatus='d';
     auth()
@@ -64,10 +65,11 @@ const SignIn = ({navigation}) => {
           Alert.alert("ERROR", error.code);
         }
       
-        
       });
       
   }
+
+
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
@@ -79,6 +81,7 @@ const SignIn = ({navigation}) => {
       console.log(user);
       navigation.navigate('SelectLanguage', {name: 'Jane'});
     }
+    
     if (initializing) setInitializing(false);
   }
 

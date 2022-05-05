@@ -22,12 +22,13 @@ const ButtonWithTick = props => {
   [textColor,setTextColor] = useState(props.textColor);
   [bgColor,setBgColor] = useState(props.bgColor);
   [fontType,setFontType] = useState(props.fontType);
+  
   const btnAction = params => {
     console.log(params);
     props.navigation.navigate(params, {name: 'Jane'});
   };
   return (
-    <TouchableHighlight onPress={() => btnAction(props.path)} underlayColor="white">
+    <TouchableHighlight  onPress={props.btnAction}  underlayColor="white">
       <View  style={[{backgroundColor:bgColor},{borderColor:borderColor},styles.btnOrange]}>
       <Text  style={[{color:textColor,fontWeight:fontType},styles.buttonTxt,]}>{props.text} </Text>
       <Image style={[{tintColor:textColor},styles.arrow]} source={tick} />

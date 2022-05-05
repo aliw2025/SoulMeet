@@ -127,6 +127,7 @@ const WhoAm = props => {
               borderColor="#E8E6EA"
               text="Woman"
               image={buttonBgOrange}
+              btnAction={navigationAction}
               // navigation={navigation}
             ></ButtonWithTick>
           </View>
@@ -139,6 +140,7 @@ const WhoAm = props => {
               borderColor="#FFC700"
               text="Man"
               image={buttonBgOrange}
+              btnAction={navigationAction}
               //  navigation={navigation}
             ></ButtonWithTick>
           </View>
@@ -150,6 +152,7 @@ const WhoAm = props => {
               borderColor="#E8E6EA"
               text="Choose Another"
               image={buttonBgOrange}
+              btnAction={navigationAction}
               // navigation={navigation}
             ></ButtonWithTick>
           </View>

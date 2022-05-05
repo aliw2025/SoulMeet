@@ -206,8 +206,8 @@ const BirthDayScreen = ({navigation}) => {
   initYears();
 
   var db = firestore();
-  console.log('adding data');
-  console.log('user db os '+db.collection('users'));
+  // console.log('adding data');
+  // console.log('user db os '+db.collection('users'));
 //   db.collection("users").add({
 //     first: "Ada",
 //     last: "Lovelace",
