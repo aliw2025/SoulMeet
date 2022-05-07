@@ -39,6 +39,14 @@ const windowHeight = Dimensions.get('window').height;
 
 //  the screen component
 const SummaryScreen = props => {
+  var day = props.route.params.day;
+  var month = props.route.params.month;
+  var year = props.route.params.year;
+  console.log('fuck year : '+year);
+  var fname = props.route.params.fname;
+  var mname = props.route.params.mname;
+  var lname = props.route.params.lname;
+  var navigation = props.navigation;
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -46,16 +54,100 @@ const SummaryScreen = props => {
   // var day = props.route.params.day;
   // var month = props.route.params.month;
   // var year = props.route.params.year;
-  var day = 20;
-  var month = 2;
-  var year = 1996;
+  // var day = 20;
+  // var month = 2;
+  // var year = 1996;
   var stval = '';
+  const sum = (arr = []) => {
+    // if (arr.length === 1) {
+    //   return +arr[0];
+    // }
+    if(arr.length == 0){
+      return 0;
+    }
+    let total = arr.reduce((acc, val) => acc + val);
+    // if (total < 10 || total == 11 || total == 22 || total == 33) {
+    //   return total;
+    // }
+    if (total < 10 ) {
+      return total;
+    }
+    return sum(String(total).split('').map(Number));
+  };
+  const TransitNumberMental = (mname,age) =>{
+    var mArr = [];
+    var total = 0;
+    mname = mname.toLowerCase();
+    var fval = mname.split('').map(val => {
+      var num = val.charCodeAt(0) - 96
+      var x = sum([num]);
+      total = total + x;
+      // mArr.push({ch:val,num:x});
+      for(var i=0;i<x;i++){
+        mArr.push(val);
+      }
+     
+    });
+    var mod = age % total;
+    if(mod == 0){
+      mod = total;
+    }
+    console.log(mArr);
+    console.log(total); 
+    console.log(mod);
+    console.log(mArr[mod-1]);
+    
+     console.log(d);
+     console.log(dob);  
+      
+    return mArr[mod-1]
+
+  }
+  var d =  '';
+  d = d.concat(month,'/',day,'/',year);
+  var dob = new Date(d);
+  console.log('year : '+year);
+  //calculate month difference from current date in time  
+  var month_diff = Date.now() - dob.getTime();  
+      
+  //convert the calculated difference in date format  
+  var age_dt = new Date(month_diff);   
+    
+  //extract year from date      
+  var years = age_dt.getUTCFullYear();  
+    
+  //now calculate the age of the user  
+  var age = Math.abs(years - 1970);  
+    
+  //display the calculated age  
+  console.log("Age of the date entered: " + age + " years");
+  var l1 = TransitNumberMental(fname,age);
+  var l2 = TransitNumberMental(mname,age);
+  var l3 = TransitNumberMental(lname,age);
+  var l1c = l1.charCodeAt(0) - 96;
+  var l2c = l2.charCodeAt(0) - 96;
+  var l3c = l3.charCodeAt(0) - 96;
+  var cycle = sum([sum([l1c]),sum([l2c]),sum([l3c])]);
+  console.log('cycle:'+cycle);
+  const personalNumbers = (fname) =>{
+
+    
+
+
+  }
+  const TransitNumberSpirtual = (lname) =>{
+
+
+
+  }
+
   const navigationAction = (screen) => {
    
-    console.log('fuck '+screen);
+    // console.log('fuck '+screen);
     // setIsModalVisible(true);
     props.navigation.navigate(screen,{name:'wase'});
   };
+
   const showModal =()=> {
     setModalVisible(true);
   }

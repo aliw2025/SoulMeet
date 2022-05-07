@@ -684,7 +684,15 @@ const ChartScreen = props => {
     if (user) {
       saveData();
     }
-    navigation.navigate("SummaryScreen",{name:'wase'});
+    console.log('nav'+year);
+    navigation.navigate("SummaryScreen",{
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+    });
   }
   var indeicator  = require('../assets/indicator.png')
   var fullName = '';
