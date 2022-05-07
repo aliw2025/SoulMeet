@@ -32,7 +32,6 @@ const flame = require('../assets/flame.png');
 const couple = require('../assets/couple.png');
 const network = require('../assets/network.png');
 
-
 const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -42,7 +41,7 @@ const SummaryScreen = props => {
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
-  console.log('fuck year : '+year);
+  console.log('fuck year : ' + year);
   var fname = props.route.params.fname;
   var mname = props.route.params.mname;
   var lname = props.route.params.lname;
@@ -58,99 +57,128 @@ const SummaryScreen = props => {
   // var month = 2;
   // var year = 1996;
   var stval = '';
-  const sum = (arr = []) => {
+  const simpleSum = (arr = []) => {
     // if (arr.length === 1) {
     //   return +arr[0];
     // }
-    if(arr.length == 0){
+    if (arr.length == 0) {
       return 0;
     }
     let total = arr.reduce((acc, val) => acc + val);
     // if (total < 10 || total == 11 || total == 22 || total == 33) {
     //   return total;
     // }
-    if (total < 10 ) {
+    if (total < 10) {
       return total;
     }
-    return sum(String(total).split('').map(Number));
+    return simpleSum(String(total).split('').map(Number));
   };
-  const TransitNumberMental = (mname,age) =>{
+  const sum = (arr = []) => {
+    // if (arr.length === 1) {
+    //   return +arr[0];
+    // }
+    if (arr.length == 0) {
+      return 0;
+    }
+    let total = arr.reduce((acc, val) => acc + val);
+    if (total < 10 || total == 11 || total == 22 || total == 33) {
+      return total;
+    }
+    return simpleSum(String(total).split('').map(Number));
+  };
+
+  const TransitNumber = (mname, age) => {
     var mArr = [];
     var total = 0;
     mname = mname.toLowerCase();
     var fval = mname.split('').map(val => {
-      var num = val.charCodeAt(0) - 96
-      var x = sum([num]);
+      var num = val.charCodeAt(0) - 96;
+      var x = simpleSum([num]);
+      // console.log('x:' +x);
       total = total + x;
       // mArr.push({ch:val,num:x});
-      for(var i=0;i<x;i++){
+      for (var i = 0; i < x; i++) {
         mArr.push(val);
       }
-     
     });
     var mod = age % total;
-    if(mod == 0){
-      mod = total;
-    }
+    // if (mod == 0) {
+    //   mod = total;
+    // }
     console.log(mArr);
-    console.log(total); 
+    console.log(total);
     console.log(mod);
-    console.log(mArr[mod-1]);
-    
-     console.log(d);
-     console.log(dob);  
-      
-    return mArr[mod-1]
-
-  }
-  var d =  '';
-  d = d.concat(month,'/',day,'/',year);
-  var dob = new Date(d);
-  console.log('year : '+year);
-  //calculate month difference from current date in time  
-  var month_diff = Date.now() - dob.getTime();  
-      
-  //convert the calculated difference in date format  
-  var age_dt = new Date(month_diff);   
-    
-  //extract year from date      
-  var years = age_dt.getUTCFullYear();  
-    
-  //now calculate the age of the user  
-  var age = Math.abs(years - 1970);  
-    
-  //display the calculated age  
-  console.log("Age of the date entered: " + age + " years");
-  var l1 = TransitNumberMental(fname,age);
-  var l2 = TransitNumberMental(mname,age);
-  var l3 = TransitNumberMental(lname,age);
-  var l1c = l1.charCodeAt(0) - 96;
-  var l2c = l2.charCodeAt(0) - 96;
-  var l3c = l3.charCodeAt(0) - 96;
-  var cycle = sum([sum([l1c]),sum([l2c]),sum([l3c])]);
-  console.log('cycle:'+cycle);
-  const personalNumbers = (fname) =>{
-
-    
-
-
-  }
-  const TransitNumberSpirtual = (lname) =>{
-
-
-
-  }
-
-  const navigationAction = (screen) => {
-   
-    // console.log('fuck '+screen);
-    // setIsModalVisible(true);
-    props.navigation.navigate(screen,{name:'wase'});
+    console.log(mArr[mod]);
+    // console.log(d);
+    // console.log(dob);
+    return mArr[mod];
   };
 
-  const showModal =()=> {
-    setModalVisible(true);
+  function calculateAge(day, month, year) {
+    var d = '';
+    d = d.concat(month, '/', day, '/', year);
+    var dob = new Date(d);
+    //calculate month difference from current date in time
+    var month_diff = Date.now() - dob.getTime();
+    //convert the calculated difference in date format
+    var age_dt = new Date(month_diff);
+    //extract year from date
+    var years = age_dt.getUTCFullYear();
+    //now calculate the age of the user
+    var age = Math.abs(years - 1970);
+    console.log('Age of the date entered: ' + age + ' years');
+    return age;
   }
+
+  function calculateCycle(physicalTransit, mentalTransit, spirtualTransit) {
+    var physicalTransitc = physicalTransit.charCodeAt(0) - 96;
+    var mentalTransitc = mentalTransit.charCodeAt(0) - 96;
+    var spirtualTransitc = spirtualTransit.charCodeAt(0) - 96;
+    var cycle = simpleSum([
+      simpleSum([physicalTransitc]),
+      simpleSum([mentalTransitc]),
+      simpleSum([spirtualTransitc]),
+    ]);
+    console.log('cycle:' + cycle);
+    return cycle;
+  }
+
+  var currentYear = new Date().getFullYear();
+  const personalNumbers = (day, month) => {
+    console.log('year: ' + currentYear);
+    var d = simpleSum([day]);
+    var m = simpleSum([month]);
+    var y = simpleSum([currentYear]);
+    var personalYear = simpleSum([d, m, y]);
+    console.log('PersonalYear: ' + personalYear);
+    var personalMonth = simpleSum([m, personalYear]);
+    var personalDay = simpleSum([d, personalMonth]);
+    return [personalYear, personalMonth, personalDay];
+  };
+  
+
+  //display the calculated age
+  var age = calculateAge(day, month, year);
+  var physicalTransit = TransitNumber(fname, age);
+  var mentalTransit = TransitNumber(mname, age);
+  var spirtualTransit = TransitNumber(lname, age);
+  console.log('phy: ' + physicalTransit);
+  console.log('men: ' + mentalTransit);
+  console.log('spr: ' + spirtualTransit);
+  var cycle = calculateCycle(physicalTransit, mentalTransit, spirtualTransit);
+  var [personalYear, personalMonth, personalDay] = personalNumbers(day, month);
+
+  personalNumbers(day, month);
+
+  const navigationAction = screen => {
+    // console.log('fuck '+screen);
+    // setIsModalVisible(true);
+    props.navigation.navigate(screen, {name: 'wase'});
+  };
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
   const onClick = () => {
     console.log('hi waseem');
     setModalVisible(false);
@@ -194,241 +222,242 @@ const SummaryScreen = props => {
               source={indeicator}
             />
             <ScrollView>
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              Percentage of Your Numbers
-            </Text>
-            <View style={{height: 80, marginTop: 10}}>
-              <View
+              <Text
                 style={{
-                  // backgroundColor:'purple',
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 40,
-                  marginRight: 40,
+                  textAlign: 'center',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: 16,
                 }}>
-                <ResultBox
-                  haveHeading={true}
-                  heading={1}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={2}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={3}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={4}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={5}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={6}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={7}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={8}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading={9}
-                  bodyText="15%"
-                  width={box9}></ResultBox>
+                Percentage of Your Numbers
+              </Text>
+              <View style={{height: 80, marginTop: 10}}>
+                <View
+                  style={{
+                    // backgroundColor:'purple',
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 40,
+                    marginRight: 40,
+                  }}>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={1}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={2}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={3}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={4}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={5}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={6}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={7}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={8}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading={9}
+                    bodyText="15%"
+                    width={box9}></ResultBox>
+                </View>
               </View>
-            </View>
 
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              Relationship Compatibility
-            </Text>
-            <View style={{height: 80, marginTop: 10}}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 40,
-                  marginRight: 40,
+                  textAlign: 'center',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: 16,
                 }}>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={1}
-                  bodyText="1"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={2}
-                  bodyText="2"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={3}
-                  bodyText="3"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={4}
-                  bodyText="4"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={5}
-                  bodyText="5"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={6}
-                  bodyText="6"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={7}
-                  bodyText="7"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={8}
-                  bodyText="8"
-                  width={box9}></ResultBox>
-                <ResultBox
-                  height={box2}
-                  haveHeading={false}
-                  heading={9}
-                  bodyText="9"
-                  width={box9}></ResultBox>
+                Relationship Compatibility
+              </Text>
+              <View style={{height: 80, marginTop: 10}}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 40,
+                    marginRight: 40,
+                  }}>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={1}
+                    bodyText="1"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={2}
+                    bodyText="2"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={3}
+                    bodyText="3"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={4}
+                    bodyText="4"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={5}
+                    bodyText="5"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={6}
+                    bodyText="6"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={7}
+                    bodyText="7"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={8}
+                    bodyText="8"
+                    width={box9}></ResultBox>
+                  <ResultBox
+                    height={box2}
+                    haveHeading={false}
+                    heading={9}
+                    bodyText="9"
+                    width={box9}></ResultBox>
+                </View>
               </View>
-            </View>
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginLeft: 40,
-                marginRight: 40,
-              }}>
-              Yearly Forecast Cycles at 24 years of age - 2022
-            </Text>
-            <View style={{height: 80, marginTop: 15}}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  textAlign: 'center',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: 16,
                   marginLeft: 40,
                   marginRight: 40,
                 }}>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Physical Transit"
-                  bodyText="15%"
-                  // height= {50}
-                  width={box4}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Mental Transit"
-                  bodyText="15%"
-                  width={box4}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Spirtual Transit"
-                  bodyText="15%"
-                  width={box4}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Essence
+                Yearly Forecast Cycles at {age} years of age - {currentYear}
+              </Text>
+              <View style={{height: 80, marginTop: 15}}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 40,
+                    marginRight: 40,
+                  }}>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Physical Transit"
+                    bodyText={physicalTransit}
+                    // height= {50}
+                    width={box4}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Mental Transit"
+                    bodyText={mentalTransit}
+                    width={box4}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Spirtual Transit"
+                    bodyText={spirtualTransit}
+                    width={box4}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Essence
                   Cycle"
-                  bodyText="15%"
-                  width={box4}></ResultBox>
+                    bodyText={cycle}
+                    width={box4}></ResultBox>
+                </View>
               </View>
-            </View>
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginLeft: 40,
-                marginRight: 40,
-              }}>
-              Yearly/Monthly/Daily Personal Cycles
-            </Text>
-            <View style={{height: 80, marginTop: 15}}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  textAlign: 'center',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontSize: 16,
                   marginLeft: 40,
                   marginRight: 40,
                 }}>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Personal Year 2022"
-                  bodyText="15%"
-                  width={box3}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Personal Month Feburary"
-                  bodyText="15%"
-                  width={box3}></ResultBox>
-                <ResultBox
-                  haveHeading={true}
-                  heading="Personal Day Thursday"
-                  bodyText="15%"
-                  width={box3}></ResultBox>
+                Yearly/Monthly/Daily Personal Cycles
+              </Text>
+              <View style={{height: 80, marginTop: 15}}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 40,
+                    marginRight: 40,
+                  }}>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Personal Year 2022"
+                    bodyText={personalYear}
+                    width={box3}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Personal Month Feburary"
+                    bodyText={personalMonth}
+                    width={box3}></ResultBox>
+                  <ResultBox
+                    haveHeading={true}
+                    heading="Personal Day Thursday"
+                    bodyText={personalDay}
+                    width={box3}></ResultBox>
+                </View>
               </View>
-            </View>
-            <View style={[{flex: 1, marginTop: 20}]}>
-              <View style={[{marginLeft: 40, marginTop: 10, marginBottom: 30}]}>
-                <ButtonWithBg
-                  path="ProfileDetails1"
-                  active="true"
-                  text="Next"
-                  btnAction={showModal}></ButtonWithBg>
+              <View style={[{flex: 1, marginTop: 20}]}>
+                <View
+                  style={[{marginLeft: 40, marginTop: 10, marginBottom: 30}]}>
+                  <ButtonWithBg
+                    path="ProfileDetails1"
+                    active="true"
+                    text="Next"
+                    btnAction={showModal}></ButtonWithBg>
+                </View>
               </View>
-            </View>
             </ScrollView>
           </ImageBackground>
         </View>
@@ -440,7 +469,7 @@ const SummaryScreen = props => {
               marginLeft: 40,
               marginRight: 40,
               // height: 200,
-              borderRadius:40,
+              borderRadius: 40,
               position: 'absolute',
               top: windowHeight * 0.5 - 200,
               left: 0,
@@ -451,7 +480,9 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  onPress={name =>
+                    navigationAction({name: 'SuggestionScreen'})
+                  }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={flame} />
                     <Text style={styles.name}>Twin flame match</Text>
@@ -461,7 +492,9 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  onPress={name =>
+                    navigationAction({name: 'SuggestionScreen'})
+                  }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={couple} />
                     <Text style={styles.name}>Twin flame match</Text>
@@ -477,7 +510,9 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={(name) => navigationAction({name:'SuggestionScreen'})}>
+                  onPress={name =>
+                    navigationAction({name: 'SuggestionScreen'})
+                  }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={couple} />
                     <Text style={styles.name}>Twin flame match</Text>
