@@ -9,6 +9,7 @@ import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 // import {Modal} from '../components/Modal';
 
+
 import {
   SafeAreaView,
   ScrollView,
@@ -27,6 +28,7 @@ import {
   ImageBackground,
 } from 'react-native';
 
+
 const image = require('../assets/grad.png');
 const flame = require('../assets/flame.png');
 const couple = require('../assets/couple.png');
@@ -41,11 +43,18 @@ const SummaryScreen = props => {
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
-  console.log('fuck year : ' + year);
+ 
   var fname = props.route.params.fname;
   var mname = props.route.params.mname;
   var lname = props.route.params.lname;
   var navigation = props.navigation;
+  if(mname == ''){
+    mname = lname;
+  }else if(lname == ''){
+    lname = mname;
+  }
+
+  
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -175,7 +184,14 @@ const SummaryScreen = props => {
     // setIsModalVisible(true);
     props.navigation.navigate(screen, {name: 'wase'});
   };
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+  ];
 
+  const d = new Date();
+  currentMonth = monthNames[d.getMonth()];
+  var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var currentDay = days[d.getDay()];
   const showModal = () => {
     setModalVisible(true);
   };
@@ -433,17 +449,17 @@ const SummaryScreen = props => {
                   }}>
                   <ResultBox
                     haveHeading={true}
-                    heading="Personal Year 2022"
+                    heading={"Personal Year ".concat(currentYear)}
                     bodyText={personalYear}
                     width={box3}></ResultBox>
                   <ResultBox
                     haveHeading={true}
-                    heading="Personal Month Feburary"
+                    heading={"Personal Month ".concat(currentMonth)}
                     bodyText={personalMonth}
                     width={box3}></ResultBox>
                   <ResultBox
                     haveHeading={true}
-                    heading="Personal Day Thursday"
+                    heading={"Personal Day ".concat(currentDay)}
                     bodyText={personalDay}
                     width={box3}></ResultBox>
                 </View>
