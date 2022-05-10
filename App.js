@@ -12,10 +12,10 @@
 //  http://numerology.center/pinnacle_cycles.php
 //  https://www.worldnumerology.com/numerology-chart-calculator.php
 //  https://numerology.findyourfate.com/online-numerology/rationalfirst.php
-
+//  https://play.google.com/store/apps/details?id=com.mirofox.numerologija
 // reference links to the wbstie
 // libs
-import React from 'react';
+import React ,{ createContext }from 'react';
 import type {Node} from 'react';
 import {Dimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -37,9 +37,9 @@ import MatchesScreen from './screens/MatchesScreen';
 import MessagesScreen from './screens/MessagesScreen';
 import SignIn from './screens/SignIn'
 import SignUp from './screens/SignUp'
+import {FbUser}  from './Modals/user'
 
 // import ShadowTest from './screens/testShadow';
-
 // creating variables
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
@@ -67,8 +67,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const image = require('./grad.png');
+const FirebaseContext = createContext({})
 // main component of the app
 const App: () => Node = () => {
+  
+
+  global.fbuser  = new FbUser('bmw','2013');
+  
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {

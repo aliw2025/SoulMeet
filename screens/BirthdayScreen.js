@@ -9,6 +9,7 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {Car} from '../Modals/user'
 
 
 // react items
@@ -34,6 +35,8 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 var pday = 0;
 const BirthDayScreen = ({navigation}) => {
+  console.log('user is : ');
+  fbuser.getData();
   // array for days
   var day = [];
   // array for years
@@ -55,13 +58,12 @@ const BirthDayScreen = ({navigation}) => {
   ];
   //  variable for storing location of the arrowDown image
   const image2 = require('../assets/arrowDown.png');
-
+  
   // state variables for days
   const [days, SetDays] = useState('12');
   const [years,SetYears] = useState('2022');
   const [months,SetMonths] = useState('Feburary'); 
   const [nmonths,SetNmonths] = useState(2); 
-  
   const [zIndex1,setZIndex1] = useState(0);
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
@@ -74,12 +76,11 @@ const BirthDayScreen = ({navigation}) => {
   const [user, setUser] = useState();
   
   // if (initializing) return null;
-
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
     if(user){
-      console.log(user);
+      // console.log(user);
       // navigation.navigate('SelectLanguage', {name: 'Jane'});
     }
    
@@ -95,7 +96,6 @@ const BirthDayScreen = ({navigation}) => {
     console.log('initizing');
     return null;
   }
-  
 
   //  function to initlaize the days
   function initDays() {

@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
@@ -7,6 +8,8 @@ import {Dimensions} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
+
+
 
 // react items
 import {
@@ -31,6 +34,7 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 var pday = 0;
 const BirthDayScreen = ({navigation}) => {
+  console.log('user is :');
   // array for days
   var day = [];
   // array for years

@@ -54,10 +54,10 @@ const SummaryScreen = props => {
     lname = mname;
   }
 
-  
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
+  
   // console.log(props.route.params);
   // var day = props.route.params.day;
   // var month = props.route.params.month;
@@ -122,6 +122,7 @@ const SummaryScreen = props => {
     // console.log(dob);
     return mArr[mod];
   };
+  
 
   function calculateAge(day, month, year) {
     var d = '';
@@ -180,7 +181,7 @@ const SummaryScreen = props => {
   personalNumbers(day, month);
 
   const navigationAction = screen => {
-    // console.log('fuck '+screen);
+   
     // setIsModalVisible(true);
     props.navigation.navigate(screen, {name: 'wase'});
   };
