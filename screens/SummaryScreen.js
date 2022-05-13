@@ -82,6 +82,7 @@ const SummaryScreen = props => {
     }
     return simpleSum(String(total).split('').map(Number));
   };
+
   const sum = (arr = []) => {
     // if (arr.length === 1) {
     //   return +arr[0];
@@ -95,7 +96,7 @@ const SummaryScreen = props => {
     }
     return simpleSum(String(total).split('').map(Number));
   };
-
+  // get the transit nnumbers
   const TransitNumber = (mname, age) => {
     var mArr = [];
     var total = 0;
@@ -114,30 +115,31 @@ const SummaryScreen = props => {
     // if (mod == 0) {
     //   mod = total;
     // }
-    console.log(mArr);
-    console.log(total);
-    console.log(mod);
-    console.log(mArr[mod]);
+    // console.log(mArr);
+    // console.log(total);
+    // console.log(mod);
+    // console.log(mArr[mod]);
     // console.log(d);
     // console.log(dob);
     return mArr[mod];
   };
   
-
+  // getting the age 
   function calculateAge(day, month, year) {
+    
     var d = '';
-    d = d.concat(month, '/', day, '/', year);
-    var dob = new Date(d);
-    //calculate month difference from current date in time
-    var month_diff = Date.now() - dob.getTime();
-    //convert the calculated difference in date format
-    var age_dt = new Date(month_diff);
-    //extract year from date
-    var years = age_dt.getUTCFullYear();
-    //now calculate the age of the user
-    var age = Math.abs(years - 1970);
-    console.log('Age of the date entered: ' + age + ' years');
+    d = d.concat(year, '-', month, '-', day);
+    var today = new Date();
+    var birthDate = new Date(d);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age--;
+    }
+    console.log('ages: '+age);
     return age;
+
   }
 
   function calculateCycle(physicalTransit, mentalTransit, spirtualTransit) {
@@ -155,18 +157,20 @@ const SummaryScreen = props => {
 
   var currentYear = new Date().getFullYear();
   const personalNumbers = (day, month) => {
-    console.log('year: ' + currentYear);
-    var d = simpleSum([day]);
-    var m = simpleSum([month]);
-    var y = simpleSum([currentYear]);
-    var personalYear = simpleSum([d, m, y]);
-    console.log('PersonalYear: ' + personalYear);
-    var personalMonth = simpleSum([m, personalYear]);
-    var personalDay = simpleSum([d, personalMonth]);
+    
+    var s = new Date();
+    var d = sum([s.getDate()]);
+    var m = sum([s.getMonth()+1]);
+    
+    var y = sum([currentYear]);
+    var bDay = sum([day]);
+    var bMonth = sum([month]);
+    var personalYear = sum([bDay, bMonth, y]);
+    var personalMonth = sum([m, personalYear]);
+    var personalDay = sum([d, personalMonth]);
     return [personalYear, personalMonth, personalDay];
   };
   
-
   //display the calculated age
   var age = calculateAge(day, month, year);
   var physicalTransit = TransitNumber(fname, age);
@@ -179,9 +183,7 @@ const SummaryScreen = props => {
   var [personalYear, personalMonth, personalDay] = personalNumbers(day, month);
 
   personalNumbers(day, month);
-
   const navigationAction = screen => {
-   
     // setIsModalVisible(true);
     props.navigation.navigate(screen, {name: 'wase'});
   };
@@ -190,19 +192,19 @@ const SummaryScreen = props => {
   ];
 
   const d = new Date();
-  currentMonth = monthNames[d.getMonth()];
+  var currentMonth = monthNames[d.getMonth()];
   var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var currentDay = days[d.getDay()];
   const showModal = () => {
     setModalVisible(true);
   };
   const onClick = () => {
-    console.log('hi waseem');
+    
     setModalVisible(false);
   };
   var box9 = (windowWidth - 80 - 2 * 9) / 9.0;
   box9 = box9 - 1;
-  console.log(box9);
+  // console.log(box9);
   var box4 = (windowWidth - 80 - 2 * 4) / 4.0;
   box4 = box4 - 1;
   var box3 = (windowWidth - 80 - 2 * 3) / 3.0;

@@ -13,6 +13,9 @@
 //  https://www.worldnumerology.com/numerology-chart-calculator.php
 //  https://numerology.findyourfate.com/online-numerology/rationalfirst.php
 //  https://play.google.com/store/apps/details?id=com.mirofox.numerologija
+//  https://www.paulineedward.com/calculations/#:~:text=The%20Personal%20Month%20Number&text=To%20calculate%20a%20Personal%20Month,12%2C%201%20%2B%202%20%3D%203
+//  https://youtu.be/e3oOSQmP_v8
+
 // reference links to the wbstie
 // libs
 import React ,{ createContext }from 'react';
