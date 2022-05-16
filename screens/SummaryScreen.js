@@ -9,7 +9,6 @@ import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 // import {Modal} from '../components/Modal';
 
-
 import {
   SafeAreaView,
   ScrollView,
@@ -28,15 +27,14 @@ import {
   ImageBackground,
 } from 'react-native';
 
-
 const image = require('../assets/grad.png');
 const flame = require('../assets/flame.png');
 const couple = require('../assets/couple.png');
 const network = require('../assets/network.png');
-
 const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 
 //  the screen component
 const SummaryScreen = props => {
@@ -57,7 +55,6 @@ const SummaryScreen = props => {
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  
   // console.log(props.route.params);
   // var day = props.route.params.day;
   // var month = props.route.params.month;
@@ -124,6 +121,7 @@ const SummaryScreen = props => {
     return mArr[mod];
   };
   
+
   // getting the age 
   function calculateAge(day, month, year) {
     
@@ -141,6 +139,7 @@ const SummaryScreen = props => {
     return age;
 
   }
+  
 
   function calculateCycle(physicalTransit, mentalTransit, spirtualTransit) {
     var physicalTransitc = physicalTransit.charCodeAt(0) - 96;

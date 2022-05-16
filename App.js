@@ -191,7 +191,7 @@ const App: () => Node = () => {
 //             </View>
 //             <View style={[styles.container2]}>
 //               <View style={[styles.inside]}></View>
-//             </View>
+//             </View>     
 //             <View style={[styles.container3]}>
 //               <View style={[styles.inside]}></View>
 //             </View>

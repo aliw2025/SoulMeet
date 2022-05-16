@@ -36,7 +36,7 @@ const buttonBgOrange = require('../assets/orange.png');
 var pday = 0;
 const BirthDayScreen = ({navigation}) => {
   console.log('user is : ');
-  fbuser.getData();
+  fbuser.getData(); 
   // array for days
   var day = [];
   // array for years
