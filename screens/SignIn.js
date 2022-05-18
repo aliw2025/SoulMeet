@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useContext} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -6,6 +6,7 @@ import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions,Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import CustomTextInput from '../components/CustomTextInput';
+import {AuthContext} from '../navigation/AuthProvider'
 
 import {
   SafeAreaView,
@@ -29,6 +30,8 @@ const SignIn = ({navigation}) => {
   const [emailText,setEmailText] = useState();
   // store value of password feild
   const [passText,setPassText] = useState();
+  const {login}  = useContext(AuthContext);
+
 
   // function to sign in user
   const navigationAction = params => {
@@ -38,62 +41,11 @@ const SignIn = ({navigation}) => {
   };
 
   function sigInUser(user) {
-    var returnStatus='d';
-    auth()
-      .signInWithEmailAndPassword(
-        user.email,
-        user.password,
-      )
-      .then(() => {
-        //   console.log('User account created & signed in!');
-        console.log('User account & signed in!');
-        
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-          Alert.alert("ERROR", "That email address is already in use!");
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-          Alert.alert("ERROR", "That email address is invalid!");
-        }else if(error.code =='auth/invalid-email'){
-          Alert.alert("ERROR", "password is invalid!");
-        }
-        else{
-          Alert.alert("ERROR", error.code);
-        }
-      
-      });
+   console.log(' user emai is :' + user.email);
+    login(user.email,user.password);
       
   }
 
-
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    
-    if(user){
-      console.log(user);
-      navigation.navigate('SelectLanguage', {name: 'Jane'});
-    }
-    
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) {
-    console.log('null');
-    return null;
-  }
   const onSelect = (country: Country) => {
     console.log(country);
    

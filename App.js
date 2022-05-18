@@ -41,6 +41,7 @@ import MessagesScreen from './screens/MessagesScreen';
 import SignIn from './screens/SignIn'
 import SignUp from './screens/SignUp'
 import {FbUser}  from './Modals/user'
+import Providers from './navigation'
 
 // import ShadowTest from './screens/testShadow';
 // creating variables
@@ -84,96 +85,7 @@ const App: () => Node = () => {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="SelectLanguage"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={SelectLanguage}
-        />
-        <Stack.Screen
-          name="AreYouHere"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={AreYouHere}
-        />
-        <Stack.Screen
-          name="BirthDay"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={BirthDayScreen}
-        />
-        <Stack.Screen
-          name="ProfileDetails1"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ProfileDetails1}
-        />
-        <Stack.Screen
-          name="ProfileDetails2"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ProfileDetails2}
-        />
-        <Stack.Screen
-          name="WhoAm"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={WhoAm}
-        />
-        <Stack.Screen
-          name="ChartScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ChartScreen}
-        />
-        <Stack.Screen
-          name="SummaryScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={SummaryScreen}
-        />
-        <Stack.Screen
-          name="SuggestionScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={SuggestionScreen}
-        />
-        <Stack.Screen
-          name="MatchProfileScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MatchProfileScreen}
-        />
-        <Stack.Screen
-          name="ItsAMatchScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ItsAMatchScreen}
-        />
-        <Stack.Screen
-          name="MatchesScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MatchesScreen}
-        />
-        <Stack.Screen
-          name="MessagesScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MessagesScreen}
-        />
-        
-      </Stack.Navigator>
-      
-    </NavigationContainer>
+     <Providers />
   );
 };
 

@@ -1,4 +1,5 @@
 import React, {createContext, useState} from 'react';
+import { View, StyleSheet, Button, Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 // import { GoogleSignin } from '@react-native-community/google-signin';
@@ -8,7 +9,23 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  function showError(error) { 
+    if (error.code === 'auth/email-already-in-use') {
+      console.log('That email address is already in use!');
+      Alert.alert("ERROR", "That email address is already in use!");
+    }
 
+    if (error.code === 'auth/invalid-email') {
+      console.log('That email address is invalid!');
+      Alert.alert("ERROR", "That email address is invalid!");
+    }else if(error.code =='auth/invalid-email'){
+      Alert.alert("ERROR", "password is invalid!");
+    }
+    else{
+      Alert.alert("ERROR", error.code);
+    }
+    
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -18,6 +35,7 @@ export const AuthProvider = ({children}) => {
           try {
             await auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
+            showError(e);
             console.log(e);
           }
         },
