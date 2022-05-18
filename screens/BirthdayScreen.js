@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useContext} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -10,6 +10,7 @@ import Picker from '../components/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {Car} from '../Modals/user'
+import {AuthContext} from '../navigation/AuthProvider'
 
 
 // react items
@@ -73,29 +74,8 @@ const BirthDayScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   // store reference of firebase user
-  const [user, setUser] = useState();
   
-  // if (initializing) return null;
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if(user){
-      // console.log(user);
-      // navigation.navigate('SelectLanguage', {name: 'Jane'});
-    }
-   
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) {
-    console.log('initizing');
-    return null;
-  }
+  const {user} = useContext(AuthContext);
 
   //  function to initlaize the days
   function initDays() {
@@ -198,6 +178,7 @@ const BirthDayScreen = ({navigation}) => {
     pday = days
     navigation.navigate("ProfileDetails1",{day: days,month:nmonths,year:years});
   }
+  
   function onSelect() {
     hideList();
   }
@@ -206,22 +187,7 @@ const BirthDayScreen = ({navigation}) => {
   initYears();
 
   var db = firestore();
-  // console.log('adding data');
-  // console.log('user db os '+db.collection('users'));
-//   db.collection("users").add({
-//     first: "Ada",
-//     last: "Lovelace",
-//     born: 1815
-// })
-// .then((docRef) => {
-//     console.log("Document written with ID: ", docRef.id);
-// })
-// .catch((error) => {
-//     console.error("Error adding document: ", error);
-// });
-
-
-
+ 
   return (
     <ImageBackground
       source={image}
@@ -237,6 +203,7 @@ const BirthDayScreen = ({navigation}) => {
           <View style={[styles.subHeading]}>
             <Text>  Please Choose your exact date of Birth</Text>
           </View>
+          {/* view to check  */}
           { (list1 || list2 || list3 ) &&
             <View style = {{
               position:'absolute',
@@ -244,12 +211,11 @@ const BirthDayScreen = ({navigation}) => {
               bottom:0,
               left:0,
               right:0,
-              // opacity:0.7,
             }}>
               <TouchableOpacity onPress={() => hideList()}>
               <View
                 style={{
-                  // backgroundColor: 'black',
+                  
                   width: '100%',
                   height: '100%',
                 }}></View>
@@ -262,11 +228,14 @@ const BirthDayScreen = ({navigation}) => {
               feildValue={days}
               btnAction={btnAction}></DropDown>
             {list1 && (
-              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
+              <View style = {{height:300}}>
+                 <View style={[{zIndex: zIndex1,position:'absolute'},styles.was]}>
                 <FlatListBasics
                   data={day}
                   onDaySelected={(index,item)=>onDaySelected({index,item})}></FlatListBasics>
               </View>
+              </View>
+             
             )}
           </View>
           <View style = {{zIndex :2}} >
