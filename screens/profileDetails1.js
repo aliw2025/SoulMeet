@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions,Keyboard} from 'react-native';
+import {Dimensions, Keyboard} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
-import CustomTextInput from '../components/CustomTextInput'
-
+import CustomTextInput from '../components/CustomTextInput';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 // react items
 import {
@@ -31,69 +32,127 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
-
-const ProfileDetails1 = (props) => {
-  const [koffset,setKoffset] = useState(0);
-  const [fname,setFname] = useState('');
-  const [mname,setMname] = useState('');
-  const [lname,setLname] = useState('');
-//   componentDidMount() {
-//     keyboardDidShowListener = Keyboard.addListener(
-//         'keyboardDidShow',
-//         keyboardDidShow,
-//     );
-//     keyboardDidHideListener = Keyboard.addListener(
-//         'keyboardDidHide',
-//         keyboardDidHide,
-//     );
-// }
-
-// componentWillUnmount() {
-//     keyboardDidShowListener.remove();
-//     keyboardDidHideListener.remove();
-// }
-// var pos = 'relative';
-
-// _keyboardDidShow(event) {
-//     // this.setState({
-//     //     keyboardOffset: event.endCoordinates.height,
-//     // })
-//     pos = 'absolute';
-//     setKoffset(event.endCoordinates.height)
-// }
-
-// _keyboardDidHide() {
-//   pos = 'relative';
-//   etKoffset(0)
-// }
-  // console.log(props.route.params);
+var per = 0.05;
+if(windowHeight<=667){
+  per = 0.01;
+}
+const ProfileDetails1 = props => {
+  const [koffset, setKoffset] = useState(0);
+  const [fname, setFname] = useState('');
+  const [mname, setMname] = useState('');
+  const [lname, setLname] = useState('');
+  const [usrData, setUsrData] = useState(undefined);
+  var imgBox = windowHeight * 0.1; 
+  
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
+  var pos = 'relative'
   console.log(day);
   console.log(month);
   console.log(year);
-  const [text, onChangeText] = React.useState("Useless Text");
-  const navigationAction = params => {
+  const [text, onChangeText] = React.useState('Useless Text');
+
+  function updateData(data) {
+    console.log('updating data ');
     
-    props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
+    
+    if (data) {
+      setUsrData(data);
+      setFname(data.fname);
+      setMname(data.mname);
+      setLname (data.lname);
+    } else {
+      console.log('error');
+      
+    }
   }
-  
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data = documentSnapshot.data();
+        console.log('User dataI: ', data);
+        updateData(data);
+      });
+    return () => subscriber();
+  }, []);
+  const navigationAction = params => {
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        fname: fname,
+        mname: mname,
+        lname: lname,
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
+    props.navigation.navigate('ProfileDetails2', {
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+    });
+  };
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const onKeyboardShow = event => {
+    pos = 'absolute';
+    setKeyboardOffset(event.endCoordinates.height);
+  };
+  const onKeyboardHide = () => {
+    pos = 'relative';
+    setKeyboardOffset(0);
+  };
+  const keyboardDidShowListener = useRef();
+  const keyboardDidHideListener = useRef();
+  console.log('ofset ' + keyboardOffset);
+  useEffect(() => {
+    // onKeyboardHide
+    // onKeyboardShow
+    keyboardDidShowListener.current = Keyboard.addListener('keyboardDidShow',onKeyboardShow);
+    keyboardDidHideListener.current = Keyboard.addListener('keyboardDidHide',onKeyboardHide);
+
+    return () => {
+      keyboardDidShowListener.current.remove();
+      keyboardDidHideListener.current.remove();
+    };
+  }, []);
+  function skipAction() {
+    console.log('skip action');
+  }
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}>
       {/* <TouchableHighlight onPress={hideList} underlayColor="clear"> */}
-      
       <SafeAreaView>
-       
-        <View style={styles.mainPage}>
-          <TouchableOpacity>
-          <Text style = {[styles.skipBtn]}>Skip</Text>
+        <View style={[styles.mainPage,{position:pos,bottom:keyboardOffset}]}>
+          <TouchableOpacity
+            onPress={() => {
+              skipAction();
+            }}>
+            <View
+              style={[
+                styles.skip,
+                {marginTop: windowHeight * per},
+              ]}>
+              <Text style={[styles.skipBtn]}>Skip</Text>
+            </View>
           </TouchableOpacity>
-        
-          <Text style={[styles.heading]}>Profile details</Text>
+          <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>
+            Profile details
+          </Text>
           <View style={[styles.subHeading]}>
             <Text>
               Please enter your full name at birth exactly as it shows on your
@@ -101,21 +160,39 @@ const ProfileDetails1 = (props) => {
               symbols.
             </Text>
           </View>
-          <CustomTextInput  onChangeText = {setFname} feildName="First Name"></CustomTextInput>
-          <CustomTextInput onChangeText = {setMname} feildName="Middle Name"></CustomTextInput>
-          <CustomTextInput onChangeText = {setLname} feildName="Last Name"></CustomTextInput>
-          {/* <View style = {{position:'pos',bottom:keyboardOffset,}}> */}
-            <CustomTextInput feildName="Profile Display Name"></CustomTextInput>
-          {/* </View> */}
-          
+          <View style = {[styles.profileImgView,{width:imgBox,height:imgBox}]}>
+              
+          </View>
+          <View>
+          <CustomTextInput
+            onChangeText={setFname}
+            value = {fname}
+            feildName="First Name"
+            onSubmitEditing={Keyboard.dismiss}></CustomTextInput>
+          <CustomTextInput
+          value = {mname}
+            lineWidth={110}
+            onChangeText={setMname}
+            feildName="Middle Name"></CustomTextInput>
+          <CustomTextInput
+            value = {lname}
+            onChangeText={setLname}
+            feildName="Last Name"></CustomTextInput>
+         
+          <CustomTextInput
+            
+            lineWidth={160}
+            feildName="Profile Display Name"></CustomTextInput>
+                
+          </View>
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              btnAction = {navigationAction}
-              ></ButtonWithBg>
+              btnAction={navigationAction}></ButtonWithBg>
           </View>
+          
         </View>
       </SafeAreaView>
       {/* </TouchableHighlight> */}
@@ -124,24 +201,40 @@ const ProfileDetails1 = (props) => {
 };
 
 const styles = StyleSheet.create({
-  skipBtn:{
+  profileImgView:{
+    backgroundColor:"white",
+    // width:imgBox,
+    // height:imgBox,
+    borderRadius:10,
+    marginTop:'5%',
+    alignSelf:'center',
+  },
+  skip: {
+    zIndex: 0,
+    // backgroundColor:'pink',
+    width: '10%',
+    // position: 'absolute',
+    // top: 40,
+    // right: 40,
+    marginTop: '6%',
+    marginRight: '40',
+    alignSelf: 'flex-end',
+    marginRight: 40,
+    // height: 10,
+  },
+  skipBtn: {
+    zIndex: 0,
     color: '#FFC700',
-    fontWeight:'bold', 
+    fontWeight: 'bold',
     // backgroundColor:'gray',
-    width:'10%',
-    position:'absolute',
-    top :40,
-    right:40,
   },
-  input:{
-
-  },
+  input: {},
   bottomBtn: {
     // position: 'absolute',
     // bottom: 40,
-    marginTop:20,
-    marginLeft:40,
-    marginRight:40,
+    marginTop: 20,
+    marginLeft: 40,
+    marginRight: 40,
   },
   mainPage: {
     flex: 1,
@@ -153,11 +246,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    marginTop: 100,
+    marginTop: windowHeight * per,
     fontSize: 40,
     fontWeight: 'bold',
     marginLeft: 40,
     marginRight: 40,
+    color: 'black',
+
     // backgroundColor:'red'
   },
   subHeading: {

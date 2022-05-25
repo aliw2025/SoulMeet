@@ -30,12 +30,12 @@ const LanguagePickerBtn = props => {
   return (
     <View >
       <TouchableHighlight onPress={btnAction} underlayColor="white">
-        <View
-          style={styles.textBg}>
+        <View style={styles.textBg}>
+            <View style={[styles.whiteLine]}></View>
           <Text style={[styles.feildValue]}>{props.text} </Text>
         </View>
       </TouchableHighlight>
-      <View style={[styles.whiteLine]}></View>
+
     </View>
   );
 };
@@ -59,8 +59,9 @@ const styles = StyleSheet.create({
   whiteLine: {
     width: 70,
     backgroundColor: 'white',
-    height: 10,
+    height: 1,
     position: 'absolute',
+    top:-1,
     left: '5%',
   },
   

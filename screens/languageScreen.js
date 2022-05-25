@@ -1,10 +1,10 @@
-import React, {useState,useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions} from 'react-native';
-import {AuthContext} from '../navigation/AuthProvider'
+import {AuthContext} from '../navigation/AuthProvider';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,7 +24,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const AdjustLabel = ({fontSize, text, style, numberOfLines}) => {
   const [currentFont, setCurrentFont] = useState(fontSize);
- 
+
   return (
     <Text
       numberOfLines={numberOfLines}
@@ -53,7 +53,7 @@ const SelectLanguage = ({navigation}) => {
   const {withFilter, setWithFilter} = useState(true);
   const {withAlphaFilter, setWithAlphaFilter} = useState(false);
   const {withCallingCode, setWithCallingCode} = useState(false);
-  
+
   const navigationAction = params => {
     navigation.navigate('AreYouHere', {name: 'Jane'});
   };
@@ -76,7 +76,7 @@ const SelectLanguage = ({navigation}) => {
         Select Language
       </Text>
       <Text style={[styles.subHeading]}>
-        Please select your preferrred Language
+      Please select your prefered language
       </Text>
       <View style={[styles.abc]}>
         <LanguagePickerBtn text="English"></LanguagePickerBtn>
@@ -113,16 +113,18 @@ const styles = StyleSheet.create({
     marginRight: 40,
     fontSize: 70,
     fontWeight: 'bold',
-    color: '#000000B2',
-    // backgroundColor:'gray',
+    color: '#000000',
+    textAlign:'center',
+    // backgroundColor: 'pink',
   },
   subHeading: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: 15,
     color: 'black',
     marginLeft: 40,
     width: windowWidth - 80,
     marginRight: 40,
+    // backgroundColor: 'pink',
   },
 });
 

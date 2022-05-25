@@ -60,8 +60,6 @@ const ChartScreen = props => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  
-
   function saveData(params) {
     db.collection('users').doc(user.uid).update({
       numbers:{
@@ -703,13 +701,18 @@ const ChartScreen = props => {
     console.log('null');
     return null;
   }
+  function backAction(params) {
+    console.log('backAction');
+  }
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}>
       <SafeAreaView style={[{flex: 1}]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress = {()=>{
+          backAction();
+        }}>
           <View style={[styles.backBtn]}>
             <Text
               style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
@@ -719,7 +722,7 @@ const ChartScreen = props => {
         </TouchableOpacity>
         <View style={styles.mainPage}>
           <View style={[styles.container]}>
-            <Text style={[styles.heading]}>Chart Calculator</Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.heading]}>Chart Calculator</Text>
           </View>
          
           <ImageBackground
@@ -983,9 +986,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    position: 'absolute',
-    top: 40,
-    left: 40,
+    marginLeft:40,
+    marginTop:40,
   },
   scrollViewHeading: {
     marginLeft: 40,
@@ -1012,7 +1014,7 @@ const styles = StyleSheet.create({
     // alignItems:'center',
 
     
-  },
+  }, 
   mainPage: {
     flex: 1,
     // justifyContent:'center',
@@ -1020,7 +1022,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     // textAlign: 'left',
-    marginTop: windowHeight *0.12,
+    marginTop: '7.6%',
     fontSize: 40,
     fontWeight: 'bold',
     color:'black',

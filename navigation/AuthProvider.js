@@ -9,6 +9,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  const [usrData, setUsrData] = useState(null);
   function showError(error) { 
     if (error.code === 'auth/email-already-in-use') {
       console.log('That email address is already in use!');
@@ -23,14 +24,14 @@ export const AuthProvider = ({children}) => {
     }
     else{
       Alert.alert("ERROR", error.code);
-    }
-    
+    } 
   }
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        usrData,
         login: async (email, password) => {
           try {
             await auth().signInWithEmailAndPassword(email, password);
@@ -150,6 +151,17 @@ export const AuthProvider = ({children}) => {
           } catch (e) {
             console.log(e);
           }
+        },
+        getData:()=>{
+        
+          var userData =  firestore().collection('users').doc(auth().currentUser.uid).onSnapshot(documentSnapshot => {
+            console.log('User data2: ', documentSnapshot.data());
+            return documentSnapshot.data();
+          });
+            console.log("inside one ");
+            console.log(userData);
+            return userData;
+         
         },
         logout: async () => {
           try {

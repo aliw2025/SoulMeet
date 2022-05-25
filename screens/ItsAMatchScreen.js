@@ -26,22 +26,8 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-// const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
-// const arrow = require('../assets/arrow.png');
-// const setting = require('../assets/setting.png');
-// const photo = require('../assets/photo.png');
-// const mainProfile = require('../assets/mainProfile.png');
-// const cross = require('../assets/cross.png');
-// const star = require('../assets/star.png');
-// const heart = require('../assets/heart.png');
-// const roundContainer = require('../assets/roundContainer.png');
-// const WhiteContainer = require('../assets/whiteContainer.png');
-// const message = require('../assets/message.png');
-// const match = require('../assets/match.png');
-// const grayHeart = require('../assets/grayHeart.png');
-// const dot = require('../assets/dot.png');
-// const people = require('../assets/people.png');
+
+const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width;
 const photo = require('../assets/girl.png');
 const love = require('../assets/love.png');
@@ -183,8 +169,8 @@ const ItsAMatchScreen = props => {
         </View>
       </View>
       {/* iis a match text */}
-      <Text style={[styles.matchHeading]}>It’s a match, Jake!</Text>
-      <Text style={[styles.matchSubHeading]}>
+      <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.matchHeading]}>It’s a match, Jake!</Text>
+      <Text  numberOfLines={1} adjustsFontSizeToFit style={[styles.matchSubHeading]}>
         Start a conversation now with each other
       </Text>
       <View style = {{marginLeft:40,marginRight:40,marginTop:20,}}>

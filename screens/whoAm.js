@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -77,6 +77,9 @@ const WhoAm = props => {
     if (user) {
       saveData();
     }
+    function skipAction(params) {
+      console.log('skiping');
+    }
     props.navigation.navigate('ChartScreen', {
       day: day,
       month: month,
@@ -87,17 +90,24 @@ const WhoAm = props => {
     });
   };
   function saveData(params) {
-    db.collection('users').doc(user.uid).set({
-      uid: user.uid,
-      day: day,
-      month: month,
-      year: year,
-      fname: fname,
-      mname: mname,
-      lname: lname,
-      // king:'waseem is king'
-    }).then().catch((err) => console.log(err));
+    // db.collection('users').doc(user.uid).set({
+    //   uid: user.uid,
+    //   day: day,
+    //   month: month,
+    //   year: year,
+    //   fname: fname,
+    //   mname: mname,
+    //   lname: lname,
+    //   // king:'waseem is king'
+    // }).then().catch((err) => console.log(err));
   }
+  const skipAction = () =>{
+    console.log('skip action');
+  }
+  const backAction = () =>{
+    console.log('back action');
+  }
+
   // const onChangeText = params => {};
   return (
     <ImageBackground
@@ -106,17 +116,31 @@ const WhoAm = props => {
       style={styles.BackGrounimage}>
       <SafeAreaView>
         <View style={styles.mainPage}>
-          <TouchableOpacity>
-            <Text style={[styles.skipBtn]}>Skip</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={[styles.backBtn]}>
-              <Text
-                style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
-                {'<'}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <View style = {[styles.topRow]}>
+            
+            <TouchableOpacity
+              onPress={() => {
+  
+                backAction();
+              }}>
+              <View style={[styles.backBtn]}>
+                <Text
+                  style={[
+                    {color: '#FFC700', fontSize: 20, fontWeight: 'bold'},
+                  ]}>
+                  {'<'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+  
+              onPress={() => {
+                skipAction();
+              }}>
+              <Text style={[styles.skipBtn]}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+
           <Text style={[styles.heading]}>I am a</Text>
 
           <View style={[styles.bottomBtn, {marginTop: '30%'}]}>
@@ -174,6 +198,15 @@ const WhoAm = props => {
 };
 
 const styles = StyleSheet.create({
+  topRow:{
+    justifyContent:'space-between',
+    flexDirection:'row',
+    alignItems:'center',
+    marginRight:40,
+    marginLeft:40,
+    marginTop:'6%',
+    // backgroundColor:'pink',
+  },
   backBtn: {
     backgroundColor: 'white',
     width: 50,
@@ -181,17 +214,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    position: 'absolute',
-    top: 40,
-    left: 40,
   },
   skipBtn: {
     color: '#FFC700',
     fontWeight: 'bold',
-    width: '10%',
-    position: 'absolute',
-    top: 40,
-    right: 40,
+    // width: '10%',
+    // backgroundColor:'red',
   },
 
   bottomBtn: {
@@ -209,11 +237,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    marginTop: 100,
+    marginTop: "7.6%",
     fontSize: 40,
     fontWeight: 'bold',
     marginLeft: 40,
     marginRight: 40,
+    color: 'black',
     // backgroundColor:'red',
     width: windowWidth - 80,
   },

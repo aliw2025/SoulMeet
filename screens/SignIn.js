@@ -58,8 +58,9 @@ const SignIn = ({navigation}) => {
       style={styles.BackGrounimage}>
       <SafeAreaView>
         <Text style={[styles.heading]}>Sign In</Text>
-        <CustomTextInput onChangeText= {setEmailText} feildName="email"></CustomTextInput>
+        <CustomTextInput lineWidth = {60} onChangeText= {setEmailText} feildName="email"></CustomTextInput>
         <CustomTextInput 
+           lineWidth = {90}
           onChangeText = {setPassText}
           secureTextEntry={true}
           feildName="password"></CustomTextInput>
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     textAlign: 'center',
+    color:'black',
     // backgroundColor:'red'
   },
 });

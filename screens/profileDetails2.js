@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -8,6 +8,9 @@ import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import CustomTextInput from '../components/CustomTextInput'
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+
 
 
 // react items
@@ -37,18 +40,52 @@ const ProfileDetails2 = (props) => {
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
-  var fname = props.route.params.fname;
+  // var fname = props.route.params.fname;
   var mname = props.route.params.mname;
-  var lname = props.route.params.lname;
   //   // array fo
   const [text, onChangeText] = React.useState("Useless Text");
-  
+
+  const [fname, setFname] = useState(props.route.params.fname);
+  const [lname, setLname] = useState(props.route.params.mname);
+  var [usrData, setUsrData] = useState(undefined);
+  // const [mname, setMname] = useState('');
+
   const navigationAction = params => {
    
    props.navigation.navigate("WhoAm", {day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
   //  props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
 
     //navigation.navigate("ChartScreen", {name: 'Jane'});
+  }
+
+  function updateData(data) {
+    console.log('updating data ');
+    
+    
+    if (data) {
+      setUsrData(data);
+      setFname(data.fname);
+      // setMname(data.mname);
+      setLname (data.lname);
+    } else {
+      console.log('error');
+      
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data = documentSnapshot.data();
+        console.log('User dataI: ', data);
+        updateData(data);
+      });
+    return () => subscriber();
+  }, []);
+  function skipAction() {
+      console.log('skip action');
   }
   return (
     <ImageBackground
@@ -59,8 +96,14 @@ const ProfileDetails2 = (props) => {
 
       <SafeAreaView>
         <View style={styles.mainPage}>
-          <TouchableOpacity>
-          <Text style = {[styles.skipBtn]}>Skip</Text>
+        <TouchableOpacity
+            onPress={() => {
+             
+              skipAction();
+            }}>
+            <View style={[styles.skip]}>
+              <Text style={[styles.skipBtn]}>Skip</Text>
+            </View>
           </TouchableOpacity>
         
           <Text style={[styles.heading]}>Profile details</Text>
@@ -71,8 +114,8 @@ const ProfileDetails2 = (props) => {
               symbols.
             </Text>
           </View>
-          <CustomTextInput feildName="First Name"></CustomTextInput>
-          <CustomTextInput feildName="Middle Name"></CustomTextInput>
+          <CustomTextInput value = {fname} lineWidth={100} feildName="First Name"></CustomTextInput>
+          <CustomTextInput value = {lname} lineWidth={100} feildName="Last Name"></CustomTextInput>
          
 
           <View style={[styles.bottomBtn]}>
@@ -92,14 +135,24 @@ const ProfileDetails2 = (props) => {
 };
 
 const styles = StyleSheet.create({
-  skipBtn:{
+  skip: {
+    zIndex:0,
+    // backgroundColor:'pink',
+    width: '10%',
+    // position: 'absolute',
+    // top: 40,
+    // right: 40,
+    marginTop:'7.6%',
+    marginRight:'40',
+    alignSelf:'flex-end',
+    marginRight:40,
+    height:30,
+  },
+  skipBtn: {
+    zIndex:0,
     color: '#FFC700',
-    fontWeight:'bold', 
+    fontWeight: 'bold',
     // backgroundColor:'gray',
-    width:'10%',
-    position:'absolute',
-    top :40,
-    right:40,
   },
   input:{
 
@@ -120,11 +173,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    marginTop: 100,
+    marginTop: '5%',
     fontSize: 40,
     fontWeight: 'bold',
     marginLeft: 40,
     marginRight: 40,
+    color:'black',
     // backgroundColor:'red'
   },
   subHeading: {

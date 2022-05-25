@@ -33,13 +33,15 @@ const CustomTextInput = props => {
     <View style={[styles.textBg]}>
       <TouchableHighlight onPress={btnAction} underlayColor="clear">
         <View style={[{height: 60,justifyContent:'center'}]}>
-          <View style={[styles.whiteLine]}></View>
+          <View style={[styles.whiteLine,{width:props.lineWidth}]}></View>
           <Text style={[styles.feildName]}>{props.feildName}</Text>
           <TextInput
+            value = {props.value}
+            onSubmitEditing={props.onSubmitEditing}
             secureTextEntry = {secureTextEntry}
             ref={ref_input}
             onChangeText={props.onChangeText}
-            value={text}
+            
             style={[styles.feildValue]}></TextInput>
         </View>
       </TouchableHighlight>
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '5%',
     width: 100,
-    top: -1,
+    top: 0,
     height: 1,
     fontSize: 30,
     alignItems: 'center',

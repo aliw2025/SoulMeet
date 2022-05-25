@@ -15,13 +15,12 @@ import {
 } from 'react-native';
 
 const ListItem = props => {
-    //console.log('listItem = '+props.onDaySelected);
-    //console.log(props.index);
+    
   const lala =(params)=> {
       console.log(params);
   }
   return (
-    <TouchableHighlight underlayColor="#F5F5F5" onPress={()=>props.onDaySelected(props.index,props.item)} >
+    <TouchableHighlight underlayColor="#C4C4C433" onPress={()=>props.onDaySelected(props.index,props.item)} >
         <Text style={styles.item}>{props.item.key}</Text>
     </TouchableHighlight>  
     
@@ -30,8 +29,10 @@ const ListItem = props => {
 const styles = StyleSheet.create({
     item: {
         padding: 10,
-        fontSize: 18,
+        fontSize: 15,
         height: 44,
+        paddingLeft:20,
+        color:'black',
       },
 });
 export default ListItem;

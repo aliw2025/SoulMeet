@@ -81,10 +81,10 @@ const SuggestionScreen = props => {
 
       {/* image body */}
       <View style={{alignItems: 'center', marginTop: 10}}>
-        <Image style={{opacity: 0.2}} source={photo}></Image>
+        <Image style={{resizeMode:'stretch',opacity: 0.2,height:'60%'}} source={photo}></Image>
         <View style={styles.profilePicBox}>
           <Image
-            style={{alignSelf: 'center'}}
+            style={{alignSelf: 'center',height:'100%'}}
             borderRadius={20}
             width={windowWidth - 80}
             source={mainProfile}></Image>
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 40,
+    marginTop: windowHeight*0.02,
     marginLeft: 40,
     marginRight: 40,
   },

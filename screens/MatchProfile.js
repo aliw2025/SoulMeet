@@ -121,7 +121,7 @@ const MatchProfileScreen = props => {
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* image container */}
-      <View style={{alignItems: 'center', marginTop: 0}}>
+      <View style={{alignItems: 'center',height:'55%', marginTop: 0}}>
         {/* image of person */}
         <Image style={{width: '100%'}} source={photo}></Image>
       </View>

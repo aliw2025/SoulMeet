@@ -83,13 +83,16 @@ const SignUp = ({navigation}) => {
       <SafeAreaView>
         <Text style={[styles.heading]}>Sign Up</Text>
         <CustomTextInput
+          lineWidth = {60}
           onChangeText={setEmailText}
           feildName="email"></CustomTextInput>
         <CustomTextInput
+           lineWidth = {90}
           onChangeText={setPassText}
           secureTextEntry={true}
           feildName="password"></CustomTextInput>
         <CustomTextInput
+           lineWidth = {140}
           onChangeText={checkSim}
           secureTextEntry={true}
           feildName="confirm password"></CustomTextInput>
@@ -123,6 +126,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     textAlign: 'center',
+    color:'black',
     // backgroundColor:'red'
   },
 });

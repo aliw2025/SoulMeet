@@ -51,6 +51,21 @@ const SummaryScreen = props => {
   }else if(lname == ''){
     lname = mname;
   }
+  //  map of life path numbers matching
+
+
+  var items = [
+    [3, 2 , 3 , 1 , 3 , 2 , 3, 1 , 3 ],
+    [2, 3 , 2  , 3 , 1 , 3 , 1, 3 , 2 ],
+    [2, 2 , 3 , 1 , 2 , 3 , 1, 1 , 3 ],
+    [1, 3 , 1 , 3 , 1 , 3 , 2, 3 , 1 ],
+    [3, 1 , 2 , 1 , 3 , 1 , 3, 2 , 2 ],
+    [2, 3 , 3 , 3 , 1 , 3 , 1, 2 , 3 ],
+    [3, 1 , 1 , 2 , 3 , 1 , 3, 2 , 2 ],
+    [1, 3 , 1 , 3 , 2 , 2 , 2, 3 , 1 ],
+    [2, 1 , 3 , 1 , 2 , 3 , 2, 1, 3 ],
+  ];
+  
 
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -70,10 +85,14 @@ const SummaryScreen = props => {
     if (arr.length == 0) {
       return 0;
     }
+    console.log(arr);
+    console.log("dfdfd: "+ arr.length);
     let total = arr.reduce((acc, val) => acc + val);
+    
     // if (total < 10 || total == 11 || total == 22 || total == 33) {
     //   return total;
     // }
+    console.log("dfdfd: "+ arr.length+'  '+total);
     if (total < 10) {
       return total;
     }
@@ -95,6 +114,7 @@ const SummaryScreen = props => {
   };
   // get the transit nnumbers
   const TransitNumber = (mname, age) => {
+    console.log('age recv '+age);
     var mArr = [];
     var total = 0;
     mname = mname.toLowerCase();
@@ -109,15 +129,10 @@ const SummaryScreen = props => {
       }
     });
     var mod = age % total;
-    // if (mod == 0) {
-    //   mod = total;
-    // }
-    // console.log(mArr);
-    // console.log(total);
-    // console.log(mod);
-    // console.log(mArr[mod]);
-    // console.log(d);
-    // console.log(dob);
+    if(mArr.length ==0){
+      return '';
+    }
+    console.log('transit is '+mArr[mod]);
     return mArr[mod];
   };
   
@@ -126,10 +141,17 @@ const SummaryScreen = props => {
   function calculateAge(day, month, year) {
     
     var d = '';
+
     d = d.concat(year, '-', month, '-', day);
+    console.log("why " + d);
     var today = new Date();
     var birthDate = new Date(d);
+    
     var age = today.getFullYear() - birthDate.getFullYear();
+    if(isNaN(age)){
+      return 0;
+    }
+    console.log("why " + age);
     var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
     {
@@ -170,6 +192,7 @@ const SummaryScreen = props => {
     return [personalYear, personalMonth, personalDay];
   };
   
+
   //display the calculated age
   var age = calculateAge(day, month, year);
   var physicalTransit = TransitNumber(fname, age);
@@ -182,7 +205,7 @@ const SummaryScreen = props => {
   var [personalYear, personalMonth, personalDay] = personalNumbers(day, month);
 
   personalNumbers(day, month);
-  const navigationAction = screen => {
+  const navigationAction = screen => {  
     // setIsModalVisible(true);
     props.navigation.navigate(screen, {name: 'wase'});
   };

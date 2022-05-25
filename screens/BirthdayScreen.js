@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -9,9 +9,11 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {Car} from '../Modals/user'
-import {AuthContext} from '../navigation/AuthProvider'
+import {Car} from '../Modals/user';
+import {AuthContext} from '../navigation/AuthProvider';
 
+// import auth from '@react-native-firebase/auth';
+// import firestore from '@react-native-firebase/firestore';
 
 // react items
 import {
@@ -36,8 +38,8 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 var pday = 0;
 const BirthDayScreen = ({navigation}) => {
-  console.log('user is : ');
-  fbuser.getData(); 
+  // console.log('user is : ');
+  // fbuser.getData();
   // array for days
   var day = [];
   // array for years
@@ -59,22 +61,52 @@ const BirthDayScreen = ({navigation}) => {
   ];
   //  variable for storing location of the arrowDown image
   const image2 = require('../assets/arrowDown.png');
-  
-  // state variables for days
+
+  var [usrData, setUsrData] = useState(undefined);
   const [days, SetDays] = useState('12');
-  const [years,SetYears] = useState('2022');
-  const [months,SetMonths] = useState('Feburary'); 
-  const [nmonths,SetNmonths] = useState(2); 
-  const [zIndex1,setZIndex1] = useState(0);
+  const [years, SetYears] = useState('2022');
+  const [months, SetMonths] = useState('Feburary');
+  const [initializing, setInitializing] = useState(true);
+
+  function updateData(data) {
+    console.log('updating data ');
+    // console.log(data);
+    if (initializing) setInitializing(false);
+    if (data) {
+      setUsrData(data);
+      SetDays(data.dob.day);
+      SetMonths(month[data.dob.month - 1].key);
+      SetYears(data.dob.year);
+    } else {
+      console.log('error');
+      // console.log(usrData);
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data = documentSnapshot.data();
+        console.log('User dataI: ', data);
+        updateData(data);
+      });
+    return () => subscriber();
+  }, []);
+
+  
+  const [nmonths, SetNmonths] = useState(2);
+  const [zIndex1, setZIndex1] = useState(0);
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
   const [list2, setList2] = useState(false);
   const [list3, setList3] = useState(false);
-  const [pos,setPos] = useState('relative');
+  const [pos, setPos] = useState('relative');
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
+  // const [initializing, setInitializing] = useState(true);
   // store reference of firebase user
-  
+
   const {user} = useContext(AuthContext);
 
   //  function to initlaize the days
@@ -97,32 +129,30 @@ const BirthDayScreen = ({navigation}) => {
   }
 
   /**
-   * function to set days 
+   * function to set days
    * run when a day is selected
    */
   const onDaySelected = params => {
-    //console.log("onDayselessdsdted");
-    //console.log(params);
-    // console.log(params.key);
+    
     SetDays(params.item.key);
     hideList();
   };
-   /**
-   * function to set month 
+  /**
+   * function to set month
    * run when a month is selected
    */
   const onMonthSelected = params => {
-    console.log(params.item.key);
+    
     SetMonths(params.item.key);
-    SetNmonths(params.index+1);
+    SetNmonths(params.index + 1);
     hideList();
   };
-   /**
-   * function to set years 
+  /**
+   * function to set years
    * run when a day is selected
    */
   const onYearSelected = params => {
-    console.log(params.item.key);
+   
     SetYears(params.item.key);
     hideList();
   };
@@ -135,9 +165,8 @@ const BirthDayScreen = ({navigation}) => {
       setList1(true);
       setZIndex1(1);
       setPos('absolute');
-      console.log(pos);
+      // console.log(pos);
     } else if (list1 == true) {
-    
       setList1(false);
     }
   };
@@ -172,91 +201,129 @@ const BirthDayScreen = ({navigation}) => {
     setList1(false);
     setList2(false);
     setList3(false);
-
   };
+  // console.log(auth().currentUser);
   const navigationAction = params => {
-    pday = days
-    navigation.navigate("ProfileDetails1",{day: days,month:nmonths,year:years});
-  }
   
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        dob: {
+          day: days,
+          month: nmonths,
+          year: years,
+        },
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
+    navigation.navigate('ProfileDetails1', {
+      day: days,
+      month: nmonths,
+      year: years,
+    });
+  };
+
+  const [listViewHeight, setViewHeight] = useState(0);
   function onSelect() {
     hideList();
   }
-  
+
   initDays();
   initYears();
 
   var db = firestore();
- 
+  const onLayout = event => {
+    const {x, y, height, width} = event.nativeEvent.layout;
+  };
+  if (initializing) return null;
+
   return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={styles.BackGrounimage}
-      onTouchEnd={() => onSelect()}
-      >
+      onTouchEnd={() => onSelect()}>
       {/* <TouchableHighlight onPress={hideList} underlayColor="clear"> */}
 
       <SafeAreaView>
         <View style={styles.mainPage}>
-          <Text  adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>Choose Birthday</Text>
+          <Text adjustsFontSizeToFit numberOfLines={1} style={[styles.heading]}>
+            Choose Birthday
+          </Text>
           <View style={[styles.subHeading]}>
-            <Text>  Please Choose your exact date of Birth</Text>
+            <Text style={{textAlign: 'center'}}>
+              {' '}
+              Please Choose your exact date of Birth
+            </Text>
           </View>
           {/* view to check  */}
-          { (list1 || list2 || list3 ) &&
-            <View style = {{
-              position:'absolute',
-              top:0,
-              bottom:0,
-              left:0,
-              right:0,
-            }}>
+          {(list1 || list2 || list3) && (
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}>
               <TouchableOpacity onPress={() => hideList()}>
-              <View
-                style={{
-                  
-                  width: '100%',
-                  height: '100%',
-                }}></View>
-            </TouchableOpacity>
+                <View
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                  }}></View>
+              </TouchableOpacity>
             </View>
-          }
-          <View style = {{zIndex :3}}>
+          )}
+
+          <View style={{zIndex: 3, position: 'absolute', top: '25%'}}>
             <DropDown
               feildName="Day"
               feildValue={days}
               btnAction={btnAction}></DropDown>
             {list1 && (
-              <View style = {{height:300}}>
-                 <View style={[{zIndex: zIndex1,position:'absolute'},styles.was]}>
+              <View style={[styles.dropList]}>
                 <FlatListBasics
                   data={day}
-                  onDaySelected={(index,item)=>onDaySelected({index,item})}></FlatListBasics>
+                  onDaySelected={(index, item) =>
+                    onDaySelected({index, item})
+                  }></FlatListBasics>
               </View>
-              </View>
-             
             )}
           </View>
-          <View style = {{zIndex :2}} >
+          <View style={{zIndex: 2, position: 'absolute', top: '35%'}}>
             <DropDown
               feildName="Month"
               feildValue={months}
               btnAction={btnAction2}></DropDown>
             {list2 && (
-              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
-                <FlatListBasics data={month}  onDaySelected={(index,item)=>onMonthSelected({index,item})}></FlatListBasics>
+              <View style={[styles.dropList]}>
+                <FlatListBasics
+                  data={month}
+                  onDaySelected={(index, item) =>
+                    onMonthSelected({index, item})
+                  }></FlatListBasics>
               </View>
             )}
           </View>
-          <View >
+          <View style={{zIndex: 1, position: 'absolute', top: '45%'}}>
             <DropDown
               feildName="year"
               feildValue={years}
               btnAction={btnAction3}></DropDown>
             {list3 && (
-              <View style={[{zIndex: zIndex1,position:pos},styles.was]}>
-                <FlatListBasics data={year}  onDaySelected={(index,item)=>onYearSelected({index,item})}></FlatListBasics>
+              <View style={[styles.dropList]}>
+                <FlatListBasics
+                  data={year}
+                  onDaySelected={(index, item) =>
+                    onYearSelected({index, item})
+                  }></FlatListBasics>
               </View>
             )}
           </View>
@@ -267,7 +334,7 @@ const BirthDayScreen = ({navigation}) => {
               active="true"
               text="Continue"
               image={buttonBgOrange}
-              btnAction = {navigationAction}
+              btnAction={navigationAction}
               navigation={navigation}></ButtonWithBg>
           </View>
         </View>
@@ -278,20 +345,23 @@ const BirthDayScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  was: {
-    top: 60,
-    // zIndex: 1,
+  dropList: {
+    top: -15,
+    left: 40,
+    right: 40,
+    borderTopColor: 'white',
+    borderColor: '#E8E6EA',
+    borderWidth: 1,
+    // borderBottomLeftRadius:20,
     // position: 'absolute',
-    paddingLeft: 20,
+    // paddingLeft: 20,
     backgroundColor: 'white',
     height: 200,
-    width: '80%',
-    marginLeft: 40,
-    marginRight: 40,
+    width: windowWidth - 80,
   },
   bottomBtn: {
-    marginLeft:40,
-    marginRight:40,
+    marginLeft: 40,
+    marginRight: 40,
     position: 'absolute',
     bottom: 40,
   },
@@ -329,23 +399,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    width:windowWidth - 80,
-    marginLeft:40,
-    marginRight:40,
+    width: windowWidth - 80,
+    marginLeft: 40,
+    marginRight: 40,
     marginTop: 100,
-    fontSize: 70  ,
+    fontSize: 70,
     fontWeight: 'bold',
-    color:'black',
-    textAlign:'center',
-   
+    color: 'black',
+    textAlign: 'center',
+    // backgroundColor:'pink'
   },
   subHeading: {
-    width:windowWidth - 80,
-    marginLeft:40,
-    marginRight:40,
+    width: windowWidth - 80,
+    marginLeft: 40,
+    marginRight: 40,
     marginTop: 0,
     fontSize: 15,
-    color:'#000000B2',
+    color: '#000000B2',
+
     // backgroundColor:'purple'
   },
 });
