@@ -9,7 +9,11 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import CustomTextInput from '../components/CustomTextInput';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
+//  for usign the camera
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 // react items
 import {
@@ -32,6 +36,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
+const camera = require('../assets/camera.png');
+
 var per = 0.05;
 if(windowHeight<=667){
   per = 0.01;
@@ -42,6 +48,8 @@ const ProfileDetails1 = props => {
   const [mname, setMname] = useState('');
   const [lname, setLname] = useState('');
   const [usrData, setUsrData] = useState(undefined);
+  const [profileImg,setProfileImg]  = useState(undefined);
+  const [img,setImg] =  useState(undefined);
   var imgBox = windowHeight * 0.1; 
   
   var day = props.route.params.day;
@@ -52,7 +60,7 @@ const ProfileDetails1 = props => {
   console.log(month);
   console.log(year);
   const [text, onChangeText] = React.useState('Useless Text');
-
+  
   function updateData(data) {
     console.log('updating data ');
     
@@ -62,6 +70,9 @@ const ProfileDetails1 = props => {
       setFname(data.fname);
       setMname(data.mname);
       setLname (data.lname);
+      setImg({uri:data.dp})
+      console.log('hahaha');
+      console.log(img);
     } else {
       console.log('error');
       
@@ -79,6 +90,7 @@ const ProfileDetails1 = props => {
       });
     return () => subscriber();
   }, []);
+
   const navigationAction = params => {
     firestore()
       .collection('users')
@@ -127,8 +139,89 @@ const ProfileDetails1 = props => {
       keyboardDidHideListener.current.remove();
     };
   }, []);
+
+  const uploadImage = async (imageUri) => {
+    const uri  = imageUri;
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    // console.log(uri);
+    // console.log(filename);
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    // setUploading(true);
+    // setTransferred(0);
+    const ref = storage().ref(filename)
+      
+    // set progress state
+    // task.on('state_changed', snapshot => {
+    //   setTransferred(
+    //     Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+    //   );
+    // });
+    try {
+      await ref.putFile(uploadUri);
+      ref.getDownloadURL()
+      .then((url) => {
+        console.log('url is '+url);
+      firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        dp: url,
+        
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
+      })
+     
+    } catch (e) {
+      console.error(e);
+    }
+   
+    
+  };
   function skipAction() {
     console.log('skip action');
+  }
+  function renderProfileImage(){
+    console.log('proflie img');
+    console.log(profileImg);
+    if(profileImg){
+      console.log(profileImg.assets);
+      console.log(profileImg.assets[0].uri);
+      var img = ({uri:profileImg.assets[0].uri});
+      uploadImage(profileImg.assets[0].uri);
+      return(
+        <Image style = {{borderRadius:10,width:'100%',height:'100%'}} source={img}>
+
+        </Image>
+
+      );
+    }
+    else if(img){
+      console.log('image is not empty');
+      console.log(img);
+      return(
+        <Image style = {{borderRadius:10,width:'100%',height:'100%'}} source={img}>
+
+        </Image>
+
+      );
+    }
+    
+    return null;
+  }
+  async function selectImage(){
+    try{
+      const result = await launchImageLibrary();
+      setProfileImg(result);
+    }
+    catch(e){
+      console.log(e);
+    }
   }
   return (
     <ImageBackground
@@ -160,8 +253,18 @@ const ProfileDetails1 = props => {
               symbols.
             </Text>
           </View>
+          
           <View style = {[styles.profileImgView,{width:imgBox,height:imgBox}]}>
-              
+              {/* <Image></Image> */}
+              {renderProfileImage()}
+              <TouchableOpacity onPress ={()=>{selectImage();}} style = {{position:'absolute',right:0,bottom :-5}}>
+              <View >
+                  <Image style = {{width:imgBox*0.35,height:imgBox*0.35}} source = {camera}>
+
+                  </Image>
+              </View>
+              </TouchableOpacity>
+            
           </View>
           <View>
           <CustomTextInput

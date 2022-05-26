@@ -63,9 +63,9 @@ const BirthDayScreen = ({navigation}) => {
   const image2 = require('../assets/arrowDown.png');
 
   var [usrData, setUsrData] = useState(undefined);
-  const [days, SetDays] = useState('12');
-  const [years, SetYears] = useState('2022');
-  const [months, SetMonths] = useState('Feburary');
+  const [days, SetDays] = useState('');
+  const [years, SetYears] = useState('');
+  const [months, SetMonths] = useState('');
   const [initializing, setInitializing] = useState(true);
 
   function updateData(data) {

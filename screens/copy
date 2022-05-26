@@ -7,8 +7,6 @@ import {Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 // import {Modal} from '../components/Modal';
 
 import {
@@ -17,7 +15,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  FlatList,
   Modal,
   Image,
   useColorScheme,
@@ -52,37 +49,10 @@ const SuggestionScreen = props => {
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
   const [shadowRadius, setShadowRadius] = useState(0);
   const [shadowOpacity, setShadowOpacity] = useState(2);
-  var images = [];
-  var message = [];
-for (var i = 0; i < 10; i++) {
-  var type = 0;
-  images.push({id: i, image: photo});
- 
- 
-}
-
-  async function u() {
-    try{
-      const users = await firestore().collection('users').get().then(querySnapshot => {
-      
-        querySnapshot.forEach(documentSnapshot => {
-          console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-        });
-      });
-    }
-    catch(e){
-      console.log(e);
-    }
-    
-  }
- 
-  u();
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
     //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
-
-  const [imageList, setImageList] = useState(images);
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* top row sectoin */}
@@ -109,120 +79,103 @@ for (var i = 0; i < 10; i++) {
         </View>
       </View>
 
-      <View style={styles.statusView}>
-        <FlatList
-          data={imageList}
-          pagingEnabled={true}
-          numColumns={1}
-          horizontal={true}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            console.log('item:' + item.id);
-            return (
-              <View style={{alignItems: 'center', marginTop: 10,width:windowWidth-80,marginLeft:40,marginRight:40,}}>
-              <Image style={{resizeMode:'stretch',opacity: 0.2,height:'60%'}} source={photo}></Image>
-              <View style={styles.profilePicBox}>
-                <Image
-                  style={{alignSelf: 'center',height:'100%'}}
-                  borderRadius={20}
-                  width={windowWidth - 80}
-                  source={mainProfile}></Image>
-                <Text style={styles.nameHeading}>Jessica Parker, 23</Text>
+      {/* image body */}
+      <View style={{alignItems: 'center', marginTop: 10}}>
+        <Image style={{resizeMode:'stretch',opacity: 0.2,height:'60%'}} source={photo}></Image>
+        <View style={styles.profilePicBox}>
+          <Image
+            style={{alignSelf: 'center',height:'100%'}}
+            borderRadius={20}
+            width={windowWidth - 80}
+            source={mainProfile}></Image>
+          <Text style={styles.nameHeading}>Jessica Parker, 23</Text>
+          <Text
+            style={[
+              styles.nameHeading,
+              {top: '10%', fontSize: 15, marginTop: 5, fontWeight: 'normal'},
+            ]}>
+            Professional model
+          </Text>
+          <View style={styles.transparentCard}></View>
+          <View style={styles.textArea}>
+            {/* first row */}
+            <View style={styles.row}>
+              <View style={styles.firstFeild}>
                 <Text
-                  style={[
-                    styles.nameHeading,
-                    {top: '10%', fontSize: 15, marginTop: 5, fontWeight: 'normal'},
-                  ]}>
-                  Professional model
+                  style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
+                  Life Path
                 </Text>
-                <View style={styles.transparentCard}></View>
-                <View style={styles.textArea}>
-                  {/* first row */}
-                  <View style={styles.row}>
-                    <View style={styles.firstFeild}>
-                      <Text
-                        style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Life Path
-                      </Text>
-                    </View>
-                    <View style={styles.secFeild}>
-                      <Text style={styles.textOrange}>12/3</Text>
-                    </View>
-                    <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
-                    </View>
-                  </View>
-                  {/* 2nd row */}
-                  <View style={[styles.row, {marginTop: -7}]}>
-                    <View style={styles.firstFeild}>
-                      <Text
-                        style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Birthday
-                      </Text>
-                    </View>
-                    <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
-                    </View>
-                    <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
-                    </View>
-                  </View>
-                  {/* 3rd row */}
-                  <View style={[styles.row, {marginTop: -7}]}>
-                    <View style={styles.firstFeild}>
-                      <Text
-                        style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Expressoin/Destiny
-                      </Text>
-                    </View>
-                    <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
-                    </View>
-                    <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
-                    </View>
-                  </View>
-                  {/* fourth row */}
-                  <View style={[styles.row, {marginTop: -7}]}>
-                    <View style={styles.firstFeild}>
-                      <Text
-                        style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Soul Urge/Heart's Desire
-                      </Text>
-                    </View>
-                    <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
-                    </View>
-                    <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
-                    </View>
-                  </View>
-                  {/* fifthrow */}
-                  <View style={[styles.row, {marginTop: -9}]}>
-                    <View style={styles.firstFeild}>
-                      <Text
-                        style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Personality
-                      </Text>
-                    </View>
-                    <View style={styles.secFeild}>
-                      <Text style={styles.textOrange}>12/3</Text>
-                    </View>
-                    <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
-                    </View>
-                  </View>
-                </View>
+              </View>
+              <View style={styles.secFeild}>
+                <Text style={styles.textOrange}>12/3</Text>
+              </View>
+              <View style={styles.thirdFeild}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
               </View>
             </View>
-            );
-          }}
-          //  keyExtractor={(item, index) => index.toString()}
-        />
+            {/* 2nd row */}
+            <View style={[styles.row, {marginTop: -7}]}>
+              <View style={styles.firstFeild}>
+                <Text
+                  style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
+                  Birthday
+                </Text>
+              </View>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
+                <Text style={styles.textOrange}>12/3</Text>
+              </View>
+              <View style={styles.thirdFeild}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+              </View>
+            </View>
+            {/* 3rd row */}
+            <View style={[styles.row, {marginTop: -7}]}>
+              <View style={styles.firstFeild}>
+                <Text
+                  style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
+                  Expressoin/Destiny
+                </Text>
+              </View>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
+                <Text style={styles.textOrange}>12/3</Text>
+              </View>
+              <View style={styles.thirdFeild}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+              </View>
+            </View>
+            {/* fourth row */}
+            <View style={[styles.row, {marginTop: -7}]}>
+              <View style={styles.firstFeild}>
+                <Text
+                  style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
+                  Soul Urge/Heart's Desire
+                </Text>
+              </View>
+              <View style={[styles.secFeild, {borderRadius: 0}]}>
+                <Text style={styles.textOrange}>12/3</Text>
+              </View>
+              <View style={styles.thirdFeild}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+              </View>
+            </View>
+            {/* fifthrow */}
+            <View style={[styles.row, {marginTop: -9}]}>
+              <View style={styles.firstFeild}>
+                <Text
+                  style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
+                  Personality
+                </Text>
+              </View>
+              <View style={styles.secFeild}>
+                <Text style={styles.textOrange}>12/3</Text>
+              </View>
+              <View style={styles.thirdFeild}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
-      {/* image body */}
-     
       {/* reaction buttons */}
       <View style={[styles.selectionRow]}>
         {/* cross */}
