@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState,useEffect} from 'react';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -40,7 +40,7 @@ const star = require('../assets/star.png');
 const heart = require('../assets/heart.png');
 const roundContainer = require('../assets/roundContainer.png');
 const WhiteContainer = require('../assets/whiteContainer.png');
-const message = require('../assets/message.png');
+const message = require('../assets/messages.png');
 const match = require('../assets/match.png');
 const grayHeart = require('../assets/grayHeart.png');
 const dot = require('../assets/dot.png');
@@ -52,31 +52,56 @@ const SuggestionScreen = props => {
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
   const [shadowRadius, setShadowRadius] = useState(0);
   const [shadowOpacity, setShadowOpacity] = useState(2);
+  const [otherUsrData,setOtherUsrData] = [props.route.params.usrData];
+  const [usrData,setUsrData] = useState(undefined);
+  const [lifePathNumber,setLifePathNumber] = useState(undefined);
+  const [birthDayNumber,setBirthDayNumber] = useState(undefined);
+  const [expressionDestiny,setExpressionDestiny] = useState(undefined);
+  const [soulUrge,setSoulUrge] = useState(undefined);
+  const [personality,setPersonality] = useState(undefined);
   var images = [];
   var message = [];
 for (var i = 0; i < 10; i++) {
   var type = 0;
   images.push({id: i, image: photo});
- 
- 
-}
 
-  async function u() {
-    try{
-      const users = await firestore().collection('users').get().then(querySnapshot => {
+}
+  const [users,setUsers] = useState(undefined);
+  function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+      setUsrData(data);
+      setLifePathNumber(data.numbers.lifePathNumber);
+      setBirthDayNumber(data.numbers.birthDayNumber);
+      setExpressionDestiny(data.numbers.expressionDestiny);
+      setSoulUrge(data.numbers.soulUrge);
+      setPersonality(data.numbers.personality);
+
+
       
-        querySnapshot.forEach(documentSnapshot => {
-          console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-        });
-      });
+    } else {
+      console.log('error');
     }
-    catch(e){
-      console.log(e);
-    }
-    
   }
- 
-  u();
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if(documentSnapshot){
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      
+      });
+    return () => subscriber();
+  }, []);
+
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
     //navigation.navigate("ChartScreen", {name: 'Jane'});
@@ -109,26 +134,16 @@ for (var i = 0; i < 10; i++) {
         </View>
       </View>
 
-      <View style={styles.statusView}>
-        <FlatList
-          data={imageList}
-          pagingEnabled={true}
-          numColumns={1}
-          horizontal={true}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            console.log('item:' + item.id);
-            return (
-              <View style={{alignItems: 'center', marginTop: 10,width:windowWidth-80,marginLeft:40,marginRight:40,}}>
+      
+      <View style={{alignItems: 'center', marginTop: 10,width:windowWidth-80,marginLeft:40,marginRight:40,}}>
               <Image style={{resizeMode:'stretch',opacity: 0.2,height:'60%'}} source={photo}></Image>
               <View style={styles.profilePicBox}>
                 <Image
                   style={{alignSelf: 'center',height:'100%'}}
                   borderRadius={20}
                   width={windowWidth - 80}
-                  source={mainProfile}></Image>
-                <Text style={styles.nameHeading}>Jessica Parker, 23</Text>
+                  source={{uri:otherUsrData.dp}}></Image>
+                <Text style={styles.nameHeading}>{otherUsrData.fname} {otherUsrData.lname}, {otherUsrData.age}</Text>
                 <Text
                   style={[
                     styles.nameHeading,
@@ -141,86 +156,98 @@ for (var i = 0; i < 10; i++) {
                   {/* first row */}
                   <View style={styles.row}>
                     <View style={styles.firstFeild}>
-                      <Text
+                      <Text numberOfLines={1} adjustsFontSizeToFit
                         style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
-                        Life Path
+                        Life Paths
                       </Text>
                     </View>
                     <View style={styles.secFeild}>
-                      <Text style={styles.textOrange}>12/3</Text>
+                      <Text style={styles.textOrange}>{lifePathNumber}</Text>
                     </View>
                     <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>{otherUsrData.numbers.lifePathNumber}</Text>
                     </View>
                   </View>
                   {/* 2nd row */}
                   <View style={[styles.row, {marginTop: -7}]}>
                     <View style={styles.firstFeild}>
-                      <Text
+                      <Text numberOfLines={1} adjustsFontSizeToFit
                         style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                         Birthday
                       </Text>
                     </View>
                     <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
+                      <Text  style={styles.textOrange}>{birthDayNumber}</Text>
                     </View>
                     <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+                      <Text numberOfLines={1} adjustsFontSizeToFit style={{fontSize: 16, fontWeight: 'bold'}}>{otherUsrData.numbers.birthDayNumber}</Text>
                     </View>
                   </View>
                   {/* 3rd row */}
                   <View style={[styles.row, {marginTop: -7}]}>
                     <View style={styles.firstFeild}>
-                      <Text
+                      <Text numberOfLines={1} adjustsFontSizeToFit
                         style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                         Expressoin/Destiny
                       </Text>
                     </View>
                     <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
+                      <Text style={styles.textOrange}>{expressionDestiny}</Text>
                     </View>
                     <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>{otherUsrData.numbers.expressionDestiny}</Text>
                     </View>
                   </View>
                   {/* fourth row */}
                   <View style={[styles.row, {marginTop: -7}]}>
                     <View style={styles.firstFeild}>
-                      <Text
+                      <Text  adjustsFontSizeToFit
                         style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                         Soul Urge/Heart's Desire
                       </Text>
                     </View>
                     <View style={[styles.secFeild, {borderRadius: 0}]}>
-                      <Text style={styles.textOrange}>12/3</Text>
+                      <Text style={styles.textOrange}>{soulUrge}</Text>
                     </View>
                     <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>{otherUsrData.numbers.soulUrge}</Text>
                     </View>
                   </View>
                   {/* fifthrow */}
                   <View style={[styles.row, {marginTop: -9}]}>
                     <View style={styles.firstFeild}>
-                      <Text
+                      <Text numberOfLines={1} adjustsFontSizeToFit
                         style={{color: 'black', fontSize: 16, fontWeight: 'bold'}}>
                         Personality
                       </Text>
                     </View>
                     <View style={styles.secFeild}>
-                      <Text style={styles.textOrange}>12/3</Text>
+                      <Text style={styles.textOrange}>{personality}</Text>
                     </View>
                     <View style={styles.thirdFeild}>
-                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>16/7</Text>
+                      <Text style={{fontSize: 16, fontWeight: 'bold'}}>{otherUsrData.numbers.personality}</Text>
                     </View>
                   </View>
                 </View>
               </View>
             </View>
+        {/* <FlatList
+          // data={imageList}
+          data = {users}
+          pagingEnabled={true}
+          numColumns={1}
+          horizontal={true}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            // console.log('item:' + item.id);
+            return (
+              
             );
           }}
           //  keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
+        /> */}
+      {/* </View> */}
       {/* image body */}
      
       {/* reaction buttons */}
@@ -406,3 +433,30 @@ const styles = StyleSheet.create({
 });
 
 export default SuggestionScreen;
+  // const usersArr= [];
+  // async function u() {
+  //   try{
+  //     const users = await firestore().collection('users').get().then(querySnapshot => {
+  //       var i = 0;
+  //       querySnapshot.forEach(documentSnapshot => {
+  //         i++;
+  //         console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+  //         var data = documentSnapshot.data();
+  //         console.log(data.uid);
+  //         console.log(auth().currentUser.uid);
+  //         if(documentSnapshot.id!=auth().currentUser.uid){
+           
+  //           usersArr.push({id:i,data:documentSnapshot.data()})
+  //         }
+          
+  //       });
+  //       setUsers(usersArr);
+  //     });
+  //   }
+  //   catch(e){
+  //     console.log(e);
+  //   }
+    
+  // }
+ 
+  // u();

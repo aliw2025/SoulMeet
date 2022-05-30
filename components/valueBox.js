@@ -8,49 +8,67 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
+  TouchableHighlight,
   View,
   Button,
   ImageBackground,
-  TouchableHighlight,
+  
 } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var marginRight;
 var boxWidth;
+
 const ValueBox = props => {
   marginRight = props.marginRight;
   boxWidth = props.boxWidth;
- 
+
+  function valueClicked(params) {
+    navigationAction();
+  }
+
+  const navigationAction = params => {
+
+    props.navigation.navigate('Description', {heading: props.heading,id:props.value});
+  };
+
   return (
-    <View style={[styles.fullBox]}>
-    <View style = {[{width:'60%'}]}>
-      <Text style = {[styles.title]}>{props.heading}</Text>
-    </View>
-    <View style={[{width:props.boxWidth,marginRight:props.marginRight},styles.textBg,]}>
+
+    <TouchableHighlight  underlayColor="clear" onPress = {()=>{valueClicked();}} >
+      <View style={[styles.fullBox]}>
+      <View style={[{width: '60%'}]}>
+        <Text style={[styles.title]}>{props.heading}</Text>
+      </View>
+      <View
+        style={[
+          {width: props.boxWidth, marginRight: props.marginRight},
+          styles.textBg,
+        ]}>
         <Text style={[styles.bodytext]}> {props.value} </Text>
-    </View>
-  </View>
-  )};
+      </View>
+      </View>
+    </TouchableHighlight>
+  );
+};
 const styles = StyleSheet.create({
   fullBox: {
-    marginTop:10,
+    marginTop: 10,
     width: windowWidth - 80,
     marginLeft: 40,
     marginRight: 40,
-    height:60,
-    flex:1,
-    flexDirection:'row',
-    alignItems:'center',
+    height: 60,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
-  title:{
-    fontSize:12,
-    color:'#FFC700',
-    fontWeight:'600',
-
+  title: {
+    fontSize: 12,
+    color: '#FFC700',
+    fontWeight: '600',
   },
   textBg: {
-    justifyContent:'center',
+    justifyContent: 'center',
     borderRadius: 15,
     borderColor: '#E8E6EA',
     borderWidth: 1,
@@ -60,9 +78,7 @@ const styles = StyleSheet.create({
   bodytext: {
     fontSize: 16,
     color: 'black',
-    marginLeft:10,
+    marginLeft: 10,
   },
- 
-     
 });
 export default ValueBox;

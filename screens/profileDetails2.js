@@ -1,5 +1,5 @@
-import React, {useState,useEffect} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState, useEffect} from 'react';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -7,11 +7,9 @@ import {Dimensions} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/CustomTextInput';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
-
 
 // react items
 import {
@@ -35,7 +33,7 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
-const ProfileDetails2 = (props) => {
+const ProfileDetails2 = props => {
   // console.log(props.route.params);
   var day = props.route.params.day;
   var month = props.route.params.month;
@@ -43,49 +41,61 @@ const ProfileDetails2 = (props) => {
   // var fname = props.route.params.fname;
   var mname = props.route.params.mname;
   //   // array fo
-  const [text, onChangeText] = React.useState("Useless Text");
+  const [text, onChangeText] = React.useState('Useless Text');
 
-  const [fname, setFname] = useState(props.route.params.fname);
-  const [lname, setLname] = useState(props.route.params.mname);
-  var [usrData, setUsrData] = useState(undefined);
+  
+  var [usrData, setUsrData] = useState(props.route.params.usrData);
+  const [fname, setFname] = useState(usrData.fname);
+  const [lname, setLname] = useState(usrData.lname);
   // const [mname, setMname] = useState('');
+  // setFname(usrData.fname);
+  // setLname(usrData.lname);  
 
   const navigationAction = params => {
-   
-   props.navigation.navigate("WhoAm", {day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
-  //  props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
+    props.navigation.navigate('WhoAm', {
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+    });
+    //  props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
 
     //navigation.navigate("ChartScreen", {name: 'Jane'});
-  }
+  };
 
-  function updateData(data) {
-    console.log('updating data ');
-    
-    
-    if (data) {
-      setUsrData(data);
-      setFname(data.fname);
-      // setMname(data.mname);
-      setLname (data.lname);
-    } else {
-      console.log('error');
-      
-    }
-  }
+  // function updateData(data) {
+  //   console.log('updating data ');
 
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .doc(auth().currentUser.uid)
-      .onSnapshot(documentSnapshot => {
-        var data = documentSnapshot.data();
-        console.log('User dataI: ', data);
-        updateData(data);
-      });
-    return () => subscriber();
-  }, []);
+  //   if (data) {
+  //     setUsrData(data);
+  //     setFname(data.fname);
+  //     // setMname(data.mname);
+  //     setLname(data.lname);
+  //   } else {
+  //     console.log('error');
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const subscriber = firestore()
+  //     .collection('users')
+  //     .doc(auth().currentUser.uid)
+  //     .onSnapshot(documentSnapshot => {
+  //       var data;
+  //       if (documentSnapshot) {
+  //         data = documentSnapshot.data();
+  //         console.log('User data recieved ');
+  //         updateData(data);
+  //       } else {
+  //         console.log('error in recieving data');
+  //       }
+  //     });
+  //   return () => subscriber();
+  // }, []);
   function skipAction() {
-      console.log('skip action');
+    console.log('skip action');
   }
   return (
     <ImageBackground
@@ -96,16 +106,15 @@ const ProfileDetails2 = (props) => {
 
       <SafeAreaView>
         <View style={styles.mainPage}>
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
-             
               skipAction();
             }}>
             <View style={[styles.skip]}>
               <Text style={[styles.skipBtn]}>Skip</Text>
             </View>
           </TouchableOpacity>
-        
+
           <Text style={[styles.heading]}>Profile details</Text>
           <View style={[styles.subHeading]}>
             <Text>
@@ -114,9 +123,14 @@ const ProfileDetails2 = (props) => {
               symbols.
             </Text>
           </View>
-          <CustomTextInput value = {fname} lineWidth={100} feildName="First Name"></CustomTextInput>
-          <CustomTextInput value = {lname} lineWidth={100} feildName="Last Name"></CustomTextInput>
-         
+          <CustomTextInput
+            value={fname}
+            lineWidth={100}
+            feildName="First Name"></CustomTextInput>
+          <CustomTextInput
+            value={lname}
+            lineWidth={100}
+            feildName="Last Name"></CustomTextInput>
 
           <View style={[styles.bottomBtn]}>
             <ButtonWithBg
@@ -124,8 +138,7 @@ const ProfileDetails2 = (props) => {
               active="true"
               text="Confirm"
               image={buttonBgOrange}
-              btnAction = {navigationAction}
-              ></ButtonWithBg>
+              btnAction={navigationAction}></ButtonWithBg>
           </View>
         </View>
       </SafeAreaView>
@@ -136,32 +149,30 @@ const ProfileDetails2 = (props) => {
 
 const styles = StyleSheet.create({
   skip: {
-    zIndex:0,
+    zIndex: 0,
     // backgroundColor:'pink',
     width: '10%',
     // position: 'absolute',
     // top: 40,
     // right: 40,
-    marginTop:'7.6%',
-    marginRight:'40',
-    alignSelf:'flex-end',
-    marginRight:40,
-    height:30,
+    marginTop: '7.6%',
+    marginRight: '40',
+    alignSelf: 'flex-end',
+    marginRight: 40,
+    height: 30,
   },
   skipBtn: {
-    zIndex:0,
+    zIndex: 0,
     color: '#FFC700',
     fontWeight: 'bold',
     // backgroundColor:'gray',
   },
-  input:{
-
-  },
+  input: {},
   bottomBtn: {
     // position: 'absolute',
     // bottom: 40,
-    marginTop:20,
-     marginLeft:40,
+    marginTop: 20,
+    marginLeft: 40,
   },
   mainPage: {
     flex: 1,
@@ -178,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 40,
     marginRight: 40,
-    color:'black',
+    color: 'black',
     // backgroundColor:'red'
   },
   subHeading: {

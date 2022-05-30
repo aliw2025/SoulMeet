@@ -21,7 +21,13 @@ const ResultBox = props => {
   width = props.width;
  
   height = props.height;
-  
+  var color = 'black';
+  const [haveComp,setHaveComp] = useState(props.Compatibility);
+  // console.log(props);
+  // console.log(props.Compatibility);
+  if(props.Compatibility == 3){
+    color = 'green';
+  }
   // console.log(width);
   // console.log("bool: "+props.haveHeading);
   [haveHeading,setHaveHeading] = useState(props.haveHeading);
@@ -38,7 +44,7 @@ const ResultBox = props => {
       <View style={[{height:height || 60,width: width},styles.textBg]}>
         <View style={[{width: '100%', justifyContent: 'center'}]}>
           {/* body text */}
-          <Text style={[{top:height/2 - 8 || 30},styles.bodytext]}>{props.bodyText}</Text>
+          <Text style={[{top:height/2 - 8 || 30},styles.bodytext,{color:color}]}>{props.bodyText}</Text>
         </View>
       </View>
     </View>

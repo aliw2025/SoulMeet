@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -62,12 +62,48 @@ const ChartScreen = props => {
 
   function saveData(params) {
     db.collection('users').doc(user.uid).update({
+      // numbers:{
+      //   lifePathNumber:lpnText,
+      //   birthDayNumber:bnText,
+      //   expressionDestiny:exp,
+      //   minorExpression:mExp,
+      //   soulUrge:desireText,
+      // },
       numbers:{
         lifePathNumber:lpnText,
         birthDayNumber:bnText,
         expressionDestiny:exp,
         minorExpression:mExp,
         soulUrge:desireText,
+        minorSoulUrger:mDesireText,
+        personality:personText,
+        minorPersonality:mPersonText,
+        maturity:maturityText,
+        attitude:attitudeText,
+        lifePathExpBrdige:lpExpBrText,
+        heartDesirePersonaliyBriger:hdPerBrText,
+        rationalThaughtNumber:rtnText,
+        balanceNumber:balanceText,
+        subConNumber:subConText,
+        kermicLesson:keramicText,
+        hiddenPassion:hiddenPassionText,
+        physicalPlane:phyPlaneText,
+        mentalPlane:menPlaneText,
+        intiuativePlane:intPlaneText,
+        emotionalPlane:emotPlaneText,
+        corenerStong:cornetStoneText,
+        firstPeriodCycle:periodCyleText1,
+        secPeriodCycle:periodCyleText2,
+        thirdPeriodCycle:periodCyleText3,
+        pinnacle1:pinnalceCyleText1,
+        pinnacle2:pinnalceCyleText2,
+        pinnacle3:pinnalceCyleText3,
+        pinnacle4:pinnalceCyleText4,
+        challenge1:challengeText1,
+        challenge2:challengeText2,
+        challenge3:challengeText3,
+        challenge4:challengeText4,
+                          
       },
     }).then().catch((err) => console.log(err));
   }
@@ -392,7 +428,7 @@ const ChartScreen = props => {
     if(arr!=null){
       fval = simpleSum(arr.map(val => val.charCodeAt(0) - 96));
     }
-    console.log("ffval: "+fval);
+    // console.log("ffval: "+fval);
     let birthDayNo = birthDay.split('/').map(Number)[0];
     birthDayNo = String(birthDayNo)
       .split('')
@@ -531,7 +567,7 @@ const ChartScreen = props => {
        );
     }
     var physicalPlane = convetToText(ans);
-    console.log('ans 1: ' + physicalPlane);
+    // console.log('ans 1: ' + physicalPlane);
     stack = [];
     ans = 0;
     let arr2 = fullname.match(/[ahjnpgl]/gi);
@@ -540,13 +576,13 @@ const ChartScreen = props => {
         arr2.map(val => {
           var x = val.charCodeAt(0) - 96;
           x = sum(String(x).split('').map(Number));
-          console.log(val + ' : ' + x);
+          // console.log(val + ' : ' + x);
           return x;
         }),
       );
     }
     var mentalPlane = convetToText(ans);
-    console.log('ans 2: ' + mentalPlane);
+    // console.log('ans 2: ' + mentalPlane);
     stack = [];
     ans = 0;
     let arr3 = fullname.match(/[iorzbstx]/gi);
@@ -561,7 +597,7 @@ const ChartScreen = props => {
       );
     }
     var emotionalPlane = convetToText(ans);
-    console.log('ans 3s: ' + emotionalPlane);
+    // console.log('ans 3s: ' + emotionalPlane);
     stack = [];
     ans = 0;
     let arr4 = fullname.match(/[kfquycv]/gi);
@@ -570,14 +606,14 @@ const ChartScreen = props => {
         arr4.map(val => {
           var x = val.charCodeAt(0) - 96;
           x = sum(String(x).split('').map(Number));
-          console.log(val + ' : ' + x);
+          // console.log(val + ' : ' + x);
           return x;
         }),
       );
     }
     stack = [];
     var intiuativePlane = convetToText(ans);
-    console.log('ans 4: ' + intiuativePlane);
+    // console.log('ans 4: ' + intiuativePlane);
     return [physicalPlane, mentalPlane, emotionalPlane, intiuativePlane];
   }
 
@@ -630,7 +666,7 @@ const ChartScreen = props => {
   stack = [];
   var lpnText  = CalLifePathNumber(stval);
   stack = [];
-  console.log('i am 2:'+fname+' '+mname+' '+lname+' '+stval);
+  // console.log('i am 2:'+fname+' '+mname+' '+lname+' '+stval);
   let desireText = calDesireNumber(fname, mname, lname);
   stack = [];
   let mExpText = calMinorExpressionNumber(fname, mname);
@@ -682,7 +718,7 @@ const ChartScreen = props => {
     if (user) {
       saveData();
     }
-    console.log('nav'+year);
+    // console.log('nav'+year);
     navigation.navigate("SummaryScreen",{
       day: day,
       month: month,
@@ -698,11 +734,11 @@ const ChartScreen = props => {
   var nickName = '';
   nickName = nickName.concat(fname,' ',mname);
   if (initializing) {
-    console.log('null');
+    // console.log('null');
     return null;
   }
   function backAction(params) {
-    console.log('backAction');
+    // console.log('backAction');
   }
   return (
     <ImageBackground
@@ -745,42 +781,51 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Life Path Number"
+                navigation = {navigation}
                 value={lpnText}></ValueBox>
                
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Birthday Number"
                 value={bnText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
+                navigation = {navigation}
                 heading="Expression / Destiny"
                 value={exp}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Minor Expression / Destiny"
                 value={mExp}></ValueBox>
                  
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
+                navigation = {navigation}
                 heading="Soul Urge / Heart’s Desire"
                 value={desireText}></ValueBox>
+               
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Minor Soul Urge / Heart’s Desire"
                 value={mDesireText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
+                navigation = {navigation}
                 heading="Personality"
                 value={personText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Minor Personality"
                 value={mPersonText}></ValueBox>
               <View
@@ -792,7 +837,9 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Maturity"
+                navigation = {navigation}
                 value={maturityText}></ValueBox>
+                
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -801,6 +848,7 @@ const ChartScreen = props => {
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Life Path/Expression
                 Bridge Number"
                 value={lpExpBrText}></ValueBox>
@@ -808,48 +856,57 @@ const ChartScreen = props => {
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Heart’s Desire/ Personality
                 Bridge, Planes of Expression"
                 value={hdPerBrText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Rational Thought Number"
                 value={rtnText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Balance Number"
                 value={balanceText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Subconcious Self Number"
                 value={subConText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Karmic Lesson"
                 value={keramicText}></ValueBox>
                 
               <ValueBox
                 boxWidth={120}
+                navigation = {navigation}
                 marginRight={0}
                 heading="Hidden Passion"
                 value={hiddenPassionText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Hereditary Name"
                 value="30/3"></ValueBox>
               <ValueBox
                 boxWidth={120}
+                navigation = {navigation}
                 marginRight={0}
                 heading="Physical Plane of Expression"
                 value={phyPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Mental Plane of Expression"
                 value={menPlaneText}></ValueBox>
               <ValueBox
@@ -857,31 +914,10 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Intutive Plane of Expression"
                 value={intPlaneText}></ValueBox>
-                {/* numners:{
-                  lifePathNumber:lpnText,
-                  birthDayNumber:bnText,
-                  expressionDestiny:exp,
-                  minorExpression:mExp,
-                  soulUrge:desireText,
-                  minorSoulUrger:mDesireText,
-                  personality:personText,
-                  minorPersonality:mPersonText,
-                  maturity:maturityText,
-                  attitude:attitudeText,
-                  lifePathExpBrdige:lpExpBrText,
-                  heartDesirePersonaliyBriger:hdPerBrText,
-                  rationalThaughtNumber:rtnText,
-                  balanceNumber:balanceText,
-                  subConNumber:subConText,
-                  kermicLesson:keramicText,
-                  hiddenPassion:hiddenPassionText,
-                  physicalPlane:phyPlaneText,
-                  mentalPlane:menPlaneText,
-                  intiuativePlane:intPlaneText,
-                  emotionalPlane:emotPlaneText,
-                } */}
+                
               <ValueBox
                 boxWidth={120}
+                navigation = {navigation}
                 marginRight={0}
                 heading="Emotional Plane of Expression"
                 value={emotPlaneText}></ValueBox>
@@ -889,6 +925,7 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Corenerstone"
+                navigation = {navigation}
                 value={cornetStoneText}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Chapters of your LIfe
@@ -896,70 +933,83 @@ const ChartScreen = props => {
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="First Period Cycle
                 (From Birth to Age 33)"
                 value={periodCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Second Period Cycle
                 (From Age 34 to Age 60)"
                 value={periodCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Third Period Cycle
                 (From Age 61 and on)"
                 value={periodCyleText3}></ValueBox>
               <Text style={styles.scrollViewHeading}>Seasons of Your Life</Text>
+             
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="First Pinnacle Number
                 (From Birth to age 33)"
                 value={pinnalceCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Second Pinnacle Number
                 (From age 34 to age 42)"
                 value={pinnalceCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Third Pinnacle Number
                 (From age 43 to age 51)"
                 value={pinnalceCyleText3}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Fourth Pinnacle Number
                 (From age 53 and on)"
                 value={pinnalceCyleText4}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Your Challenges in Life
               </Text>
+              
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="First Challenge Number
                 (From birth to age 33)"
                 value={challengeText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Second Challenge Number
                 (From age 34 to age 42)"
                 value={challengeText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Third Challenge Number
                 (From agr 43 to age 51)"
                 value={challengeText3}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
+                navigation = {navigation}
                 heading="Fourth Challenge Number
                 (From age 52 and on)"
                 value={challengeText4}></ValueBox>

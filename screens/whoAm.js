@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -68,7 +68,7 @@ const WhoAm = props => {
   }, []);
 
   if (initializing) {
-    console.log('null');
+   
     return null;
   }
 

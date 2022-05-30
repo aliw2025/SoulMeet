@@ -19,6 +19,7 @@ import MatchProfileScreen from '../screens/MatchProfile';
 import ItsAMatchScreen from '../screens/ItsAMatchScreen';
 import MatchesScreen from '../screens/MatchesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
+import Description from '../screens/Description'
 
 // import SignupScreen from '../screens/SignupScreen';
 // import LoginScreen from '../screens/LoginScreen';
@@ -126,6 +127,11 @@ const AuthStack = () => {
           name="MessagesScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={MessagesScreen}
+        />
+        <Stack.Screen
+          name="Description"
+          // options={{title:  (props)=> <EmptyHeader/>}}
+          component={Description}
         />
         
       </Stack.Navigator>

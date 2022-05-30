@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState,useEffect} from 'react';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -7,6 +7,8 @@ import {Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 // import {Modal} from '../components/Modal';
 
@@ -68,6 +70,7 @@ const TableCell = props => {
     rad = 1;
    
   }
+ 
   return (
     <View
       style={[
@@ -113,17 +116,58 @@ const TableRow = props => {
 };
 //  the screen component
 const MatchProfileScreen = props => {
+  const [fname, setFname] = useState('');
+  const [mname, setMname] = useState('');
+  const [lname, setLname] = useState('');
+  const [age,setAge] = useState('');
+  const [usrData, setUsrData] = useState(undefined);
+  const [profileImg, setProfileImg] = useState(undefined);
+  const [dp, setDp] = useState(undefined);
+  function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+      setUsrData(data);
+      setFname(data.fname);
+      setMname(data.mname);
+      setLname(data.lname);
+      setAge(data.age);
+      setDp(data.dp);
+     
+    } else {
+      console.log('error');
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if(documentSnapshot){
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      
+      });
+    return () => subscriber();
+  }, []);
   const navigationAction = params => {
     console.log('i am nav');
     // props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
     props.navigation.navigate("ItsAMatchScreen", {name: 'Jane'});
+
   };
+  
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* image container */}
       <View style={{alignItems: 'center',height:'55%', marginTop: 0}}>
         {/* image of person */}
-        <Image style={{width: '100%'}} source={photo}></Image>
+        <Image style={{width: '100%'}} source={{uri:dp}}></Image>
       </View>
       {/* background white card */}
       <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
@@ -160,7 +204,7 @@ const MatchProfileScreen = props => {
               marginRight: 40,
             }}>
             <View>
-              <Text style={styles.nameHeading}>Jessica Parker, 23</Text>
+              <Text style={styles.nameHeading}>{fname}  {lname}, {age}</Text>
               <Text
                 style={[
                   styles.nameHeading,

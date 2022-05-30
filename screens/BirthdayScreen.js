@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -38,6 +38,7 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 var pday = 0;
 const BirthDayScreen = ({navigation}) => {
+  console.log('rendering screen');
   // console.log('user is : ');
   // fbuser.getData();
   // array for days
@@ -66,17 +67,30 @@ const BirthDayScreen = ({navigation}) => {
   const [days, SetDays] = useState('');
   const [years, SetYears] = useState('');
   const [months, SetMonths] = useState('');
+  const [nmonths, SetNmonths] = useState(1);
   const [initializing, setInitializing] = useState(true);
 
   function updateData(data) {
     console.log('updating data ');
-    // console.log(data);
-    if (initializing) setInitializing(false);
+    console.log(data);
     if (data) {
       setUsrData(data);
-      SetDays(data.dob.day);
-      SetMonths(month[data.dob.month - 1].key);
-      SetYears(data.dob.year);
+      if(data.dob){
+        if (data.dob.day) {
+          SetDays(data.dob.day);
+        }
+
+        if (data.dob.month) {
+          SetMonths(month[data.dob.month - 1].key);
+          SetNmonths(data.dob.month);
+        }
+  
+        if (data.dob.year) {
+          SetYears(data.dob.year);
+        }
+      }
+      
+      
     } else {
       console.log('error');
       // console.log(usrData);
@@ -84,19 +98,24 @@ const BirthDayScreen = ({navigation}) => {
   }
 
   useEffect(() => {
+    console.log('mouting');
     const subscriber = firestore()
       .collection('users')
       .doc(auth().currentUser.uid)
       .onSnapshot(documentSnapshot => {
-        var data = documentSnapshot.data();
-        console.log('User dataI: ', data);
-        updateData(data);
+        // console.log(documentSnapshot);
+        var data;
+        if (documentSnapshot) {
+          data = documentSnapshot.data();
+          // console.log('User dataI: ', data);
+          updateData(data);
+        } else {
+          console.log('data is nullllll');
+        }
       });
     return () => subscriber();
   }, []);
 
-  
-  const [nmonths, SetNmonths] = useState(2);
   const [zIndex1, setZIndex1] = useState(0);
   //  state variables for showing the listts
   const [list1, setList1] = useState(false);
@@ -133,7 +152,6 @@ const BirthDayScreen = ({navigation}) => {
    * run when a day is selected
    */
   const onDaySelected = params => {
-    
     SetDays(params.item.key);
     hideList();
   };
@@ -142,9 +160,9 @@ const BirthDayScreen = ({navigation}) => {
    * run when a month is selected
    */
   const onMonthSelected = params => {
-    
     SetMonths(params.item.key);
     SetNmonths(params.index + 1);
+    console.log(nmonths);
     hideList();
   };
   /**
@@ -152,7 +170,6 @@ const BirthDayScreen = ({navigation}) => {
    * run when a day is selected
    */
   const onYearSelected = params => {
-   
     SetYears(params.item.key);
     hideList();
   };
@@ -204,7 +221,7 @@ const BirthDayScreen = ({navigation}) => {
   };
   // console.log(auth().currentUser);
   const navigationAction = params => {
-  
+    console.log('ading dob to fb');
     firestore()
       .collection('users')
       .doc(auth().currentUser.uid)
@@ -241,7 +258,6 @@ const BirthDayScreen = ({navigation}) => {
   const onLayout = event => {
     const {x, y, height, width} = event.nativeEvent.layout;
   };
-  if (initializing) return null;
 
   return (
     <ImageBackground

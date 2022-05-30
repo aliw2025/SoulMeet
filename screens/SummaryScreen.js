@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState,useEffect} from 'react';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -7,6 +7,8 @@ import {Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 // import {Modal} from '../components/Modal';
 
 import {
@@ -38,6 +40,8 @@ const windowHeight = Dimensions.get('window').height;
 
 //  the screen component
 const SummaryScreen = props => {
+
+
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
@@ -46,14 +50,50 @@ const SummaryScreen = props => {
   var mname = props.route.params.mname;
   var lname = props.route.params.lname;
   var navigation = props.navigation;
+  const [usrData,setUsrData] = useState(undefined);
   if(mname == ''){
     mname = lname;
   }else if(lname == ''){
     lname = mname;
   }
   //  map of life path numbers matching
+function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+      setUsrData(data);
+      getCompatible(data);
+      // setFname(data.fname);
+      // setMname(data.mname);
+      // setLname(data.lname);
+      // updateImage();
+      // console.log('loading img from url:' + data.dp);
+      // setDp({uri: data.dp});
+      // console.log('done setImg');
+      // console.log(dp);
+    } else {
+      console.log('error');
+    }
+  }
 
-
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if(documentSnapshot){
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      
+      });
+    return () => subscriber();
+  }, []);
+  const [compArray,setCompArray] = useState([0,0,0,0,0,0,0,0,0]);
+  var coArray = [0,0,0,0,0,0,0,0,0];
   var items = [
     [3, 2 , 3 , 1 , 3 , 2 , 3, 1 , 3 ],
     [2, 3 , 2  , 3 , 1 , 3 , 1, 3 , 2 ],
@@ -65,7 +105,28 @@ const SummaryScreen = props => {
     [1, 3 , 1 , 3 , 2 , 2 , 2, 3 , 1 ],
     [2, 1 , 3 , 1 , 2 , 3 , 2, 1, 3 ],
   ];
+  function getNum(str){
+    var val = 0;
+    var arr = str.split('/');
+    if(arr.length == 0){
+      return arr[0];
+    }else{
+      return arr[1];
+    }
   
+  }
+  function getCompatible(data){
+    var lifePathNumber = 0;
+    if(data){
+      lifePathNumber = getNum(data.numbers.lifePathNumber);
+      console.log(items[lifePathNumber-1]);
+      coArray = items[lifePathNumber-1];
+      setCompArray(items[lifePathNumber-1]);
+
+    }
+    console.log('life from fb:'+lifePathNumber);
+  }
+ 
 
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -85,14 +146,14 @@ const SummaryScreen = props => {
     if (arr.length == 0) {
       return 0;
     }
-    console.log(arr);
-    console.log("dfdfd: "+ arr.length);
+    // console.log(arr);
+    // console.log("dfdfd: "+ arr.length);
     let total = arr.reduce((acc, val) => acc + val);
     
     // if (total < 10 || total == 11 || total == 22 || total == 33) {
     //   return total;
     // }
-    console.log("dfdfd: "+ arr.length+'  '+total);
+    // console.log("dfdfd: "+ arr.length+'  '+total);
     if (total < 10) {
       return total;
     }
@@ -132,7 +193,7 @@ const SummaryScreen = props => {
     if(mArr.length ==0){
       return '';
     }
-    console.log('transit is '+mArr[mod]);
+    // console.log('transit is '+mArr[mod]);
     return mArr[mod];
   };
   
@@ -141,23 +202,24 @@ const SummaryScreen = props => {
   function calculateAge(day, month, year) {
     
     var d = '';
-
     d = d.concat(year, '-', month, '-', day);
     console.log("why " + d);
     var today = new Date();
     var birthDate = new Date(d);
-    
-    var age = today.getFullYear() - birthDate.getFullYear();
+    console.log('birthDate '+birthDate);
+    console.log('my yaer'+birthDate.getFullYear());
+    var age = today.getFullYear() - year;
+    console.log('ageeee'+age);
     if(isNaN(age)){
       return 0;
     }
-    console.log("why " + age);
+    // console.log("why " + age);
     var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
     {
         age--;
     }
-    console.log('ages: '+age);
+    // console.log('ages: '+age);
     return age;
 
   }
@@ -205,9 +267,24 @@ const SummaryScreen = props => {
   var [personalYear, personalMonth, personalDay] = personalNumbers(day, month);
 
   personalNumbers(day, month);
-  const navigationAction = screen => {  
+  const navigationAction = ({screen,matchType}) => {  
     // setIsModalVisible(true);
-    props.navigation.navigate(screen, {name: 'wase'});
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+       age:age,
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
+    console.log('screen ' +screen);
+    console.log('match type '+matchType);
+    props.navigation.navigate(screen, {matchType: matchType});
   };
   const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -286,7 +363,7 @@ const SummaryScreen = props => {
                   <ResultBox
                     haveHeading={true}
                     heading={1}
-                    bodyText="15%"
+                    bodyText="10%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
@@ -296,37 +373,37 @@ const SummaryScreen = props => {
                   <ResultBox
                     haveHeading={true}
                     heading={3}
-                    bodyText="15%"
+                    bodyText="2%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={4}
-                    bodyText="15%"
+                    bodyText="17%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={5}
-                    bodyText="15%"
+                    bodyText="1%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={6}
-                    bodyText="15%"
+                    bodyText="18%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={7}
-                    bodyText="15%"
+                    bodyText="2%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={8}
-                    bodyText="15%"
+                    bodyText="23%"
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={9}
-                    bodyText="15%"
+                    bodyText="12%"
                     width={box9}></ResultBox>
                 </View>
               </View>
@@ -338,7 +415,7 @@ const SummaryScreen = props => {
                   fontWeight: 'bold',
                   fontSize: 16,
                 }}>
-                Relationship Compatibility
+                Relationship Compatibility 
               </Text>
               <View style={{height: 80, marginTop: 10}}>
                 <View
@@ -355,54 +432,63 @@ const SummaryScreen = props => {
                     haveHeading={false}
                     heading={1}
                     bodyText="1"
+                    Compatibility = {compArray[0]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={2}
                     bodyText="2"
+                    Compatibility = {compArray[1]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={3}
                     bodyText="3"
+                    Compatibility = {compArray[2]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={4}
                     bodyText="4"
+                    Compatibility = {compArray[3]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={5}
                     bodyText="5"
+                    Compatibility = {compArray[4]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={6}
                     bodyText="6"
+                    Compatibility = {compArray[5]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={7}
                     bodyText="7"
+                    Compatibility = {compArray[6]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={8}
                     bodyText="8"
+                    Compatibility = {compArray[7]}
                     width={box9}></ResultBox>
                   <ResultBox
                     height={box2}
                     haveHeading={false}
                     heading={9}
                     bodyText="9"
+                    Compatibility = {compArray[8]}
                     width={box9}></ResultBox>
                 </View>
               </View>
@@ -521,8 +607,11 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={name =>
-                    navigationAction({name: 'SuggestionScreen'})
+                  onPress={name =>{
+                    onClick();
+                    navigationAction({screen: 'MatchesScreen',matchType:'twin'});
+                  }
+                    
                   }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={flame} />
@@ -533,13 +622,16 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={name =>
-                    navigationAction({name: 'SuggestionScreen'})
+                  onPress={name =>{
+                    onClick();
+                    navigationAction({screen: 'MatchesScreen',matchType:'couple'})
+                  }
+                    
                   }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={couple} />
-                    <Text style={styles.name}>Twin flame match</Text>
-                  </View>
+                    <Text style={styles.name}>Couple Match</Text>
+                </View>
                 </TouchableHighlight>
               </View>
             </View>
@@ -551,12 +643,15 @@ const SummaryScreen = props => {
               <View style={styles.cardBody}>
                 <TouchableHighlight
                   underlayColor="clear"
-                  onPress={name =>
-                    navigationAction({name: 'SuggestionScreen'})
+                  onPress={name => {
+                    onClick();
+                    navigationAction({screen: 'MatchesScreen',matchType:'none'})
+                  }
+                    
                   }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={couple} />
-                    <Text style={styles.name}>Twin flame match</Text>
+                    <Text adjustsFontSizeToFit style={styles.name}>Connect with Other Users</Text>
                   </View>
                 </TouchableHighlight>
               </View>

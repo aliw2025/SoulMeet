@@ -1,12 +1,12 @@
-import React, {useState, useEffect,useContext} from 'react';
-import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState, useEffect, useContext} from 'react';
+// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions,Alert} from 'react-native';
+import {Dimensions, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import CustomTextInput from '../components/CustomTextInput';
-import {AuthContext} from '../navigation/AuthProvider'
+import {AuthContext} from '../navigation/AuthProvider';
 
 import {
   SafeAreaView,
@@ -27,28 +27,23 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const SignIn = ({navigation}) => {
   // store value of email feild
-  const [emailText,setEmailText] = useState();
+  const [emailText, setEmailText] = useState();
   // store value of password feild
-  const [passText,setPassText] = useState();
-  const {login}  = useContext(AuthContext);
-
+  const [passText, setPassText] = useState();
+  const {login} = useContext(AuthContext);
 
   // function to sign in user
   const navigationAction = params => {
-    
-    const status = sigInUser({email:emailText,password:passText});
-   
+    const status = sigInUser({email: emailText, password: passText});
   };
 
   function sigInUser(user) {
-   console.log(' user emai is :' + user.email);
-    login(user.email,user.password);
-      
+    console.log(' user emai is :' + user.email);
+    login(user.email, user.password);
   }
 
   const onSelect = (country: Country) => {
     console.log(country);
-   
   };
 
   return (
@@ -58,10 +53,13 @@ const SignIn = ({navigation}) => {
       style={styles.BackGrounimage}>
       <SafeAreaView>
         <Text style={[styles.heading]}>Sign In</Text>
-        <CustomTextInput lineWidth = {60} onChangeText= {setEmailText} feildName="email"></CustomTextInput>
-        <CustomTextInput 
-           lineWidth = {90}
-          onChangeText = {setPassText}
+        <CustomTextInput
+          lineWidth={60}
+          onChangeText={setEmailText}
+          feildName="email"></CustomTextInput>
+        <CustomTextInput
+          lineWidth={90}
+          onChangeText={setPassText}
           secureTextEntry={true}
           feildName="password"></CustomTextInput>
 
@@ -80,7 +78,7 @@ const SignIn = ({navigation}) => {
 const styles = StyleSheet.create({
   BackGrounimage: {
     flex: 1,
-    alignItems: 'center', 
+    alignItems: 'center',
   },
 
   heading: {
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 40,
     textAlign: 'center',
-    color:'black',
+    color: 'black',
     // backgroundColor:'red'
   },
 });
