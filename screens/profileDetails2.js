@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions} from 'react-native';
+import {Dimensions,Alert} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
@@ -43,15 +43,66 @@ const ProfileDetails2 = props => {
   //   // array fo
   const [text, onChangeText] = React.useState('Useless Text');
 
-  
   var [usrData, setUsrData] = useState(props.route.params.usrData);
-  const [fname, setFname] = useState(usrData.fname);
-  const [lname, setLname] = useState(usrData.lname);
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
   // const [mname, setMname] = useState('');
   // setFname(usrData.fname);
   // setLname(usrData.lname);  
+  function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+
+      setUsrData(data);
+      setFname(data.fname);
+      setLname(data.lname);
+    
+    } else {
+      console.log('error');
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if(documentSnapshot){
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      
+      });
+    return () => subscriber();
+  }, []);
 
   const navigationAction = params => {
+    if(fname == undefined || lname ==undefined){
+      Alert.alert("ERROR", "please provide all feilds");
+      return;
+    }
+    if(fname == '' || lname == ''){
+      Alert.alert("ERROR", "please provide all feilds");
+      return;
+    }
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        fname: fname,
+        lname: lname,
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
     props.navigation.navigate('WhoAm', {
       day: day,
       month: month,
@@ -60,9 +111,7 @@ const ProfileDetails2 = props => {
       mname: mname,
       lname: lname,
     });
-    //  props.navigation.navigate("ProfileDetails2",{day: day,month:month,year:year,fname:fname,mname:mname,lname:lname});
-
-    //navigation.navigate("ChartScreen", {name: 'Jane'});
+    
   };
 
   // function updateData(data) {
@@ -126,10 +175,12 @@ const ProfileDetails2 = props => {
           <CustomTextInput
             value={fname}
             lineWidth={100}
+            onChangeText = {setFname}
             feildName="First Name"></CustomTextInput>
           <CustomTextInput
             value={lname}
             lineWidth={100}
+            onChangeText = {setLname}
             feildName="Last Name"></CustomTextInput>
 
           <View style={[styles.bottomBtn]}>

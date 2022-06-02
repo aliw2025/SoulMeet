@@ -81,7 +81,7 @@ const Description = props => {
     props.navigation.navigate('BirthDay', {name: 'Jane'});
   };
   const onSelect = (country: Country) => {
-    console.log(country);
+    // console.log(country);
     // setCountryCode(country.cca2)
     // setCountry(country)
   };

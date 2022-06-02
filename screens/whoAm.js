@@ -33,6 +33,7 @@ const windowHeight = Dimensions.get('window').height;
 const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 
+let type = 'woman';
 const WhoAm = props => {
   // console.log(props.route.params);
   // data variables
@@ -45,6 +46,11 @@ const WhoAm = props => {
   // authentication variables
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const [state1,setState1] = useState('active');
+  const [state2,setState2] = useState('inactive');
+  const [state3,setState3] = useState('inactive');
+  
+
   // firestore refrence
   let db = firestore();
 
@@ -72,14 +78,27 @@ const WhoAm = props => {
     return null;
   }
 
+  
   // console.log(auth().currentUser);
   const navigationAction = params => {
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        gender: type,
+      })
+      //ensure we catch any errors at this stage to advise us if something does go wrong
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user to firestore: ',
+          error,
+        );
+      });
+
     if (user) {
       saveData();
     }
-    function skipAction(params) {
-      console.log('skiping');
-    }
+   
     props.navigation.navigate('ChartScreen', {
       day: day,
       month: month,
@@ -107,7 +126,25 @@ const WhoAm = props => {
   const backAction = () =>{
     console.log('back action');
   }
-
+  function womanSelected(params) {
+    setState1('active')
+    setState2('inactive')
+    setState3('inactive')
+    type = 'woman';
+  }
+  function manSelected(params) {
+    setState1('inactive')
+    setState2('active')
+    setState3('inactive')
+    type = 'man';
+  }
+  
+  function otherSelected(params) {
+    setState1('inactive')
+    setState2('inactive')
+    setState3('active')
+    type = 'other';
+  }
   // const onChangeText = params => {};
   return (
     <ImageBackground
@@ -150,8 +187,9 @@ const WhoAm = props => {
               bgColor="white"
               borderColor="#E8E6EA"
               text="Woman"
+              state = {state1}
               image={buttonBgOrange}
-              btnAction={navigationAction}
+              btnAction={womanSelected}
               // navigation={navigation}
             ></ButtonWithTick>
           </View>
@@ -161,10 +199,11 @@ const WhoAm = props => {
               fontType="bold"
               bgColor="#FFC700"
               textColor="white"
+              state = {state2}
               borderColor="#FFC700"
               text="Man"
               image={buttonBgOrange}
-              btnAction={navigationAction}
+              btnAction={manSelected}
               //  navigation={navigation}
             ></ButtonWithTick>
           </View>
@@ -172,11 +211,12 @@ const WhoAm = props => {
             <ButtonWithTick
               path="ChartScreen"
               fontType="normal"
-              bgColor="white"
+              state = {state3}
+              bgColor="#FFC700"
               borderColor="#E8E6EA"
               text="Choose Another"
               image={buttonBgOrange}
-              btnAction={navigationAction}
+              btnAction={otherSelected}
               // navigation={navigation}
             ></ButtonWithTick>
           </View>

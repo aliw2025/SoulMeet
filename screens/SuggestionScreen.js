@@ -76,8 +76,6 @@ for (var i = 0; i < 10; i++) {
       setExpressionDestiny(data.numbers.expressionDestiny);
       setSoulUrge(data.numbers.soulUrge);
       setPersonality(data.numbers.personality);
-
-
       
     } else {
       console.log('error');
@@ -149,7 +147,7 @@ for (var i = 0; i < 10; i++) {
                     styles.nameHeading,
                     {top: '10%', fontSize: 15, marginTop: 5, fontWeight: 'normal'},
                   ]}>
-                  Professional model
+                  {/* Professional model */}
                 </Text>
                 <View style={styles.transparentCard}></View>
                 <View style={styles.textArea}>

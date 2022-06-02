@@ -7,6 +7,8 @@ import {Dimensions, TouchableHighlightBase} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 // import {Modal} from '../components/Modal';
 
 import {

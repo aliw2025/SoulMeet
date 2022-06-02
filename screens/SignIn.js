@@ -63,7 +63,7 @@ const SignIn = ({navigation}) => {
           secureTextEntry={true}
           feildName="password"></CustomTextInput>
 
-        <View style={[{marginLeft: 40, marginTop: 40, marginBottom: 30}]}>
+        <View style={[{marginLeft: 40, marginnaviTop: 40, marginBottom: 30}]}>
           <ButtonWithBg
             path="ProfileDetails1"
             active="true"

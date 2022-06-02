@@ -137,13 +137,13 @@ const MatchProfileScreen = props => {
       console.log('error');
     }
   }
-
+  var data;
   useEffect(() => {
     const subscriber = firestore()
       .collection('users')
       .doc(auth().currentUser.uid)
       .onSnapshot(documentSnapshot => {
-        var data;
+        
         if(documentSnapshot){
           data = documentSnapshot.data();
           console.log('User data recived ');
@@ -161,13 +161,29 @@ const MatchProfileScreen = props => {
     props.navigation.navigate("ItsAMatchScreen", {name: 'Jane'});
 
   };
+  function renderImage(){
+    console.log('reee');
+    console.log(dp);
+    var source;
+    if(dp){
+      source = {uri:dp};
+    }else{
+      source = photo;
+    }
+    return(
+      
+        <Image style={{width: '100%'}} source={source}></Image>
+
+    );
+  }
   
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* image container */}
       <View style={{alignItems: 'center',height:'55%', marginTop: 0}}>
         {/* image of person */}
-        <Image style={{width: '100%'}} source={{uri:dp}}></Image>
+        {renderImage()}
+        
       </View>
       {/* background white card */}
       <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
@@ -210,7 +226,7 @@ const MatchProfileScreen = props => {
                   styles.nameHeading,
                   {fontSize: 15, marginTop: 5, fontWeight: 'normal'},
                 ]}>
-                Professional model
+                {/* Professional model */}
               </Text>
             </View>
             <TouchableOpacity>
@@ -297,7 +313,9 @@ const MatchProfileScreen = props => {
               </TouchableOpacity>
                 
             </View>
+            
           </View>
+          {renderImage()}
         </ScrollView>
       </ImageBackground>
     </View>

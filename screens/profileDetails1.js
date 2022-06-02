@@ -3,7 +3,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions, Keyboard} from 'react-native';
+import {Dimensions, Keyboard,Alert} from 'react-native';
 import DropDown from '../components/dropDown';
 import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
@@ -46,6 +46,7 @@ const ProfileDetails1 = props => {
   const [fname, setFname] = useState('');
   const [mname, setMname] = useState('');
   const [lname, setLname] = useState('');
+  const [dname, setDname] = useState('');
   const [usrData, setUsrData] = useState(undefined);
   const [profileImg, setProfileImg] = useState(undefined);
   const [dp, setDp] = useState(undefined);
@@ -90,6 +91,7 @@ const ProfileDetails1 = props => {
       setFname(data.fname);
       setMname(data.mname);
       setLname(data.lname);
+      setDname(data.dnames)
       updateImage();
       console.log('loading img from url:' + data.dp);
       setDp({uri: data.dp});
@@ -119,6 +121,14 @@ const ProfileDetails1 = props => {
   }, []);
 
   const navigationAction = params => {
+    if(fname == undefined || mname == undefined || lname ==undefined || dname ==undefined){
+      Alert.alert("ERROR", "please provide all feilds");
+      return;
+    }
+    if(fname == '' || mname == '' || lname == '' || dname ==''){
+      Alert.alert("ERROR", "please provide all feilds");
+      return;
+    }
     firestore()
       .collection('users')
       .doc(auth().currentUser.uid)
@@ -126,6 +136,7 @@ const ProfileDetails1 = props => {
         fname: fname,
         mname: mname,
         lname: lname,
+        dname:dname
       })
       //ensure we catch any errors at this stage to advise us if something does go wrong
       .catch(error => {
@@ -144,6 +155,8 @@ const ProfileDetails1 = props => {
       usrData:usrData,
     });
   };
+
+
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const onKeyboardShow = event => {
     pos = 'absolute';
@@ -272,6 +285,7 @@ const ProfileDetails1 = props => {
             <CustomTextInput
               onChangeText={setFname}
               value={fname}
+              lineWidth={100}
               feildName="First Name"
               onSubmitEditing={Keyboard.dismiss}></CustomTextInput>
             <CustomTextInput
@@ -281,11 +295,14 @@ const ProfileDetails1 = props => {
               feildName="Middle Name"></CustomTextInput>
             <CustomTextInput
               value={lname}
+              lineWidth={110}
               onChangeText={setLname}
               feildName="Last Name"></CustomTextInput>
 
             <CustomTextInput
               lineWidth={160}
+              value={dname}
+              onChangeText={setDname}
               feildName="Profile Display Name"></CustomTextInput>
           </View>
           <View style={[styles.bottomBtn]}>

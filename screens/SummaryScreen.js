@@ -626,7 +626,6 @@ function updateData(data) {
                     onClick();
                     navigationAction({screen: 'MatchesScreen',matchType:'couple'})
                   }
-                    
                   }>
                   <View style={{alignItems: 'center'}}>
                     <Image style={styles.tinyLogo} source={couple} />

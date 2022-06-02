@@ -18,11 +18,33 @@ const tick = require('../assets/tick.png');
 
 const ButtonWithTick = props => {
 
-  [borderColor,setBorderColor] = useState(props.borderColor);
-  [textColor,setTextColor] = useState(props.textColor);
-  [bgColor,setBgColor] = useState(props.bgColor);
-  [fontType,setFontType] = useState(props.fontType);
+  // [borderColor,setBorderColor] = useState(props.borderColor);
+  // [textColor,setTextColor] = useState(props.textColor);
+  // [bgColor,setBgColor] = useState(props.bgColor);
+  // [fontType,setFontType] = useState(props.fontType);
   
+  var textColor;
+  var borderColor;
+  var bgColor;
+  var fontType;
+  if(props.state == 'active'){
+    textColor = 'white';
+    bgColor = '#FFC700';
+    borderColor = '#E8E6EA'
+    fontType = 'bold'
+    // setTextColor('white');
+    // setBgColor('#E8E6EA');
+    // setBorderColor("#FFC700");
+  }else{
+    textColor = 'black';
+    bgColor = 'white';
+    borderColor = '#E8E6EA'
+    fontType = 'normal'
+
+    // setTextColor('black');
+    // setBgColor('white');
+    // setBorderColor("#E8E6EA");
+  }
   const btnAction = params => {
     console.log(params);
     props.navigation.navigate(params, {name: 'Jane'});
