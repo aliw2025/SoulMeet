@@ -86,6 +86,7 @@ const WhoAm = props => {
       .doc(auth().currentUser.uid)
       .update({
         gender: type,
+        dataProvided:'yes',
       })
       //ensure we catch any errors at this stage to advise us if something does go wrong
       .catch(error => {
@@ -99,14 +100,14 @@ const WhoAm = props => {
       saveData();
     }
    
-    props.navigation.navigate('ChartScreen', {
-      day: day,
-      month: month,
-      year: year,
-      fname: fname,
-      mname: mname,
-      lname: lname,
-    });
+    // props.navigation.navigate('ChartScreen', {
+    //   day: day,
+    //   month: month,
+    //   year: year,
+    //   fname: fname,
+    //   mname: mname,
+    //   lname: lname,
+    // });
   };
   function saveData(params) {
     // db.collection('users').doc(user.uid).set({

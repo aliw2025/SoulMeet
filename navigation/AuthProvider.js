@@ -138,6 +138,7 @@ export const AuthProvider = ({children}) => {
                   email: email,
                   createdAt: firestore.Timestamp.fromDate(new Date()),
                   userImg: null,
+                  dataProvided:'no'
               })
               //ensure we catch any errors at this stage to advise us if something does go wrong
               .catch(error => {

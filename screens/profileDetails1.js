@@ -91,7 +91,7 @@ const ProfileDetails1 = props => {
       setFname(data.fname);
       setMname(data.mname);
       setLname(data.lname);
-      setDname(data.dnames)
+      setDname(data.dname)
       updateImage();
       console.log('loading img from url:' + data.dp);
       setDp({uri: data.dp});
@@ -227,6 +227,15 @@ const ProfileDetails1 = props => {
   };
   function skipAction() {
     console.log('skip action');
+    props.navigation.navigate('ProfileDetails2', {
+      day: day,
+      month: month,
+      year: year,
+      fname: fname,
+      mname: mname,
+      lname: lname,
+      usrData:usrData,
+    });
   }
 
   async function selectImage() {
@@ -300,8 +309,9 @@ const ProfileDetails1 = props => {
               feildName="Last Name"></CustomTextInput>
 
             <CustomTextInput
+               value={dname}
               lineWidth={160}
-              value={dname}
+             
               onChangeText={setDname}
               feildName="Profile Display Name"></CustomTextInput>
           </View>

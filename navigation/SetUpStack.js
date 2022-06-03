@@ -19,8 +19,7 @@ import MatchProfileScreen from '../screens/MatchProfile';
 import ItsAMatchScreen from '../screens/ItsAMatchScreen';
 import MatchesScreen from '../screens/MatchesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
-import Description from '../screens/Description';
-import AccountScreen from '../screens/AccountScreen';
+import Description from '../screens/Description'
 
 // import SignupScreen from '../screens/SignupScreen';
 // import LoginScreen from '../screens/LoginScreen';
@@ -32,7 +31,7 @@ import AccountScreen from '../screens/AccountScreen';
 
 const Stack = createNativeStackNavigator();
 
-const AuthStack = () => {
+const SetUpStack = () => {
 //   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
 //   let routeName;
 
@@ -65,56 +64,40 @@ const AuthStack = () => {
         }}>
         
         <Stack.Screen
-          name="ChartScreen"
+          name="SelectLanguage"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ChartScreen}
+          component={SelectLanguage}
         />
         <Stack.Screen
-          name="SummaryScreen"
+          name="AreYouHere"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={SummaryScreen}
+          component={AreYouHere}
         />
         <Stack.Screen
-          name="SuggestionScreen"
+          name="BirthDay"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={SuggestionScreen}
+          component={BirthDayScreen}
         />
         <Stack.Screen
-          name="MatchProfileScreen"
+          name="ProfileDetails1"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MatchProfileScreen}
+          component={ProfileDetails1}
         />
         <Stack.Screen
-          name="ItsAMatchScreen"
+          name="ProfileDetails2"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={ItsAMatchScreen}
+          component={ProfileDetails2}
         />
         <Stack.Screen
-          name="MatchesScreen"
+          name="WhoAm"
           // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MatchesScreen}
+          component={WhoAm}
         />
-        <Stack.Screen
-          name="MessagesScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={MessagesScreen}
-        />
-        <Stack.Screen
-          name="Description"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={Description}
-        />
-         <Stack.Screen
-          name="AccountScreen"
-          // options={{title:  (props)=> <EmptyHeader/>}}
-          component={AccountScreen}
-        />
-        
       </Stack.Navigator>
   );
 };
 
-export default AuthStack;
+export default SetUpStack;
 
 
 

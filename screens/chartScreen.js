@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 // import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -8,6 +8,7 @@ import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 import {
   SafeAreaView,
@@ -32,96 +33,128 @@ const windowHeight = Dimensions.get('window').height;
 //  the screen component
 const ChartScreen = props => {
   // console.log(props.route.params);
-  var day = props.route.params.day;
-  var month = props.route.params.month;
-  var year = props.route.params.year;
-  var fname = props.route.params.fname;
-  var mname = props.route.params.mname;
-  var lname = props.route.params.lname;
-  var navigation = props.navigation;
-   // authentication variables
-   const [initializing, setInitializing] = useState(true);
-   const [user, setUser] = useState();
-   // firestore refrence
-   let db = firestore();
-   // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (user) {
-      // console.log(user);
-      // navigation.navigate('SelectLanguage', {name: 'Jane'});
-    }
+  // var day = props.route.params.day;
+  // var month = props.route.params.month;
+  // var year = props.route.params.year;
+  // var fname = props.route.params.fname;
+  // var mname = props.route.params.mname;
+  // var lname = props.route.params.lname;
+  const [fname, setFname] = useState(undefined);
+  const [mname, setMname] = useState(undefined);
+  const [lname, setLname] = useState(undefined);
+  const [day, setDay] = useState();
+  const [month, setMonth] = useState(undefined);
+  const [year, setYear] = useState(undefined);
+  // const [initializing,setInitializing]  = useState('true');
 
-    if (initializing) setInitializing(false);
+  var navigation = props.navigation;
+  // authentication variables
+  const [initializing, setInitializing] = useState(true);
+  // const [user, setUser] = useStat  e();
+  // firestore refrence
+  let db = firestore();
+  function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+      // setUsrData(data);
+      setFname(data.fname);
+      setMname(data.mname);
+      setLname(data.lname);
+      setDay(data.dob.day);
+      setMonth(data.dob.month);
+      setYear(data.dob.year);
+      setInitializing(false);
+    } else {
+      console.log('error');
+    }
   }
-  // keep track of changes in authetication
+
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if (documentSnapshot) {
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        } else {
+          console.log('error in reciving data');
+        }
+      });
+    return () => subscriber();
   }, []);
 
   function saveData(params) {
-    db.collection('users').doc(user.uid).update({
-      // numbers:{
-      //   lifePathNumber:lpnText,
-      //   birthDayNumber:bnText,
-      //   expressionDestiny:exp,
-      //   minorExpression:mExp,
-      //   soulUrge:desireText,
-      // },
-      numbers:{
-        lifePathNumber:lpnText,
-        birthDayNumber:bnText,
-        expressionDestiny:exp,
-        minorExpression:mExp,
-        soulUrge:desireText,
-        minorSoulUrger:mDesireText,
-        personality:personText,
-        minorPersonality:mPersonText,
-        maturity:maturityText,
-        attitude:attitudeText,
-        lifePathExpBrdige:lpExpBrText,
-        heartDesirePersonaliyBriger:hdPerBrText,
-        rationalThaughtNumber:rtnText,
-        balanceNumber:balanceText,
-        subConNumber:subConText,
-        kermicLesson:keramicText,
-        hiddenPassion:hiddenPassionText,
-        physicalPlane:phyPlaneText,
-        mentalPlane:menPlaneText,
-        intiuativePlane:intPlaneText,
-        emotionalPlane:emotPlaneText,
-        corenerStong:cornetStoneText,
-        firstPeriodCycle:periodCyleText1,
-        secPeriodCycle:periodCyleText2,
-        thirdPeriodCycle:periodCyleText3,
-        pinnacle1:pinnalceCyleText1,
-        pinnacle2:pinnalceCyleText2,
-        pinnacle3:pinnalceCyleText3,
-        pinnacle4:pinnalceCyleText4,
-        challenge1:challengeText1,
-        challenge2:challengeText2,
-        challenge3:challengeText3,
-        challenge4:challengeText4,
-                          
-      },
-    }).then().catch((err) => console.log(err));
+    db.collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        // numbers:{
+        //   lifePathNumber:lpnText,
+        //   birthDayNumber:bnText,
+        //   expressionDestiny:exp,
+        //   minorExpression:mExp,
+        //   soulUrge:desireText,
+        // },
+        numbers: {
+          lifePathNumber: lpnText,
+          birthDayNumber: bnText,
+          expressionDestiny: expText,
+          minorExpression: mExpText,
+          soulUrge: desireText,
+          minorSoulUrger: mDesireText,
+          personality: personText,
+          minorPersonality: mPersonText,
+          maturity: maturityText,
+          attitude: attitudeText,
+          lifePathExpBrdige: lpExpBrText,
+          heartDesirePersonaliyBriger: hdPerBrText,
+          rationalThaughtNumber: rtnText,
+          balanceNumber: balanceText,
+          subConNumber: subConText,
+          kermicLesson: keramicText,
+          hiddenPassion: hiddenPassionText,
+          physicalPlane: phyPlaneText,
+          mentalPlane: menPlaneText,
+          intiuativePlane: intPlaneText,
+          emotionalPlane: emotPlaneText,
+          corenerStong: cornetStoneText,
+          firstPeriodCycle: periodCyleText1,
+          secPeriodCycle: periodCyleText2,
+          thirdPeriodCycle: periodCyleText3,
+          pinnacle1: pinnalceCyleText1,
+          pinnacle2: pinnalceCyleText2,
+          pinnacle3: pinnalceCyleText3,
+          pinnacle4: pinnalceCyleText4,
+          challenge1: challengeText1,
+          challenge2: challengeText2,
+          challenge3: challengeText3,
+          challenge4: challengeText4,
+        },
+      })
+      .then()
+      .catch(err => console.log(err));
   }
- 
+  if(initializing){
+    return null;
+  }
   // var day = 20;
   // var month = 2;
   // var year = 1996;
   var stval = '';
 
+  if (day && year && month) {
+    stval = stval.concat(
+      year.toString(),
+      '-',
+      day.toString(),
+      '-',
+      month.toString(),
+    );
+    console.log('i am :' + fname + ' ' + mname + ' ' + lname + ' ' + stval);
+  }
 
-  stval = stval.concat(
-    year.toString(),
-    '-',
-    day.toString(),
-    '-',
-    month.toString(),
-  );
-  console.log('i am :'+fname+' '+mname+' '+lname+' '+stval);
   var stack = [];
   /**
    * function to calculate sum recursivley and reduce sum to single
@@ -131,7 +164,7 @@ const ChartScreen = props => {
     // if (arr.length === 1) {
     //   return +arr[0];
     // }
-    if(arr.length == 0){
+    if (arr.length == 0) {
       return 0;
     }
     let total = arr.reduce((acc, val) => acc + val);
@@ -141,7 +174,7 @@ const ChartScreen = props => {
     return sum(String(total).split('').map(Number));
   };
   /**
-   * functio to add only last resutls to get 
+   * functio to add only last resutls to get
    * single digit and the orignal full number
    */
   const sumAll = (arr = []) => {
@@ -199,10 +232,9 @@ const ChartScreen = props => {
   // let lpnObj = CalLifePathNumber(stval);
   // var lpnText = '';
   // lpnText = lpnText.concat(lpnObj.total, '/', lpnObj.reduced);
-  
+
   // new
   const CalLifePathNumber = (date = '') => {
-
     let [year, month, day] = date.split('-');
     year = sum(String(year).split('').map(Number));
     month = sum(String(month).split('').map(Number));
@@ -212,7 +244,6 @@ const ChartScreen = props => {
     var text = convetToText(total);
     return text;
   };
-
 
   function calBirhtDayNumber(day) {
     if (day < 10) {
@@ -229,8 +260,7 @@ const ChartScreen = props => {
   let bnObj = calBirhtDayNumber(day);
   var bnText = '';
   bnText = bnText.concat(bnObj.total, '/', bnObj.reduced);
-  
-  
+
   function calExpressionNumber(fname, mname, lname) {
     let c = 'c';
     fname = fname.toLowerCase();
@@ -248,7 +278,6 @@ const ChartScreen = props => {
   stack = [];
   let expText = calExpressionNumber(fname, mname, lname);
 
- 
   function calMinorExpressionNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
@@ -261,59 +290,50 @@ const ChartScreen = props => {
     return text;
   }
 
-  
-
-  
   function calDesireNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-    
-    
+
     var fval = 0;
     let arr = fname.match(/[aeiou]/gi);
-    if(arr!=null){
+    if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
     var mval = 0;
     let arr2 = mname.match(/[aeiou]/gi);
-    if(arr2!=null){
+    if (arr2 != null) {
       mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
     }
     var lval = 0;
     let arr3 = lname.match(/[aeiou]/gi);
-    if(arr3!=null){
+    if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
-    
+
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
   }
-  
 
   function calMinorDesireNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
     var fval = 0;
     let arr = fname.match(/[aeiou]/gi);
-    if(arr!=null){
+    if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
     var lval = 0;
     let arr3 = lname.match(/[aeiou]/gi);
-    if(arr3!=null){
+    if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
-   
+
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
   }
-
-  
-
-  
 
   function calPersonNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
@@ -321,57 +341,44 @@ const ChartScreen = props => {
     lname = lname.toLowerCase();
     let arr = fname.match(/[^aeiou]/gi);
     var fval = 0;
-    if(arr!=null){
-      fval =  sum(
-        arr.map(val => val.charCodeAt(0) - 96),
-      );
+    if (arr != null) {
+      fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
-   
-    let arr2 =  mname.match(/[^aeiou]/gi);
+
+    let arr2 = mname.match(/[^aeiou]/gi);
     var mval = 0;
-    if(arr2!=null){
-      mval =  sum(
-        arr2.map(val => val.charCodeAt(0) - 96),
-       );
+    if (arr2 != null) {
+      mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
     }
-   let arr3 = lname.match(/[^aeiou]/gi);
-   var lval = 0;
-   if(arr3!=null){
-    lval = sum(
-      arr3.map(val => val.charCodeAt(0) - 96),
-    );
-   }
-   
+    let arr3 = lname.match(/[^aeiou]/gi);
+    var lval = 0;
+    if (arr3 != null) {
+      lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
+    }
+
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
   }
-
- 
 
   function calMpersonNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
     let arr = fname.match(/[^aeiou]/gi);
     var fval = 0;
-    if(arr!=null){
-      fval =  sum(
-        arr.map(val => val.charCodeAt(0) - 96),
-      );
+    if (arr != null) {
+      fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
-    
-   let arr3 = lname.match(/[^aeiou]/gi);
-   var lval = 0;
-   if(arr3!=null){
-    lval = sum(
-      arr3.map(val => val.charCodeAt(0) - 96),
-    );
-   }
+
+    let arr3 = lname.match(/[^aeiou]/gi);
+    var lval = 0;
+    if (arr3 != null) {
+      lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
+    }
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
   }
-  
 
   function calBridgeNumber(val1, val2) {
     //console.log('IAML '+val1.split('/').map(Number)[0]);
@@ -421,11 +428,10 @@ const ChartScreen = props => {
   };
 
   function calRtn(birthDay, fname) {
-
     fname = fname.toLowerCase();
     let arr = fname.match(/[a-z]/gi);
     var fval = 0;
-    if(arr!=null){
+    if (arr != null) {
       fval = simpleSum(arr.map(val => val.charCodeAt(0) - 96));
     }
     // console.log("ffval: "+fval);
@@ -444,19 +450,19 @@ const ChartScreen = props => {
     lname = lname.toLowerCase();
 
     var fval = 0;
-    if(fname.length!=0){
-       fval = fname[0].charCodeAt(0) - 96;
+    if (fname.length != 0) {
+      fval = fname[0].charCodeAt(0) - 96;
     }
     var mval = 0;
-    if(mname.length!=0){
-       mval = mname[0].charCodeAt(0) - 96;
+    if (mname.length != 0) {
+      mval = mname[0].charCodeAt(0) - 96;
     }
 
     var lval = 0;
-    if(lname.length!=0){
-       lval = lname[0].charCodeAt(0) - 96;
+    if (lname.length != 0) {
+      lval = lname[0].charCodeAt(0) - 96;
     }
-   
+
     // console.log(fval);
     // console.log(mval);
     // console.log(lval);
@@ -554,24 +560,24 @@ const ChartScreen = props => {
     var fullname = '';
     fullname = fullname.concat(fname, mname, lname);
     stack = [];
-    let arr1 =  fullname.match(/[ewdm]/gi);
+    let arr1 = fullname.match(/[ewdm]/gi);
     var ans = 0;
-    if(arr1!=null){
+    if (arr1 != null) {
       ans = sumFinal(
         arr1.map(val => {
-           var x = val.charCodeAt(0) - 96;
-           x = sum(String(x).split('').map(Number));
-           console.log(val + ' : ' + x);
-           return x;
-         }),
-       );
+          var x = val.charCodeAt(0) - 96;
+          x = sum(String(x).split('').map(Number));
+          console.log(val + ' : ' + x);
+          return x;
+        }),
+      );
     }
     var physicalPlane = convetToText(ans);
     // console.log('ans 1: ' + physicalPlane);
     stack = [];
     ans = 0;
     let arr2 = fullname.match(/[ahjnpgl]/gi);
-    if(arr2 != null){
+    if (arr2 != null) {
       ans = sumFinal(
         arr2.map(val => {
           var x = val.charCodeAt(0) - 96;
@@ -586,7 +592,7 @@ const ChartScreen = props => {
     stack = [];
     ans = 0;
     let arr3 = fullname.match(/[iorzbstx]/gi);
-    if(arr3 !=null){
+    if (arr3 != null) {
       ans = sumFinal(
         arr3.map(val => {
           var x = val.charCodeAt(0) - 96;
@@ -601,7 +607,7 @@ const ChartScreen = props => {
     stack = [];
     ans = 0;
     let arr4 = fullname.match(/[kfquycv]/gi);
-    if(arr4!=null){
+    if (arr4 != null) {
       ans = sumFinal(
         arr4.map(val => {
           var x = val.charCodeAt(0) - 96;
@@ -629,42 +635,51 @@ const ChartScreen = props => {
     year = sum(String(year).split('').map(Number));
     return [month.toString(), day.toString(), year.toString()];
   }
-  function calPinnacleCycles(day,month,year) {
+  function calPinnacleCycles(day, month, year) {
     day = sum(String(day).split('').map(Number));
     month = sum(String(month).split('').map(Number));
     year = sum(String(year).split('').map(Number));
-    let pinnacle1  = sum([day,month]);
-    let pinnacle2 = sum([day,year]);
-    let pinnacle3 = sum([pinnacle1,pinnacle2]);
-    let pinnacle4 = sum([month,year]);
-    return [pinnacle1.toString(),pinnacle2.toString(),pinnacle3.toString(),pinnacle4.toString()];
-    
+    let pinnacle1 = sum([day, month]);
+    let pinnacle2 = sum([day, year]);
+    let pinnacle3 = sum([pinnacle1, pinnacle2]);
+    let pinnacle4 = sum([month, year]);
+    return [
+      pinnacle1.toString(),
+      pinnacle2.toString(),
+      pinnacle3.toString(),
+      pinnacle4.toString(),
+    ];
   }
-  function calChallengeNumber(day,month,year) {
+  function calChallengeNumber(day, month, year) {
     day = sum(String(day).split('').map(Number));
     month = sum(String(month).split('').map(Number));
     year = sum(String(year).split('').map(Number));
-    let challenge1  = day - month;
-    if(challenge1<0){
-      challenge1 = challenge1*-1;
+    let challenge1 = day - month;
+    if (challenge1 < 0) {
+      challenge1 = challenge1 * -1;
     }
     let challenge2 = year - day;
-    if(challenge2<0){
-      challenge2 = challenge2*-1;
+    if (challenge2 < 0) {
+      challenge2 = challenge2 * -1;
     }
     let challenge3 = challenge1 - challenge2;
-    if(challenge3<0){
-      challenge3 = challenge3*-1;
+    if (challenge3 < 0) {
+      challenge3 = challenge3 * -1;
     }
     let challenge4 = year - month;
-    if(challenge4<0){
-      challenge4 = challenge4*-1;
+    if (challenge4 < 0) {
+      challenge4 = challenge4 * -1;
     }
-    return [challenge1.toString(),challenge2.toString(),challenge3.toString(),challenge4.toString()];
+    return [
+      challenge1.toString(),
+      challenge2.toString(),
+      challenge3.toString(),
+      challenge4.toString(),
+    ];
   }
 
   stack = [];
-  var lpnText  = CalLifePathNumber(stval);
+  var lpnText = CalLifePathNumber(stval);
   stack = [];
   // console.log('i am 2:'+fname+' '+mname+' '+lname+' '+stval);
   let desireText = calDesireNumber(fname, mname, lname);
@@ -679,13 +694,13 @@ const ChartScreen = props => {
 
   // [lpnText, selpnText] = useState(lpnTextText);
   // [bn, setBn] = useState(bnText);
-  
-  [exp, setExp] = useState(expText);
-  [mExp, setMexp] = useState(mExpText);
 
-  let lpExpBrText = calBridgeNumber(lpnText, exp);
+  // [exp, setExp] = useState(expText);
+  // [mExp, setMexp] = useState(mExpText);
+
+  let lpExpBrText = calBridgeNumber(lpnText, expText);
   let hdPerBrText = calBridgeNumber(desireText, personText);
-  let maturityText = calMaturityNumber(lpnText, exp);
+  let maturityText = calMaturityNumber(lpnText, expText);
   let attitudeText = CalAttitudeNumber(stval);
   let rtnText = calRtn(bnText, fname);
   let balanceText = calBalanceNumber(fname, mname, lname);
@@ -703,23 +718,21 @@ const ChartScreen = props => {
     month,
     year,
   );
-  let [pinnalceCyleText1, pinnalceCyleText2, pinnalceCyleText3,pinnalceCyleText4] = calPinnacleCycles(
-    day,
-    month,
-    year,
-  );
-  let [challengeText1, challengeText2, challengeText3,challengeText4] = calChallengeNumber(
-    day,
-    month,
-    year,
-  );
+  let [
+    pinnalceCyleText1,
+    pinnalceCyleText2,
+    pinnalceCyleText3,
+    pinnalceCyleText4,
+  ] = calPinnacleCycles(day, month, year);
+  let [challengeText1, challengeText2, challengeText3, challengeText4] =
+    calChallengeNumber(day, month, year);
 
   const navigationAction = params => {
-    if (user) {
+    
       saveData();
-    }
+    
     // console.log('nav'+year);
-    navigation.navigate("SummaryScreen",{
+    navigation.navigate('SummaryScreen', {
       day: day,
       month: month,
       year: year,
@@ -727,12 +740,12 @@ const ChartScreen = props => {
       mname: mname,
       lname: lname,
     });
-  }
-  var indeicator  = require('../assets/indicator.png')
+  };
+  var indeicator = require('../assets/indicator.png');
   var fullName = '';
-  fullName = fullName.concat(fname,' ',mname,' ',lname);
+  fullName = fullName.concat(fname, ' ', mname, ' ', lname);
   var nickName = '';
-  nickName = nickName.concat(fname,' ',mname);
+  nickName = nickName.concat(fname, ' ', mname);
   if (initializing) {
     // console.log('null');
     return null;
@@ -746,9 +759,10 @@ const ChartScreen = props => {
       resizeMode="cover"
       style={styles.BackGrounimage}>
       <SafeAreaView style={[{flex: 1}]}>
-        <TouchableOpacity onPress = {()=>{
-          backAction();
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            backAction();
+          }}>
           <View style={[styles.backBtn]}>
             <Text
               style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
@@ -758,88 +772,91 @@ const ChartScreen = props => {
         </TouchableOpacity>
         <View style={styles.mainPage}>
           <View style={[styles.container]}>
-            <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.heading]}>Chart Calculator</Text>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={[styles.heading]}>
+              Chart Calculator
+            </Text>
           </View>
-         
+
           <ImageBackground
             source={card}
             resizeMode="stretch"
             style={[styles.card]}>
-          <Image
-          style={{alignSelf:'center',marginTop:-5}}
-          source={indeicator}
-          />
-          <ScrollView style={[{flex: 1, marginTop: 20}]}>
+            <Image
+              style={{alignSelf: 'center', marginTop: -5}}
+              source={indeicator}
+            />
+            <ScrollView style={[{flex: 1, marginTop: 20}]}>
               <InfoBox heading="Current Name" bodyText={nickName}></InfoBox>
               <InfoBox
                 heading="Full Name at Birth"
-                bodyText = {fullName}></InfoBox>
-              <InfoBox
-                heading="Date of Birth"
-                bodyText={stval}></InfoBox>
+                bodyText={fullName}></InfoBox>
+              <InfoBox heading="Date of Birth" bodyText={stval}></InfoBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Life Path Number"
-                navigation = {navigation}
+                navigation={navigation}
                 value={lpnText}></ValueBox>
-               
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Birthday Number"
                 value={bnText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Expression / Destiny"
-                value={exp}></ValueBox>
+                value={expText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Minor Expression / Destiny"
-                value={mExp}></ValueBox>
-                 
+                value={mExpText}></ValueBox>
+
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Soul Urge / Heart’s Desire"
                 value={desireText}></ValueBox>
-               
+
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Minor Soul Urge / Heart’s Desire"
                 value={mDesireText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={60}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Personality"
                 value={personText}></ValueBox>
               <ValueBox
                 boxWidth={60}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Minor Personality"
                 value={mPersonText}></ValueBox>
               <View
                 style={[
                   {backgroundColor: '#00000033', width: '60%', height: 1},
                 ]}></View>
-                 
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 heading="Maturity"
-                navigation = {navigation}
+                navigation={navigation}
                 value={maturityText}></ValueBox>
-                
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
@@ -848,65 +865,65 @@ const ChartScreen = props => {
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Life Path/Expression
                 Bridge Number"
                 value={lpExpBrText}></ValueBox>
-                
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Heart’s Desire/ Personality
                 Bridge, Planes of Expression"
                 value={hdPerBrText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Rational Thought Number"
                 value={rtnText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Balance Number"
                 value={balanceText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Subconcious Self Number"
                 value={subConText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Karmic Lesson"
                 value={keramicText}></ValueBox>
-                
+
               <ValueBox
                 boxWidth={120}
-                navigation = {navigation}
+                navigation={navigation}
                 marginRight={0}
                 heading="Hidden Passion"
                 value={hiddenPassionText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Hereditary Name"
                 value="30/3"></ValueBox>
               <ValueBox
                 boxWidth={120}
-                navigation = {navigation}
+                navigation={navigation}
                 marginRight={0}
                 heading="Physical Plane of Expression"
                 value={phyPlaneText}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Mental Plane of Expression"
                 value={menPlaneText}></ValueBox>
               <ValueBox
@@ -914,10 +931,10 @@ const ChartScreen = props => {
                 marginRight={0}
                 heading="Intutive Plane of Expression"
                 value={intPlaneText}></ValueBox>
-                
+
               <ValueBox
                 boxWidth={120}
-                navigation = {navigation}
+                navigation={navigation}
                 marginRight={0}
                 heading="Emotional Plane of Expression"
                 value={emotPlaneText}></ValueBox>
@@ -925,7 +942,7 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 heading="Corenerstone"
-                navigation = {navigation}
+                navigation={navigation}
                 value={cornetStoneText}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Chapters of your LIfe
@@ -933,83 +950,83 @@ const ChartScreen = props => {
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="First Period Cycle
                 (From Birth to Age 33)"
                 value={periodCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Second Period Cycle
                 (From Age 34 to Age 60)"
                 value={periodCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Third Period Cycle
                 (From Age 61 and on)"
                 value={periodCyleText3}></ValueBox>
               <Text style={styles.scrollViewHeading}>Seasons of Your Life</Text>
-             
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="First Pinnacle Number
                 (From Birth to age 33)"
                 value={pinnalceCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Second Pinnacle Number
                 (From age 34 to age 42)"
                 value={pinnalceCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Third Pinnacle Number
                 (From age 43 to age 51)"
                 value={pinnalceCyleText3}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Fourth Pinnacle Number
                 (From age 53 and on)"
                 value={pinnalceCyleText4}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Your Challenges in Life
               </Text>
-              
+
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="First Challenge Number
                 (From birth to age 33)"
                 value={challengeText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Second Challenge Number
                 (From age 34 to age 42)"
                 value={challengeText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Third Challenge Number
                 (From agr 43 to age 51)"
                 value={challengeText3}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
-                navigation = {navigation}
+                navigation={navigation}
                 heading="Fourth Challenge Number
                 (From age 52 and on)"
                 value={challengeText4}></ValueBox>
@@ -1018,7 +1035,7 @@ const ChartScreen = props => {
                   path="ProfileDetails1"
                   active="true"
                   text="Next"
-                  btnAction = {navigationAction}
+                  btnAction={navigationAction}
                   navigation={navigation}></ButtonWithBg>
               </View>
             </ScrollView>
@@ -1036,8 +1053,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginLeft:40,
-    marginTop:40,
+    marginLeft: 40,
+    marginTop: 40,
   },
   scrollViewHeading: {
     marginLeft: 40,
@@ -1056,15 +1073,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    width: windowWidth- 80,
-    marginLeft:40,
-    marginRight:40,
+    width: windowWidth - 80,
+    marginLeft: 40,
+    marginRight: 40,
     // backgroundColor:'gray',
     // justifyContent:'center',
     // alignItems:'center',
-
-    
-  }, 
+  },
   mainPage: {
     flex: 1,
     // justifyContent:'center',
@@ -1075,7 +1090,7 @@ const styles = StyleSheet.create({
     marginTop: '7.6%',
     fontSize: 40,
     fontWeight: 'bold',
-    color:'black',
+    color: 'black',
   },
 });
 

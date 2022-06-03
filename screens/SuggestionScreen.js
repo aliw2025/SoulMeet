@@ -292,7 +292,7 @@ for (var i = 0; i < 10; i++) {
             <Image source={message}></Image>
           </TouchableOpacity>
           {/* profile */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigationAction()}>
             <Image source={people}></Image>
           </TouchableOpacity>
         </View>
