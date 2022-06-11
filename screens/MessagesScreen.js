@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions, TouchableHighlightBase} from 'react-native';
+import {Dimensions, TouchableHighlightBase,Alert} from 'react-native';
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
@@ -214,8 +214,8 @@ const MessagesScreen = props => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            this.setModalVisible(!modalVisible);
+            // Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>

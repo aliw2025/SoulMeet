@@ -75,7 +75,7 @@ const MatchesScreen = props => {
   const [lname, setLname] = useState('');
   const [usrData, setUsrData] = useState(undefined);
 
-  matchType = props.route.params.matchType;
+  matchType = props;
 
   const [imageList, setImageList] = useState(images);
 
@@ -330,7 +330,7 @@ const MatchesScreen = props => {
               </View>
             );
           }}
-          //  keyExtractor={(item, index) => index.toString()}
+           keyExtractor={(item, index) => index.toString()}
         />
       </View>
     </SafeAreaView>

@@ -21,6 +21,7 @@ import MatchesScreen from '../screens/MatchesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import Description from '../screens/Description';
 import AccountScreen from '../screens/AccountScreen';
+import TabsScreen from '../screens/TabsScreen'
 
 // import SignupScreen from '../screens/SignupScreen';
 // import LoginScreen from '../screens/LoginScreen';
@@ -108,6 +109,11 @@ const AuthStack = () => {
           name="AccountScreen"
           // options={{title:  (props)=> <EmptyHeader/>}}
           component={AccountScreen}
+        />
+        <Stack.Screen
+          name="TabsScreen"
+          
+          component={TabsScreen}
         />
         
       </Stack.Navigator>

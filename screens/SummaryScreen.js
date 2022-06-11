@@ -624,7 +624,7 @@ function updateData(data) {
                   underlayColor="clear"
                   onPress={name =>{
                     onClick();
-                    navigationAction({screen: 'MatchesScreen',matchType:'couple'})
+                    navigationAction({screen: 'TabsScreen',matchType:'couple'})
                   }
                   }>
                   <View style={{alignItems: 'center'}}>
