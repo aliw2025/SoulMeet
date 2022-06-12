@@ -11,7 +11,7 @@ import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SettingsScreen from './SettingsScreen'
+import SettingsScreen from './SettingsScreen';
 
 // import {Modal} from '../components/Modal';
 import {
@@ -51,23 +51,19 @@ const search = require('../assets/search.png');
 const arrow = require('../assets/arrrow.png');
 
 var images = [];
-
 const ListItem = props => {
   var name = '';
   if (props.name) {
     name = props.name;
   }
   const navigationAction = params => {
-    if(props.navigation && props.screen){
-
+    if (props.navigation && props.screen) {
       props.navigation.navigate(props.screen, {name: 'avvv'});
-
     }
   };
-
   return (
-    <TouchableOpacity 
-      onPress = {()=>{
+    <TouchableOpacity
+      onPress={() => {
         navigationAction();
       }}
       style={{
@@ -85,7 +81,6 @@ const ListItem = props => {
         <Text style={{fontSize: 16, fontWeight: 'bold'}}>{name}</Text>
         <Image source={arrow}></Image>
       </View>
-
       <View
         style={{
           bottom: 0,
@@ -97,7 +92,6 @@ const ListItem = props => {
     </TouchableOpacity>
   );
 };
-
 const Stack = createNativeStackNavigator();
 
 const AccountStack = () => {
@@ -105,34 +99,18 @@ const AccountStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        // unmountOnBlur: true
       }}>
-      <Stack.Screen
-        name="AccountScreen"
-        // options={{title:  (props)=> <EmptyHeader/>}}
-        component={AccountScreen}
-      />
-      <Stack.Screen
-        name="SettingsScreen"
-        // options={{title:  (props)=> <EmptyHeader/>}}
-        component={SettingsScreen}
-      />
+      <Stack.Screen name="AccountScreen" component={AccountScreen} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
     </Stack.Navigator>
   );
 };
 
-
 //  the screen component
 const AccountScreen = props => {
-  console.log('props');
-  console.log(props.navigation);
   const [text, onChangeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  // console.log('text: '+text);
-  const flatListRef = React.useRef();
-
-  const [imageList, setImageList] = useState(images);
-
-  // const [messageList, setMessageList] = useState(message);
 
   function check(params) {
     setText('searching');
@@ -140,9 +118,8 @@ const AccountScreen = props => {
 
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
-  // check();
+
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View
@@ -164,7 +141,7 @@ const AccountScreen = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.messageDp}>
-        <Image style={styles.dpImage} source={imageList[0].image}></Image>
+        <Image style={styles.dpImage} source={mainProfile}></Image>
       </View>
       <View
         style={{
@@ -178,13 +155,17 @@ const AccountScreen = props => {
           Ava
         </Text>
       </View>
-      <ListItem name={'Add Other Profile'}> </ListItem>
-      <ListItem name={'Store'}></ListItem>
-      <ListItem name={'Rate This App'}></ListItem>
-      <ListItem name={'Share App'}></ListItem>
-      <ListItem name={'Feedback/Comments'}> </ListItem>
-      <ListItem name={'Settings'} navigation = {props.navigation} screen={'SettingsScreen'}></ListItem>
-      <ListItem name={'Term & Policy'}></ListItem>
+      <ListItem name={'Add Other Profile'} navigation={props.navigation}>
+      </ListItem>
+      <ListItem name={'Store'} navigation={props.navigation}></ListItem>
+      <ListItem name={'Rate This App'} navigation={props.navigation}></ListItem>
+      <ListItem name={'Share App'} navigation={props.navigation}></ListItem>
+      <ListItem name={'Feedback/Comments'} navigation={props.navigation}></ListItem>
+      <ListItem
+        name={'Settings'}
+        navigation={props.navigation}
+        screen={'SettingsScreen'}></ListItem>
+      <ListItem name={'Term & Policy'} navigation={props.navigation}></ListItem>
     </SafeAreaView>
   );
 };
@@ -203,7 +184,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 360,
-    // resizeMode:'center',
   },
   messageDp: {
     width: 120,
@@ -213,7 +193,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: '10%',
     alignSelf: 'center',
-
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -227,11 +206,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#E8E6EA',
     borderWidth: 1,
-    // position: 'absolute',
   },
+
   nameHeading: {
     fontSize: 30,
-    // marginLeft: 40,
     color: 'black',
     fontWeight: 'bold',
   },

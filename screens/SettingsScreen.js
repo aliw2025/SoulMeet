@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 // import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
@@ -60,18 +60,23 @@ const SettingsScreen = ({navigation}) => {
   function logoutUser(params) {
     logout();
   }
-
   const onSelect = (country: Country) => {
     console.log(country);
-    // setCountryCode(country.cca2)
-    // setCountry(country)
   };
   return (
-    <ImageBackground
-      source={image}
-      resizeMode="cover"
-      style={styles.BackGrounimage}>
-     
+    <View source={image} resizeMode="cover" style={styles.BackGrounimage}>
+      <View style={[{marginTop: '40%', marginLeft: 40}]}>
+        <ButtonWithBg
+          active="true"
+          image={buttonBgOrange}
+          text="Change Languaage"></ButtonWithBg>
+      </View>
+      <View style={[{marginLeft: 40, marginTop: 20}]}>
+        <ButtonWithBg
+          active="true"
+          image={buttonBgOrange}
+          text="Report a bug"></ButtonWithBg>
+      </View>
       <View style={[{marginLeft: 40, marginTop: 20}]}>
         <ButtonWithBg
           active="true"
@@ -79,18 +84,14 @@ const SettingsScreen = ({navigation}) => {
           text="Log out"
           btnAction={logoutUser}></ButtonWithBg>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   abc: {
     zIndex: 2,
   },
-  BackGrounimage: {
-    flex: 1,
-    // alignItems: 'center',
-    justifyContent: 'center',
-  },
+  BackGrounimage: {},
   heading: {
     marginLeft: 40,
     width: windowWidth - 80,
@@ -98,8 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 70,
     fontWeight: 'bold',
     color: '#000000',
-    textAlign:'center',
-    // backgroundColor: 'pink',
+    textAlign: 'center',
   },
   subHeading: {
     textAlign: 'center',
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     width: windowWidth - 80,
     marginRight: 40,
-    // backgroundColor: 'pink',
   },
 });
 

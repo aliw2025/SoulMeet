@@ -10,8 +10,6 @@ import ResultBox from '../components/ResultBox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 // import {BlurView} from '@react-native-community/blur';
-
-// import {Modal} from '../components/Modal';
 import {
   SafeAreaView,
   ScrollView,
@@ -30,22 +28,8 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-// const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
-// const arrow = require('../assets/arrow.png');
-// const setting = require('../assets/setting.png');
-// const photo = require('../assets/photo.png');
-// const mainProfile = require('../assets/mainProfile.png');
-// const cross = require('../assets/cross.png');
-// const star = require('../assets/star.png');
-// const heart = require('../assets/heart.png');
-// const roundContainer = require('../assets/roundContainer.png');
-// const WhiteContainer = require('../assets/whiteContainer.png');
-// const message = require('../assets/message.png');
-// const match = require('../assets/match.png');
-// const grayHeart = require('../assets/grayHeart.png');
-// const dot = require('../assets/dot.png');
-// const people = require('../assets/people.png');
+
+
 var matchType = '';
 const windowWidth = Dimensions.get('window').width;
 const photo = require('../assets/girl.png');
@@ -67,7 +51,7 @@ for (var i = 0; i < 10; i++) {
     images.push({id: i, image: photo});
   }
 }
-console.log();
+
 //  the screen component
 const MatchesScreen = props => {
   const [fname, setFname] = useState('');
@@ -75,7 +59,8 @@ const MatchesScreen = props => {
   const [lname, setLname] = useState('');
   const [usrData, setUsrData] = useState(undefined);
 
-  matchType = props;
+  
+  matchType = props.matchType;
 
   const [imageList, setImageList] = useState(images);
 
@@ -86,7 +71,7 @@ const MatchesScreen = props => {
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
   function updateData(data) {
-    console.log('updating data ');
+    
     if (data) {
       setUsrData(data);
       setFname(data.fname);
@@ -105,7 +90,7 @@ const MatchesScreen = props => {
         var data;
         if (documentSnapshot) {
           data = documentSnapshot.data();
-          console.log('User data recived ');
+          
           updateData(data);
         } else {
           console.log('error in reciving data');
@@ -134,7 +119,7 @@ const MatchesScreen = props => {
     }
   }
   useEffect(() => {
-    console.log('mouting');
+   
     if (usrData) {
       const subscriber = firestore()
         .collection('users')
@@ -143,13 +128,13 @@ const MatchesScreen = props => {
           var i = 0;
 
           querySnapshot.forEach(documentSnapshot => {
-            // console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+            
             var data = documentSnapshot.data();
             if (data.numbers != undefined) {
-              // console.log(auth().currentUser.uid);
+             
               if (documentSnapshot.id != auth().currentUser.uid) {
                 if (matchType == 'twin') {
-                  console.log('inside twin');
+                  
                   // // console.log(usrData);
                   // var lpu = usrData.numbers.lifePathNumber;
                   // var lpo = data.numbers.lifePathNumber
@@ -179,24 +164,22 @@ const MatchesScreen = props => {
                   usersArr.push({id: i, data: documentSnapshot.data()});
                   i++;
                 } else if (matchType == 'couple') {
-                  console.log('inside couple');
-                  console.log(getNum(usrData.numbers.lifePathNumber));
+        
+                  
                   var lpu = usrData.numbers.lifePathNumber;
                   var lpo = data.numbers.lifePathNumber;
-
-                  console.log(lpu);
-                  console.log(lpo);
+                  
                   var n1 = getNum(lpu);
                   var n2 = getNum(lpo);
                   var arr = items[n1];
-                  console.log(arr);
+                 
                   if (arr[n2] == 3) {
                     usersArr.push({id: i, data: documentSnapshot.data()});
                   }
 
                   i++;
                 } else {
-                  console.log('none');
+                  
                   usersArr.push({id: i, data: documentSnapshot.data()});
                 }
               }
@@ -343,8 +326,7 @@ const styles = StyleSheet.create({
     width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
-    // alignSelf:'center',
-    // backgroundColor:'red',
+    
   },
   name: {
     color: 'white',
@@ -375,15 +357,13 @@ const styles = StyleSheet.create({
     height: '100%',
     opacity: 0.8,
     flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    
   },
   imageContainerStyle: {
     marginTop: 10,
     width: '50%',
     height: 200,
-    // backgroundColor: 'pink',
-    // height:100,
+    
   },
   imageStyle: {
     width: '95%',
@@ -405,7 +385,7 @@ const styles = StyleSheet.create({
   },
   matchSubHeading: {
     marginTop: 10,
-    // textAlign: 'center',
+   
     marginLeft: 40,
     marginRight: 40,
     fontSize: 16,
@@ -420,17 +400,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#E8E6EA',
     borderWidth: 1,
-    // position: 'absolute',
+   
   },
   nameHeading: {
     fontSize: 30,
-    // marginLeft: 40,
     color: 'black',
     fontWeight: 'bold',
   },
+
 });
 
 export default MatchesScreen;
+
 // async function u() {
 //   try{
 //     const users = await firestore().collection('users').get().then(querySnapshot => {

@@ -5,6 +5,7 @@
  * @format
  * @flow strict-local
  */
+
 import React from 'react';
 import type {Node} from 'react';
 import {Dimensions} from 'react-native';
@@ -85,72 +86,34 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     height: 300,
-    // backgroundColor:'red'
+    
   },
   SafeAreaView: {
-    //  flex: 1,
+    
   },
   btn: {
-    // backgroundColor: 'purple',
-    //  flex: 1,
+    
   },
   inside: {
     width: '80%',
     borderRadius: 10,
     backgroundColor: 'gray',
     flex: 1,
-    // height: 80,
   },
   main: {
-    // backgroundColor: 'blue',
     height: '80%',
-    //  flex: 1,
   },
   container2: {
-    //  flex: 1,
-    // flexDirection: 'row',
     height: '70%',
     width: windowWidth,
-    // height: 80,
     padding: 10,
-    // marginLeft:-70,
-    //  backgroundColor: 'brown',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'blue',
-  },
-  container1: {
-    //  flex: 1,
-    height: '70%',
-    width: windowWidth,
-    // height: 80,
-    padding: 10,
-    //  backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    // backgroundColor: 'blue',
-  },
-  container3: {
-    //  flex: 1,
-    width: windowWidth,
-    height: '70%',
-    // height: 80,
-    padding: 10,
-    //  backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: 'blue',
   },
   scrollContainer: {
-    //  flex: 1,
-    // flexDirection: 'row',
-    // backgroundColor: 'gray',
     height: '80%',
   },
-  // top most parent
   BackGrounimage: {
-    //  flex: 1,
     height: '100%',
   },
 });

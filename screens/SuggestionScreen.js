@@ -59,12 +59,14 @@ const SuggestionScreen = props => {
   const [expressionDestiny, setExpressionDestiny] = useState(undefined);
   const [soulUrge, setSoulUrge] = useState(undefined);
   const [personality, setPersonality] = useState(undefined);
+
+  console.log("props");
   console.log(props);
-  var matchType = props;
+  var matchType = props.matchType;
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
   function updateData(data) {
-    console.log('updating data ');
+    
     if (data) {
       setUsrData(data);
       setFname(data.fname);
@@ -74,7 +76,6 @@ const SuggestionScreen = props => {
       console.log('error');
     }
   }
-
   useEffect(() => {
     const subscriber = firestore()
       .collection('users')
@@ -83,7 +84,6 @@ const SuggestionScreen = props => {
         var data;
         if (documentSnapshot) {
           data = documentSnapshot.data();
-          console.log('User data recived ');
           updateData(data);
         } else {
           console.log('error in reciving data');
@@ -114,7 +114,7 @@ const SuggestionScreen = props => {
   useEffect(() => {
     console.log('mouting');
     var subs;
-
+    let isMounted = true;
     const subscriber = firestore().collection('Users').onSnapshot(subs);
 
     if (usrData) {
@@ -181,6 +181,7 @@ const SuggestionScreen = props => {
               }
             }
           });
+          if(isMounted)
           setUsers(usersArr);
         })
         .catch(function (error) {
@@ -194,9 +195,11 @@ const SuggestionScreen = props => {
     }
 
     return () => {
+      isMounted = false
       subscriber();
     };
   }, [usrData]);
+  
   const [elevation, setElevation] = useState(1);
   const [shadowColor, setShadowColor] = useState('black');
   const [shadowColor2, setShadowColor2] = useState('black');
@@ -241,7 +244,7 @@ const SuggestionScreen = props => {
 
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    //navigation.navigate("ChartScreen", {name: 'Jane'});
+    
   };
 
   return (
@@ -456,7 +459,7 @@ const SuggestionScreen = props => {
         /> */}
       {/* </View> */}
       {/* image body */}
-
+        
       {/* reaction buttons */}
       <View style={[styles.selectionRow]}>
         {/* cross */}

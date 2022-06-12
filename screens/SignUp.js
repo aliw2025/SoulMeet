@@ -81,17 +81,17 @@ const SignUp = ({navigation}) => {
         <CustomTextInput
           lineWidth={60}
           onChangeText={setEmailText}
-          feildName="email"></CustomTextInput>
+          feildName="Email"></CustomTextInput>
         <CustomTextInput
           lineWidth={90}
           onChangeText={setPassText}
           secureTextEntry={true}
-          feildName="password"></CustomTextInput>
+          feildName="Password"></CustomTextInput>
         <CustomTextInput
           lineWidth={140}
           onChangeText={checkSim}
           secureTextEntry={true}
-          feildName="confirm password"></CustomTextInput>
+          feildName="Confirm password"></CustomTextInput>
         <Text
           style={{color: matchColor, marginRight: 40, alignSelf: 'flex-end'}}>
           {matchText}

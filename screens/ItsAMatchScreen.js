@@ -38,20 +38,17 @@ const mainProfile = require('../assets/mainProfile.png');
 
 //  the screen component
 const ItsAMatchScreen = props => {
-  //   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
-  //   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
-  //   const [shadowRadius, setShadowRadius] = useState(0);
-  //   const [shadowOpacity, setShadowOpacity] = useState(2);
+
   const navigationAction = params => {
     props.navigation.navigate('MatchesScreen', {name: 'avvv'});
-    //navigation.navigate("ChartScreen", {name: 'Jane'});
+    
   };
+
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View
         style={{
           width: windowWidth - 80,
-          // backgroundColor: 'pink',
           alignSelf: 'center',
           height: '50%',
           marginTop: 40,
@@ -59,7 +56,7 @@ const ItsAMatchScreen = props => {
         <View
           style={{
             alignSelf: 'flex-end',
-            // backgroundColor:'gray',
+            
             width: '70%',
             height: '70%',
             position: 'absolute',
@@ -69,20 +66,13 @@ const ItsAMatchScreen = props => {
             shadowColor: 'black',
             shadowOpacity: 0.2,
             shadowRadius: 10,
-            // alignSelf: 'center',
-            // backgroundColor: 'orange',
+            
           }}>
           <View
             style={{
               alignSelf: 'flex-end',
-              // alignSelf: 'center',
-              // backgroundColor: 'orange',
-              // marginTop: 40,
-              // width: 150,
               width: '90%',
-              // height: 250,
               height: '100%',
-
               transform: [
                 // { rotateX: "90deg" },
                 {rotateZ: '10deg'},
@@ -96,8 +86,6 @@ const ItsAMatchScreen = props => {
               style={{
                 width: 60,
                 height: 60,
-                // alignItems: 'center',
-                // justifyContent:'center',
                 borderRadius: 360,
                 backgroundColor: 'white',
                 position: 'absolute',
@@ -114,26 +102,19 @@ const ItsAMatchScreen = props => {
         <View
           style={{
             alignSelf: 'flex-start',
-            // backgroundColor:'red',
             width: '70%',
             height: '70%',
             position: 'absolute',
             top: '30%',
             left: 0,
-            // alignSelf: 'center',
-            // backgroundColor: 'orange',
           }}>
           <View
             style={{
               alignSelf: 'flex-start',
               alignSelf: 'center',
-              // backgroundColor: 'purple',
-              // marginTop: -100,
-              // width: 150,
               height: 250,
               width: '90%',
               height: '100%',
-
               transform: [
                 // { rotateX: "90deg" },
                 {rotateZ: '-10deg'},
@@ -155,8 +136,6 @@ const ItsAMatchScreen = props => {
               style={{
                 width: 60,
                 height: 60,
-                // alignItems: 'center',
-                // justifyContent:'center',
                 borderRadius: 360,
                 backgroundColor: 'white',
                 position: 'absolute',

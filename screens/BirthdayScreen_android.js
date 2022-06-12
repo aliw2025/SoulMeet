@@ -10,7 +10,6 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 
 
-
 // react items
 import {
   SafeAreaView,
@@ -26,6 +25,7 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
+
 
 // global variables
 const windowWidth = Dimensions.get('window').width;

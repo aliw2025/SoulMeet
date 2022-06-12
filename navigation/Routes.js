@@ -5,17 +5,17 @@ import {AuthContext} from './AuthProvider';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import AuthStack from './AuthStack';
-import SetUpStack from './SetUpStack'
+import SetUpStack from './SetUpStack';
 
 import AppStack from './AppStack';
 
 const Routes = () => {
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
-  const [dataState,setDataState] = useState(undefined);
-  const onAuthStateChanged = (user) => {
+  const [dataState, setDataState] = useState(undefined);
+  const onAuthStateChanged = user => {
     setUser(user);
-    if (initializing) setInitializing (false);
+    if (initializing) setInitializing(false);
   };
 
   useEffect(() => {
@@ -32,40 +32,44 @@ const Routes = () => {
     }
   }
 
-
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('users')
-      .doc(auth().currentUser.uid)
-      .onSnapshot(documentSnapshot => {
-        var data;
-        if(documentSnapshot){
-          data = documentSnapshot.data();
-          console.log('User data recived ');
-          updateData(data);
-        }else{
-          console.log('error in reciving data');
-        }
-      
-      });
-    return () => subscriber();
+    var subscriber;
+    
+    if (auth().currentUser) {
+      subscriber = firestore()
+        .collection('users')
+        .doc(auth().currentUser.uid)
+        .onSnapshot(documentSnapshot => {
+          var data;
+          if (documentSnapshot) {
+            data = documentSnapshot.data();
+            console.log('User data recived ');
+            updateData(data);
+          } else {
+            console.log('error in reciving data');
+          }
+        });
+        return () => subscriber();
+    }
+    
   }, []);
 
   if (initializing) return null;
   function showStack(params) {
     console.log('showing stack');
-    if(user){
-      if(dataState){
-        if(dataState =='yes'){
-          return (<AppStack/>);
-        }{
-          return (<SetUpStack/>);
+    if (user) {
+      if (dataState) {
+        if (dataState == 'yes') {
+          return <AppStack />;
+        }
+        {
+          return <SetUpStack />;
         }
       }
-      return  null;
+      return null;
     }
 
-    return (<AuthStack/>);
+    return <AuthStack />;
   }
 
   return (

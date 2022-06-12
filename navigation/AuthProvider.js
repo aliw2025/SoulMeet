@@ -92,10 +92,8 @@ export const AuthProvider = ({children}) => {
             if (!data) {
               throw 'Something went wrong obtaining access token';
             }
-
             // Create a Firebase credential with the AccessToken
             const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-
             // Sign-in the user with the credential
             await auth().signInWithCredential(facebookCredential)
             // Use it only when user Sign's up, 

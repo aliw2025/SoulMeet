@@ -11,7 +11,7 @@ import CustomTextInput from '../components/CustomTextInput';
 import ButtonWithTick from '../components/ButtonWithTick';
 import SuggestionScreen from './SuggestionScreen';
 // import AccountScreen from './AccountScreen';
-import AccountStack from './AccountScreen'
+import AccountStack from './AccountScreen';
 import MessagesScreen from './MessagesScreen';
 import MatchesScreen from './MatchesScreen';
 
@@ -46,19 +46,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 var size = 20;
 
-// const tabIcon = props => {
-//   var tintColor = 'gray';
-//   if (focused) {
-//     tintColor = '#FFC700';
-//   }
-//   return (
-//     <Image
-//       style={{width: size, height: size, tintColor: tintColor}}
-//       source={match}
-//     />
-//   );
-// };
-
 const CustomTabBar = props => {
   return (
     <View
@@ -72,37 +59,23 @@ const CustomTabBar = props => {
 var i = 0;
 var icons = [match, grayHeart, message, people];
 function MyTabBar({state, descriptors, navigation}) {
-  // console.log("state variabels");
-  // console.log(state);
-  // console.log("descriptor variabels");
-  // console.log(descriptors);
-  // console.log("nav variabels");
-  // console.log(navigation);
+ 
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const navAnim = useRef(new Animated.Value(0)).current;
 
   function animateLine(value) {
-    Animated.timing(fadeAnim, {
+    Animated.timing(navAnim, {
       toValue: value * windowWidth * 0.25,
       duration: 100,
-      useNativeDriver: true, // Add This line
+      useNativeDriver: true,
     }).start();
   }
-  // useEffect(() => {
-  //   Animated.timing(
-  //     fadeAnim,
-  //     {
-  //       toValue: 1,
-  //       duration: 10000,
-  //     }
-  //   ).start();
-  // }, [fadeAnim])
 
   return (
     <View style={{flexDirection: 'row', paddingTop: 10, paddingBottom: 10}}>
       <Animated.View
         style={{
-          transform: [{translateX: fadeAnim}],
+          transform: [{translateX: navAnim}],
           marginLeft: 0,
           marginRight: 0,
           position: 'absolute',
@@ -125,6 +98,7 @@ function MyTabBar({state, descriptors, navigation}) {
         const isFocused = state.index === index;
 
         const onPress = () => {
+
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -134,8 +108,10 @@ function MyTabBar({state, descriptors, navigation}) {
           if (!isFocused && !event.defaultPrevented) {
             animateLine(index);
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({name: route.name, merge: true});
+            navigation.navigate({name: route.name});
+
           }
+
         };
 
         const onLongPress = () => {
@@ -144,7 +120,7 @@ function MyTabBar({state, descriptors, navigation}) {
             target: route.key,
           });
         };
-        console.log('key ' + route.name);
+        // console.log('key ' + route.name);
         if (route.name == 'Matches') {
           return (
             <TouchableOpacity
@@ -162,25 +138,23 @@ function MyTabBar({state, descriptors, navigation}) {
                 borderWidth: 0,
                 alignItems: 'center',
               }}>
-                <View>
+              <View>
                 <Image
-                source={icons[index]}
-                style={{
-                  tintColor: isFocused ? '#FFC700' : '#ADAFBB',
-                  width: 20,
-                  height: 20,
-                }}></Image>
+                  source={icons[index]}
+                  style={{
+                    tintColor: isFocused ? '#FFC700' : '#ADAFBB',
+                    width: 20,
+                    height: 20,
+                  }}></Image>
                 <Image
-                source={dot}
-                style={{
-                  // tintColor: isFocused ? '#FFC700' : '#ADAFBB',
-                  position:'absolute',
-                  top:-2,
-                  right:-5,
-                }}></Image>
-
-                </View>
-             
+                  source={dot}
+                  style={{
+                    // tintColor: isFocused ? '#FFC700' : '#ADAFBB',
+                    position: 'absolute',
+                    top: -2,
+                    right: -5,
+                  }}></Image>
+              </View>
             </TouchableOpacity>
           );
         }
@@ -217,18 +191,19 @@ function MyTabBar({state, descriptors, navigation}) {
 const Tab = createBottomTabNavigator();
 const TabsScreen = props => {
   var matchType = props.route.params.matchType;
+  console.log('i am tab screen');
   return (
     <NavigationContainer independent={true}>
+      
       <Tab.Navigator
         tabBar={props => <MyTabBar {...props} />}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{headerShown: false,unmountOnBlur:true}}>
         <Tab.Screen
           name="Suggestions"
           children={() => {
             return <SuggestionScreen matchType={matchType} />;
           }}
         />
-
         <Tab.Screen
           name="Matches"
           children={() => {

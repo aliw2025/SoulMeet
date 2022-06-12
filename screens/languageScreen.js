@@ -1,10 +1,10 @@
 import React, {useState, useContext} from 'react';
-// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import {Dimensions} from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -46,7 +46,6 @@ const SelectLanguage = ({navigation}) => {
   const {countryCode, setCountryCode} = useState < CountryCode > 'FR';
 
   const {country, setCountry} = useState < Country > null;
-
   const {withCountryNameButton, setWithCountryNameButton} = useState(false);
   const {withFlag, setWithFlag} = useState(true);
   const {withEmoji, setWithEmoji} = useState(true);
@@ -60,12 +59,6 @@ const SelectLanguage = ({navigation}) => {
   function logoutUser(params) {
     logout();
   }
-
-  const onSelect = (country: Country) => {
-    console.log(country);
-    // setCountryCode(country.cca2)
-    // setCountry(country)
-  };
 
   return (
     <ImageBackground
@@ -104,7 +97,6 @@ const styles = StyleSheet.create({
   },
   BackGrounimage: {
     flex: 1,
-    // alignItems: 'center',
     justifyContent: 'center',
   },
   heading: {
@@ -115,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
     textAlign:'center',
-    // backgroundColor: 'pink',
+   
   },
   subHeading: {
     textAlign: 'center',
@@ -124,7 +116,6 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     width: windowWidth - 80,
     marginRight: 40,
-    // backgroundColor: 'pink',
   },
 });
 

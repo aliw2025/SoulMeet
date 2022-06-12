@@ -38,7 +38,7 @@ const SignIn = ({navigation}) => {
   };
 
   function sigInUser(user) {
-    console.log(' user emai is :' + user.email);
+    console.log(' user email is :' + user.email);
     login(user.email, user.password);
   }
 
@@ -56,14 +56,14 @@ const SignIn = ({navigation}) => {
         <CustomTextInput
           lineWidth={60}
           onChangeText={setEmailText}
-          feildName="email"></CustomTextInput>
+          feildName="Email"></CustomTextInput>
         <CustomTextInput
           lineWidth={90}
           onChangeText={setPassText}
           secureTextEntry={true}
-          feildName="password"></CustomTextInput>
+          feildName="Password"></CustomTextInput>
 
-        <View style={[{marginLeft: 40, marginnaviTop: 40, marginBottom: 30}]}>
+        <View style={[{marginLeft: 40, marginTop: 40, marginBottom: 30}]}>
           <ButtonWithBg
             path="ProfileDetails1"
             active="true"
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
     textAlign: 'center',
     color: 'black',
-    // backgroundColor:'red'
+   
   },
 });
 
