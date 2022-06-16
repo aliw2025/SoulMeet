@@ -50,8 +50,6 @@ const Description = props => {
   }
 
   function updateData(data) {
-    console.log('updating data ');
-    
     if (data) {
       setDes(data.description);
     } else {
@@ -68,7 +66,7 @@ const Description = props => {
         var data;
         if (documentSnapshot) {
           data = documentSnapshot.data();
-          console.log('User data recived ');
+
           updateData(data);
         } else {
           console.log('error in reciving data');
@@ -79,11 +77,6 @@ const Description = props => {
 
   const navigationAction = params => {
     props.navigation.navigate('BirthDay', {name: 'Jane'});
-  };
-  const onSelect = (country: Country) => {
-    // console.log(country);
-    // setCountryCode(country.cca2)
-    // setCountry(country)
   };
 
   return (
@@ -100,7 +93,13 @@ const Description = props => {
               style={[styles.heading]}>
               {heading} {number}
             </Text>
-            <Text style={{textAlign:'justify',marginLeft: 40, marginRight: 40, marginTop: 10}}>
+            <Text
+              style={{
+                textAlign: 'justify',
+                marginLeft: 40,
+                marginRight: 40,
+                marginTop: 10,
+              }}>
               {des}
             </Text>
           </View>
@@ -109,6 +108,7 @@ const Description = props => {
     </ImageBackground>
   );
 };
+
 const styles = StyleSheet.create({
   btn: {
     marginTop: 40,
@@ -116,45 +116,42 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 50,
     width: windowWidth - 80,
-    // marginLeft:40,
-    // marginLeft:40,
     fontSize: 14,
     letterSpacing: 1.5,
     color: 'black',
   },
   mainPage: {
     flex: 1,
-    // backgroundColor:'pink',
-    // alignItems: 'center',
+    
   },
+
   btnBg: {
-    // width: 300,
     height: 60,
     justifyContent: 'center',
     width: 320,
-    // margin:20,
-    // flex:1
   },
+
   BackGrounimage: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
+    
     backgroundColor: 'red',
   },
+
   heading: {
     width: windowWidth - 80,
     marginTop: 20,
     fontSize: 70,
-    marginLeft:40,
-   
-    // justifyContent:'flex-end',
-    marginRight:40,
+    marginLeft: 40,
+    marginRight: 40,
     fontWeight: 'bold',
     color: 'black',
   },
+
   subHeading: {
     fontSize: 15,
   },
+  
 });
 
 export default Description;

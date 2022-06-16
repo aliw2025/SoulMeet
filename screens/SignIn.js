@@ -39,6 +39,7 @@ const SignIn = ({navigation}) => {
 
   function sigInUser(user) {
     console.log(' user email is :' + user.email);
+    user.email = user.email.trim();
     login(user.email, user.password);
   }
 

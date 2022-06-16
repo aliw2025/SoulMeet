@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-// import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState,useEffect} from 'react';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -12,8 +11,10 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SettingsScreen from './SettingsScreen';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 
-// import {Modal} from '../components/Modal';
 import {
   SafeAreaView,
   ScrollView,
@@ -111,11 +112,41 @@ const AccountStack = () => {
 const AccountScreen = props => {
   const [text, onChangeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [usrData,setUsrData] = useState(undefined);
+  const [fname,setFname] = useState(undefined);
+  const [dp,setDp] = useState(undefined);
   function check(params) {
     setText('searching');
   }
+  function updateData(data) {
+    console.log('updating data ');
+    if (data) {
+      setUsrData(data);
+      setFname(data.fname);
+      setDp(data.dp);
+     
+    } else {
+      console.log('error');
+    }
+  }
 
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        var data;
+        if(documentSnapshot){
+          data = documentSnapshot.data();
+          console.log('User data recived ');
+          updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      
+      });
+    return () => subscriber();
+  }, []);
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
   };
@@ -141,7 +172,7 @@ const AccountScreen = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.messageDp}>
-        <Image style={styles.dpImage} source={mainProfile}></Image>
+        <Image style={styles.dpImage} source={{uri:dp}}></Image>
       </View>
       <View
         style={{
@@ -152,7 +183,7 @@ const AccountScreen = props => {
         }}>
         <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
           {' '}
-          Ava
+          {fname}
         </Text>
       </View>
       <ListItem name={'Add Other Profile'} navigation={props.navigation}>

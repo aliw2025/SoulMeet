@@ -27,12 +27,7 @@ const AreYouHere = ({navigation}) => {
   const navigationAction = params => {
     navigation.navigate("BirthDay", {name: 'Jane'});
   }
-  const onSelect = (country: Country) => {
-    console.log(country);
-    // setCountryCode(country.cca2)
-    // setCountry(country)
-  };
-
+  
   return (
     <ImageBackground
       source={image}

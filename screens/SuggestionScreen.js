@@ -59,10 +59,9 @@ const SuggestionScreen = props => {
   const [expressionDestiny, setExpressionDestiny] = useState(undefined);
   const [soulUrge, setSoulUrge] = useState(undefined);
   const [personality, setPersonality] = useState(undefined);
-
-  console.log("props");
-  console.log(props);
-  var matchType = props.matchType;
+  // console.log("loging props");
+  // console.log(props);
+  var matchType = props.route.params.matchType;
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
   function updateData(data) {
@@ -172,7 +171,6 @@ const SuggestionScreen = props => {
                   if (arr[n2] == 3) {
                     usersArr.push({id: i, data: documentSnapshot.data()});
                   }
-
                   i++;
                 } else {
                   console.log('none');
@@ -243,8 +241,10 @@ const SuggestionScreen = props => {
   }, []);
 
   const navigationAction = params => {
-    props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    
+    console.log("before nav");
+    console.log(params);
+    props.navigation.navigate('MatchProfileScreen', {otherUser: params});
+
   };
 
   return (
@@ -282,6 +282,10 @@ const SuggestionScreen = props => {
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => {
           return (
+            <TouchableHighlight  underlayColor="clear" onPress = {()=>{
+              
+              navigationAction(item);
+            }}>
             <View
               style={{
                 alignItems: 'center',
@@ -436,6 +440,7 @@ const SuggestionScreen = props => {
                 </View>
               </View>
             </View>
+            </TouchableHighlight>
           );
         }}
         keyExtractor={(item, index) => index.toString()}

@@ -83,7 +83,7 @@ const ChartScreen = props => {
           console.log('error in reciving data');
         }
       });
-    return () => subscriber();
+    return () => subscriber();  
   }, []);
 
   function saveData(params) {

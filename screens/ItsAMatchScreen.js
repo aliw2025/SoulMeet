@@ -29,7 +29,7 @@ import {
   ImageBackground,
 } from 'react-native';
 
-const windowHeight = Dimensions.get('window').height
+const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const photo = require('../assets/girl.png');
 const love = require('../assets/love.png');
@@ -38,10 +38,8 @@ const mainProfile = require('../assets/mainProfile.png');
 
 //  the screen component
 const ItsAMatchScreen = props => {
-
   const navigationAction = params => {
     props.navigation.navigate('MatchesScreen', {name: 'avvv'});
-    
   };
 
   return (
@@ -56,7 +54,7 @@ const ItsAMatchScreen = props => {
         <View
           style={{
             alignSelf: 'flex-end',
-            
+
             width: '70%',
             height: '70%',
             position: 'absolute',
@@ -66,7 +64,6 @@ const ItsAMatchScreen = props => {
             shadowColor: 'black',
             shadowOpacity: 0.2,
             shadowRadius: 10,
-            
           }}>
           <View
             style={{
@@ -77,7 +74,7 @@ const ItsAMatchScreen = props => {
                 // { rotateX: "90deg" },
                 {rotateZ: '10deg'},
               ],
-              elevation:2,
+              elevation: 2,
             }}>
             <Image
               source={mainProfile}
@@ -123,7 +120,7 @@ const ItsAMatchScreen = props => {
               shadowColor: 'black',
               shadowOpacity: 0.1,
               shadowRadius: 10,
-              elevation:1,
+              elevation: 1,
             }}>
             <Image
               source={photo}
@@ -150,32 +147,32 @@ const ItsAMatchScreen = props => {
         </View>
       </View>
       {/* iis a match text */}
-      <Text numberOfLines={1} adjustsFontSizeToFit style={[styles.matchHeading]}>It’s a match, Jake!</Text>
-      <Text  numberOfLines={1} adjustsFontSizeToFit style={[styles.matchSubHeading]}>
+      <Text
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={[styles.matchHeading]}>
+        It’s a match, Jake!
+      </Text>
+      <Text
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={[styles.matchSubHeading]}>
         Start a conversation now with each other
       </Text>
-      <View style = {{marginLeft:40,marginRight:40,marginTop:20,}}>
-      <ButtonWithBg
-        path="ProfileDetails1"
-        active="true"
-        text="Say hello"
-       
-        btnAction={navigationAction}
-        ></ButtonWithBg>
-        
+      <View style={{marginLeft: 40, marginRight: 40, marginTop: 20}}>
+        <ButtonWithBg
+          path="ProfileDetails1"
+          active="true"
+          text="Say hello"
+          btnAction={navigationAction}></ButtonWithBg>
       </View>
-      <View style = {{marginLeft:40,marginRight:40,marginTop:20,}}>
-      <ButtonWithBg
-        path="ProfileDetails1"
-        active="true"
-        text="Keep swiping"
-       
-        btnAction={navigationAction}
-        ></ButtonWithBg>
-        
+      <View style={{marginLeft: 40, marginRight: 40, marginTop: 20}}>
+        <ButtonWithBg
+          path="ProfileDetails1"
+          active="true"
+          text="Keep swiping"
+          btnAction={navigationAction}></ButtonWithBg>
       </View>
-      
-
     </SafeAreaView>
   );
 };

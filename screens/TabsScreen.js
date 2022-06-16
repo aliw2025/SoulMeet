@@ -1,5 +1,4 @@
 import React, {useState, useRef, juseEffect} from 'react';
-// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -9,8 +8,7 @@ import FlatListBasics from '../components/list';
 import Picker from '../components/picker';
 import CustomTextInput from '../components/CustomTextInput';
 import ButtonWithTick from '../components/ButtonWithTick';
-import SuggestionScreen from './SuggestionScreen';
-// import AccountScreen from './AccountScreen';
+import SuggestionStack from './SuggestionContainer';
 import AccountStack from './AccountScreen';
 import MessagesScreen from './MessagesScreen';
 import MatchesScreen from './MatchesScreen';
@@ -44,6 +42,7 @@ const dot = require('../assets/dot.png');
 const people = require('../assets/people.png');
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+// icon size
 var size = 20;
 
 const CustomTabBar = props => {
@@ -113,14 +112,13 @@ function MyTabBar({state, descriptors, navigation}) {
           }
 
         };
-
         const onLongPress = () => {
           navigation.emit({
             type: 'tabLongPress',
             target: route.key,
           });
         };
-        // console.log('key ' + route.name);
+        
         if (route.name == 'Matches') {
           return (
             <TouchableOpacity
@@ -149,7 +147,6 @@ function MyTabBar({state, descriptors, navigation}) {
                 <Image
                   source={dot}
                   style={{
-                    // tintColor: isFocused ? '#FFC700' : '#ADAFBB',
                     position: 'absolute',
                     top: -2,
                     right: -5,
@@ -191,17 +188,15 @@ function MyTabBar({state, descriptors, navigation}) {
 const Tab = createBottomTabNavigator();
 const TabsScreen = props => {
   var matchType = props.route.params.matchType;
-  console.log('i am tab screen');
   return (
     <NavigationContainer independent={true}>
-      
       <Tab.Navigator
         tabBar={props => <MyTabBar {...props} />}
         screenOptions={{headerShown: false,unmountOnBlur:true}}>
         <Tab.Screen
           name="Suggestions"
           children={() => {
-            return <SuggestionScreen matchType={matchType} />;
+            return < SuggestionStack matchType={matchType} />;
           }}
         />
         <Tab.Screen
@@ -224,5 +219,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
 export default TabsScreen;

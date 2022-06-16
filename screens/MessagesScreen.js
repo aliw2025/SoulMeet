@@ -10,6 +10,8 @@ import ResultBox from '../components/ResultBox';
 import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
+
+
 // import {Modal} from '../components/Modal';
 import {
   SafeAreaView,
@@ -89,7 +91,7 @@ const MessagesScreen = props => {
   // console.log('text: '+text);
   const flatListRef = React.useRef();
 
-  const [imageList, setImageList] = useState(images);
+const [imageList, setImageList] = useState(images);
 
   const [messageList, setMessageList] = useState(message);
 

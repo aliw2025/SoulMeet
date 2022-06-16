@@ -609,7 +609,7 @@ function updateData(data) {
                   underlayColor="clear"
                   onPress={name =>{
                     onClick();
-                    navigationAction({screen: 'MatchesScreen',matchType:'twin'});
+                    navigationAction({screen: 'TabsScreen',matchType:'twin'});
                   }
                     
                   }>
@@ -644,7 +644,7 @@ function updateData(data) {
                   underlayColor="clear"
                   onPress={name => {
                     onClick();
-                    navigationAction({screen: 'MatchesScreen',matchType:'none'})
+                    navigationAction({screen: 'TabsScreen',matchType:'none'})
                   }
                     
                   }>

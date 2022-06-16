@@ -52,13 +52,13 @@ const dot = require('../assets/dot.png');
 const people = require('../assets/people.png');
 const pin = require('../assets/pin.png');
 const dbtick = require('../assets/dbtick.png')
+
 var text = [];
 for (var i = 0; i < 100; i++) {
   var c = 'this is text';
   c = c.concat(': ', i.toString());
   text.push(c);
 }
-
 const TableCell = props => {
   var bottomLeft = 0;
   var bottomRight = 0;
@@ -115,14 +115,19 @@ const TableRow = props => {
   );
 };
 //  the screen component
-const MatchProfileScreen = props => {
-  const [fname, setFname] = useState('');
-  const [mname, setMname] = useState('');
-  const [lname, setLname] = useState('');
-  const [age,setAge] = useState('');
+const MatchProfileScreen = (props) => {
+  const [fname, setFname] = useState(undefined);
+  const [mname, setMname] = useState(undefined);
+  const [lname, setLname] = useState(undefined);
+  const [age,setAge] = useState(undefined);
   const [usrData, setUsrData] = useState(undefined);
   const [profileImg, setProfileImg] = useState(undefined);
   const [dp, setDp] = useState(undefined);
+  console.log("reccv props");
+  console.log(props.route.params);
+  const [otherUser ,setOtherUser] = useState(props.route.params.otherUser);
+  console.log("logging other user");
+  console.log(otherUser);
   function updateData(data) {
     console.log('updating data ');
     if (data) {
@@ -162,7 +167,7 @@ const MatchProfileScreen = props => {
 
   };
   function renderImage(){
-    console.log('reee');
+    
     console.log(dp);
     var source;
     if(dp){
@@ -171,19 +176,16 @@ const MatchProfileScreen = props => {
       source = photo;
     }
     return(
-      
         <Image style={{width: '100%'}} source={source}></Image>
-
     );
   }
-  
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* image container */}
       <View style={{alignItems: 'center',height:'55%', marginTop: 0}}>
         {/* image of person */}
-        {renderImage()}
-        
+        {/* {renderImage()} */}
+        <Image style={{width: "100%",height:"100%"}} source={{uri:otherUser.data.dp}}></Image>
       </View>
       {/* background white card */}
       <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
@@ -220,7 +222,7 @@ const MatchProfileScreen = props => {
               marginRight: 40,
             }}>
             <View>
-              <Text style={styles.nameHeading}>{fname}  {lname}, {age}</Text>
+              <Text style={styles.nameHeading}>{otherUser.data.fname}  {otherUser.data.lname}, {otherUser.data.age}</Text>
               <Text
                 style={[
                   styles.nameHeading,

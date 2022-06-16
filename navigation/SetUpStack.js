@@ -15,7 +15,7 @@ import ProfileDetails2 from '../screens/profileDetails2';
 import WhoAm from '../screens/whoAm';
 import SummaryScreen from '../screens/SummaryScreen';
 import SuggestionScreen from '../screens/SuggestionScreen';
-import MatchProfileScreen from '../screens/MatchProfile';
+import MatchProfileScreen from '../screens/MatchProfileScreen';
 import ItsAMatchScreen from '../screens/ItsAMatchScreen';
 import MatchesScreen from '../screens/MatchesScreen';
 import MessagesScreen from '../screens/MessagesScreen';
