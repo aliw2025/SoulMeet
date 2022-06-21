@@ -296,17 +296,58 @@ const ChartScreen = props => {
     lname = lname.toLowerCase();
 
     var fval = 0;
-    let arr = fname.match(/[aeiou]/gi);
+    let  arrY = fname.match((/[y]/gi))
+    
+    console.log("arr2:"+arrY);
+    let arr = fname.match(/[aeiouy]/gi);
+    // if(arrY!=null){
+    //   if(arr==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr.push(arrY[i]);
+    //     }
+    //   }else if(fname[fname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr.push('y');
+    //   }
+
+    // }
+   
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
+    arrY= [];
     var mval = 0;
-    let arr2 = mname.match(/[aeiou]/gi);
+    arrY = mname.match((/[y]/gi))
+    let arr2 = mname.match(/[aeiouy]/gi);
+    // if(arrY!=null){
+    //   if(arr2==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr2.push(arrY[i]);
+    //     }
+    //   }else if(mname[mname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr2.push('y');
+    //   }
+
+    // }
     if (arr2 != null) {
       mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
     }
+    arrY= [];
     var lval = 0;
-    let arr3 = lname.match(/[aeiou]/gi);
+    arrY = lname.match((/[y]/gi))
+    let arr3 = lname.match(/[aeiouy]/gi);
+    // if(arrY!=null){
+    //   if(arr3==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr3.push(arrY[i]);
+    //     }
+    //   }else if(lname[lname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr3.push('y');
+    //   }
+    // }
+
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
@@ -319,13 +360,42 @@ const ChartScreen = props => {
   function calMinorDesireNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
+    
     var fval = 0;
-    let arr = fname.match(/[aeiou]/gi);
+    arrY= []
+     arrY = fname.match((/[y]/gi))
+    console.log("arr2:"+arrY);
+    let arr = fname.match(/[aeiouy]/gi);
+    // if(arrY!=null){
+    //   if(arr==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr.push(arrY[i]);
+    //     }
+    //   }else if(fname[fname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr.push('y');
+    //   }
+
+    // }
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
     var lval = 0;
-    let arr3 = lname.match(/[aeiou]/gi);
+    arrY = [];
+    let  arrY = lname.match((/[y]/gi))
+    let arr3 = lname.match(/[aeiouy]/gi);
+    // if(arrY!=null){
+    //   if(arr3==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr3.push(arrY[i]);
+    //     }
+    //   }else if(lname[lname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr3.push('y');
+    //   }
+
+    // }
+
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
@@ -393,7 +463,11 @@ const ChartScreen = props => {
       .map(Number)
       .reduce((acc, val) => acc + val);
     var res = parseInt(val2) - parseInt(val1);
+    if(res < 0 ){
+      res = res * -1;
+    }
     return res.toString();
+    
   }
 
   const simpleSum = (arr = []) => {
@@ -416,14 +490,16 @@ const ChartScreen = props => {
       .split('')
       .map(Number)
       .reduce((acc, val) => acc + val);
-    var res = simpleSum([val1, val2]);
+    var res = sum([val1, val2]);
     return res.toString();
   }
 
   // function to calculate life path number
   const CalAttitudeNumber = (date = '') => {
-    let [month, day] = date.split('-');
-    var res = simpleSum([parseInt(month), parseInt(day)]);
+   
+    let [year,day,month] = date.split('-');
+    console.log('dfdf datdddt: '+month+" "+day);
+    var res = sum([parseInt(month), parseInt(day)]);
     return res.toString();
   };
 
@@ -624,7 +700,8 @@ const ChartScreen = props => {
   }
 
   function calCornerStone(fname) {
-    fname = fname.toLowerCase();
+    fname = fname.toUpperCase();
+  
     var stone = fname[0];
     return stone;
   }

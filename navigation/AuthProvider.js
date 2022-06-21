@@ -10,6 +10,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [usrData, setUsrData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   function showError(error) { 
     if (error.code === 'auth/email-already-in-use') {
       console.log('That email address is already in use!');
@@ -29,14 +31,19 @@ export const AuthProvider = ({children}) => {
   return (
     <AuthContext.Provider
       value={{
+        loading,
+        setLoading,
         user,
         setUser,
         usrData,
         login: async (email, password) => {
+          setLoading(true);
           try {
             await auth().signInWithEmailAndPassword(email, password);
+            setLoading(false);
           } catch (e) {
             showError(e);
+            setLoading(false);
             console.log(e);
           }
         },
@@ -124,9 +131,11 @@ export const AuthProvider = ({children}) => {
           }
         },
         register: async (email, password) => {
+          setLoading(true);
           try {
             await auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
+              
               //Once the user creation has happened successfully, we can add the currentUser into firestore
               //with the appropriate details.
               firestore().collection('users').doc(auth().currentUser.uid)
@@ -138,17 +147,23 @@ export const AuthProvider = ({children}) => {
                   userImg: null,
                   dataProvided:'no'
               })
+              
               //ensure we catch any errors at this stage to advise us if something does go wrong
               .catch(error => {
                   console.log('Something went wrong with added user to firestore: ', error);
+                  showError(error);
               })
             })
             //we need to catch the whole sign up process if it fails too.
             .catch(error => {
                 console.log('Something went wrong with sign up: ', error);
+                showError(error);
             });
+            setLoading(false);
           } catch (e) {
             console.log(e);
+            showError(e);
+            setLoading(false);
           }
         },
         getData:()=>{

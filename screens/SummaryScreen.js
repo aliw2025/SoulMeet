@@ -37,15 +37,12 @@ const card = require('../assets/card.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
 //  the screen component
 const SummaryScreen = props => {
-
 
   var day = props.route.params.day;
   var month = props.route.params.month;
   var year = props.route.params.year;
- 
   var fname = props.route.params.fname;
   var mname = props.route.params.mname;
   var lname = props.route.params.lname;
@@ -56,12 +53,138 @@ const SummaryScreen = props => {
   }else if(lname == ''){
     lname = mname;
   }
+
+function calculatePercentage(i,data) {
+  var total = 0;
+  if(data.numbers.lifePathNumber == i){
+    total += 12;
+  }
+  if(data.numbers.birthDayNumber == i){
+    total += 10;
+  }
+  if(data.numbers.expressionDestiny == i){
+    total += 10;
+  }
+  if(data.numbers.soulUrge == i){
+    total += 10;
+  }
+  if(data.numbers.Personality == i){
+    total += 10;
+  }
+  if(data.numbers.minorExpression == i){
+    total += 1;
+  }
+  if(data.numbers.minorSoulUrger == i){
+    total += 1;
+  }
+  if(data.numbers.minorPersonality == i){
+    total += 1;
+  }
+  if(data.numbers.attitude == i){
+    total += 5;
+  }
+  if(data.numbers.maturity == i){
+    total += 5;
+  }
+  if(data.numbers.maturity == i){
+    total += 5;
+  }
+  if(data.numbers.lifePathExpBrdige == i){
+    total += 2;
+  }
+  if(data.numbers.heartDesirePersonaliyBriger == i){
+    total += 2;
+  }
+  if(data.numbers.lifePathExpBrdige == i){
+    total += 2;
+  }
+  if(data.numbers.rationalThaughtNumber == i){
+    total += 2;
+  }
+  if(data.numbers.balanceNumber == i){
+    total += 2;
+  }
+  if(data.numbers.subConNumber == i){
+    total += 2;
+  }
+  if(data.numbers.kermicLesson == i){
+    total += 2;
+  }
+  if(data.numbers.hiddenPassion == i){
+    total += 2;
+  }
+  if(data.numbers.physicalPlane == i){
+    total += 2;
+  }
+  if(data.numbers.mentalPlane== i){
+    total += 2;
+  }
+  if(data.numbers.intiuativePlane == i){
+    total += 2;
+  }
+  if(data.numbers.emotionalPlane == i){
+    total += 2;
+  }
+  if(data.numbers.corenerStong == i){
+    total += 2;
+  }
+  if(data.numbers.firstPeriodCycle == i){
+    total += 1;
+  }
+  if(data.numbers.firstPeriodCycle == i){
+    total += 1;
+  }
+  if(data.numbers.secPeriodCycle == i){
+    total += 1;
+  }
+  if(data.numbers.thirdPeriodCycle== i){
+    total += 1;
+  }
+  if(data.numbers.pinnacle1 == i){
+    total += 1;
+  }
+  if(data.numbers.pinnacle2 == i){
+    total += 1;
+  }
+  if(data.numbers.pinnacle3 == i){
+    total += 1;
+  }
+  if(data.numbers.pinnacle4 == i){
+    total += 1;
+  }
+  if(data.numbers.challenge1== i){
+    total += 1;
+  }
+  if(data.numbers.challenge2== i){
+    total += 1;
+  }
+  if(data.numbers.challenge3== i){
+    total += 1;
+  }
+  if(data.numbers.challenge4== i){
+    total += 1;
+  }
+
+
+  
+    
+}
+function percetageOfNumberCalculator(data){
+  var percentages = [];
+  for(var i = 1 ; i <= 9; i++){
+
+    percentages[i-1] = calculatePercentage(i,data);
+
+  }
+
+}
   //  map of life path numbers matching
 function updateData(data) {
     console.log('updating data ');
     if (data) {
       setUsrData(data);
       getCompatible(data);
+      percetageOfNumberCalculator(data);
       // setFname(data.fname);
       // setMname(data.mname);
       // setLname(data.lname);
@@ -178,9 +301,11 @@ function updateData(data) {
     console.log('age recv '+age);
     var mArr = [];
     var total = 0;
-    mname = mname.toLowerCase();
+    // mname = mname.toLowerCase();
+    mname = mname.toUpperCase();
     var fval = mname.split('').map(val => {
-      var num = val.charCodeAt(0) - 96;
+      // var num = val.charCodeAt(0) - 96;
+      var num = val.charCodeAt(0) - 64;
       var x = simpleSum([num]);
       // console.log('x:' +x);
       total = total + x;
@@ -194,6 +319,7 @@ function updateData(data) {
       return '';
     }
     // console.log('transit is '+mArr[mod]);
+    
     return mArr[mod];
   };
   
@@ -226,9 +352,9 @@ function updateData(data) {
   
 
   function calculateCycle(physicalTransit, mentalTransit, spirtualTransit) {
-    var physicalTransitc = physicalTransit.charCodeAt(0) - 96;
-    var mentalTransitc = mentalTransit.charCodeAt(0) - 96;
-    var spirtualTransitc = spirtualTransit.charCodeAt(0) - 96;
+    var physicalTransitc = physicalTransit.charCodeAt(0) - 64;
+    var mentalTransitc = mentalTransit.charCodeAt(0) - 64;
+    var spirtualTransitc = spirtualTransit.charCodeAt(0) - 64;
     var cycle = simpleSum([
       simpleSum([physicalTransitc]),
       simpleSum([mentalTransitc]),

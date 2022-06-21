@@ -198,6 +198,7 @@ const TabsScreen = props => {
           children={() => {
             return < SuggestionStack matchType={matchType} />;
           }}
+          
         />
         <Tab.Screen
           name="Matches"

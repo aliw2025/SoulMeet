@@ -11,6 +11,7 @@ import CustomTextInput from '../components/CustomTextInput';
 import ButtonWithTick from '../components/ButtonWithTick';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
 // react items
 import {
   SafeAreaView,
@@ -49,8 +50,14 @@ const WhoAm = props => {
   const [state1,setState1] = useState('active');
   const [state2,setState2] = useState('inactive');
   const [state3,setState3] = useState('inactive');
-  
-
+  const [list1,setList1] = useState(false);
+  const [otherGender,setOtherGender] = useState('Choose Another'); 
+  var month = [
+    {key: 'Choose Another'},
+    {key: 'Bi'},
+    {key: 'Other'},
+    {key: 'Prefer not to say'},
+  ];
   // firestore refrence
   let db = firestore();
 
@@ -144,7 +151,14 @@ const WhoAm = props => {
     setState1('inactive')
     setState2('inactive')
     setState3('active')
+    if(list1){
+      setList1(false);
+    }else{
+      setList1(true);
+    }
+    
     type = 'other';
+
   }
   // const onChangeText = params => {};
   return (
@@ -215,12 +229,29 @@ const WhoAm = props => {
               state = {state3}
               bgColor="#FFC700"
               borderColor="#E8E6EA"
-              text="Choose Another"
+              text={otherGender}
               image={buttonBgOrange}
               btnAction={otherSelected}
               // navigation={navigation}
             ></ButtonWithTick>
           </View>
+          
+            
+            {list1 && (
+              <View style={[styles.dropList]}>
+                <FlatListBasics
+                  data={month}
+                  onDaySelected={(index, item) => {
+                    setOtherGender(item.key);
+                    setList1(false);
+                    type = item.key;
+                    // onDaySelected({index, item})
+                  }
+                    
+                  }></FlatListBasics>
+              </View>
+            )}
+        
           <View
             style={
               ([styles.bottomBtn], {position: 'absolute', bottom: 20, left: 40})
@@ -255,6 +286,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+  },
+  dropList: {
+    top: -15,
+    left: 40,
+    right: 40,
+    borderTopColor: 'white',
+    borderColor: '#E8E6EA',
+    borderWidth: 1,
+    // borderBottomLeftRadius:20,
+    // position: 'absolute',
+    // paddingLeft: 20,
+    backgroundColor: 'white',
+    height: 200,
+    width: windowWidth - 80,
   },
   skipBtn: {
     color: '#FFC700',

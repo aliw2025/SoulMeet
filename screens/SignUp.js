@@ -7,6 +7,8 @@ import {Dimensions, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import CustomTextInput from '../components/CustomTextInput';
 import {AuthContext} from '../navigation/AuthProvider';
+import LoadingScreen from './LoadingScreen'
+
 // import ButtonWithBg from '../components/ButtonWithBg'
 
 import {
@@ -28,6 +30,8 @@ const image = require('../assets/grad.png');
 const buttonBgOrange = require('../assets/orange.png');
 const SignUp = ({navigation}) => {
   const {register} = useContext(AuthContext);
+  const {loading} = useContext(AuthContext);
+
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   // store reference of firebase user
@@ -43,6 +47,15 @@ const SignUp = ({navigation}) => {
   // color of the matched status text
   const [matchColor, setMatchColor] = useState('red');
 
+  if(loading){
+    return (
+      // <View style = {{height:'100%',alignItems:'center',justifyContent:'center'}}>
+      //   <ActivityIndicator color={"black"} />
+      // </View>
+      <LoadingScreen></LoadingScreen>
+      
+    );
+  }
   // function to signUp the user
   function signUpUser(email, password, password2) {
     if (password != password2) {
