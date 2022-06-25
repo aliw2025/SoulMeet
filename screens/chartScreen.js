@@ -701,7 +701,6 @@ const ChartScreen = props => {
 
   function calCornerStone(fname) {
     fname = fname.toUpperCase();
-  
     var stone = fname[0];
     return stone;
   }

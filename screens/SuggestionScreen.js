@@ -9,7 +9,6 @@ import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-// import {Modal} from '../components/Modal';
 
 import {
   SafeAreaView,
@@ -29,6 +28,7 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const arrow = require('../assets/arrow.png');
@@ -46,8 +46,11 @@ const grayHeart = require('../assets/grayHeart.png');
 const dot = require('../assets/dot.png');
 const people = require('../assets/people.png');
 
+
 //  the screen component
 const SuggestionScreen = props => {
+  console.log("this is suggestion Screen");
+  console.log(props);
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
   const [shadowRadius, setShadowRadius] = useState(0);
@@ -59,9 +62,8 @@ const SuggestionScreen = props => {
   const [expressionDestiny, setExpressionDestiny] = useState(undefined);
   const [soulUrge, setSoulUrge] = useState(undefined);
   const [personality, setPersonality] = useState(undefined);
-  // console.log("loging props");
-  // console.log(props);
-  var matchType = props.route.params.matchType;
+  
+  var matchType = props.matchType;
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
   function updateData(data) {
@@ -129,7 +131,7 @@ const SuggestionScreen = props => {
               // console.log(auth().currentUser.uid);
               if (documentSnapshot.id != auth().currentUser.uid) {
                 if (matchType == 'twin') {
-                  console.log('inside twin');
+                  // console.log('inside twin');
                   // // console.log(usrData);
                   // var lpu = usrData.numbers.lifePathNumber;
                   // var lpo = data.numbers.lifePathNumber
@@ -155,26 +157,26 @@ const SuggestionScreen = props => {
                   // if(pu == lop && sou == soo && bu == bo){
 
                   // }
-                  usersArr.push({id: i, data: documentSnapshot.data()});
+                  usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
                   i++;
                 } else if (matchType == 'couple') {
-                  console.log('inside couple');
-                  console.log(getNum(usrData.numbers.lifePathNumber));
+                  // console.log('inside couple');
+                  // console.log(getNum(usrData.numbers.lifePathNumber));
                   var lpu = usrData.numbers.lifePathNumber;
                   var lpo = data.numbers.lifePathNumber;
-                  console.log(lpu);
-                  console.log(lpo);
+                  // console.log(lpu);
+                  // console.log(lpo);
                   var n1 = getNum(lpu);
                   var n2 = getNum(lpo);
                   var arr = items[n1];
-                  console.log(arr);
+                  // console.log(arr);
                   if (arr[n2] == 3) {
-                    usersArr.push({id: i, data: documentSnapshot.data()});
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
                   }
                   i++;
                 } else {
-                  console.log('none');
-                  usersArr.push({id: i, data: documentSnapshot.data()});
+                  // console.log('none');
+                  usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
                 }
               }
             }
@@ -191,7 +193,6 @@ const SuggestionScreen = props => {
           throw error;
         });
     }
-
     return () => {
       isMounted = false
       subscriber();
@@ -239,12 +240,14 @@ const SuggestionScreen = props => {
       });
     return () => subscriber();
   }, []);
-
+  console.log('parent: ');
+  // console.log(props.navigation.getParent());
   const navigationAction = params => {
-    console.log("before nav");
-    console.log(params);
-    props.navigation.navigate('MatchProfileScreen', {otherUser: params});
-
+  
+    var nav = props.navigation;
+  //  var nav =  props.navigation.getParent()
+    nav.navigate('MatchProfileScreen', {otherUser: params});
+    
   };
 
   return (

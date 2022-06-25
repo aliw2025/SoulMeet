@@ -116,6 +116,7 @@ const TableRow = props => {
 };
 //  the screen component
 const MatchProfileScreen = (props) => {
+  // logged in user Data
   const [fname, setFname] = useState(undefined);
   const [mname, setMname] = useState(undefined);
   const [lname, setLname] = useState(undefined);
@@ -123,13 +124,31 @@ const MatchProfileScreen = (props) => {
   const [usrData, setUsrData] = useState(undefined);
   const [profileImg, setProfileImg] = useState(undefined);
   const [dp, setDp] = useState(undefined);
-  console.log("reccv props");
-  console.log(props.route.params);
+
+var navigation = props.navigation;
+  // other usre Data
   const [otherUser ,setOtherUser] = useState(props.route.params.otherUser);
-  console.log("logging other user");
-  console.log(otherUser);
-  function updateData(data) {
-    console.log('updating data ');
+  const [fname2, setFname2] = useState(undefined);
+  const [mname2, setMname2] = useState(undefined);
+  const [lname2, setLname2] = useState(undefined);
+  const [age2,setAge2] = useState(undefined);
+  const [dp2, setDp2] = useState(undefined);
+  
+
+  function updateOtherUserData (data){
+    if (data) {
+      setFname2(data.fname);
+      setMname2(data.mname);
+      setLname2(data.lname);
+      setAge2(data.age);
+      setDp2(data.dp);
+     
+    } else {
+      console.log('error');
+    }
+  }
+
+  function updateData(data) { 
     if (data) {
       setUsrData(data);
       setFname(data.fname);
@@ -137,18 +156,19 @@ const MatchProfileScreen = (props) => {
       setLname(data.lname);
       setAge(data.age);
       setDp(data.dp);
-     
+
     } else {
+
       console.log('error');
     }
   }
+
   var data;
   useEffect(() => {
     const subscriber = firestore()
       .collection('users')
       .doc(auth().currentUser.uid)
       .onSnapshot(documentSnapshot => {
-        
         if(documentSnapshot){
           data = documentSnapshot.data();
           console.log('User data recived ');
@@ -156,19 +176,39 @@ const MatchProfileScreen = (props) => {
         }else{
           console.log('error in reciving data');
         }
-      
       });
     return () => subscriber();
   }, []);
+
+  
+  
+
+  useEffect(() => {
+    var data2;
+    const subscriber = firestore()
+      .collection('users')
+      .doc(otherUser.id)
+      .onSnapshot(documentSnapshot => {
+        if(documentSnapshot){
+          data2= documentSnapshot.data();
+          console.log('Other user data recived ');
+          updateOtherUserData(data2);
+          // updateData(data);
+        }else{
+          console.log('error in reciving data');
+        }
+      });
+    return () => subscriber();
+  }, []);
+
+
   const navigationAction = params => {
-    console.log('i am nav');
-    // props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    props.navigation.navigate("ItsAMatchScreen", {name: 'Jane'});
+
+    props.navigation.navigate("ItsAMatchScreen", {otherUser: otherUser});
 
   };
+
   function renderImage(){
-    
-    console.log(dp);
     var source;
     if(dp){
       source = {uri:dp};
@@ -179,13 +219,14 @@ const MatchProfileScreen = (props) => {
         <Image style={{width: '100%'}} source={source}></Image>
     );
   }
+
   return (
     <View style={[{flex: 1, backgroundColor: 'white'}]}>
       {/* image container */}
       <View style={{alignItems: 'center',height:'55%', marginTop: 0}}>
         {/* image of person */}
         {/* {renderImage()} */}
-        <Image style={{width: "100%",height:"100%"}} source={{uri:otherUser.data.dp}}></Image>
+        <Image style={{width: "100%",height:"100%",}} source={{uri:dp2}}></Image>
       </View>
       {/* background white card */}
       <ImageBackground source={card} resizeMode="stretch" style={[styles.card]}>
@@ -197,7 +238,9 @@ const MatchProfileScreen = (props) => {
             </View>
           </TouchableOpacity>
           {/* love */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress = {()=>{
+            navigationAction("ItsAMatchScreen");
+          }}>
             <View style={{marginTop: 15}}>
               <Image source={roundContainer}></Image>
               <Image
@@ -222,7 +265,7 @@ const MatchProfileScreen = (props) => {
               marginRight: 40,
             }}>
             <View>
-              <Text style={styles.nameHeading}>{otherUser.data.fname}  {otherUser.data.lname}, {otherUser.data.age}</Text>
+              <Text style={styles.nameHeading}>{fname2}  {lname2}, {age2}</Text>
               <Text
                 style={[
                   styles.nameHeading,

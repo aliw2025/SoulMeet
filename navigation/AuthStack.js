@@ -1,25 +1,29 @@
-
-
 import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
-// import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomePage';
-import SignIn from '../screens/SignIn'
-import SignUp from '../screens/SignUp'
-
-// import SignupScreen from '../screens/SignupScreen';
-// import LoginScreen from '../screens/LoginScreen';
-// import OnboardingScreen from '../screens/OnboardingScreen';
-
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-// import AsyncStorage from '@react-native-community/async-storage';
+import SignIn from '../screens/SignIn';
+import SignUp from '../screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
+  return (
+    // options={{title: (props)=> <EmptyHeader/>}}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+    </Stack.Navigator>
+  );
+};
+
+export default AuthStack;
+
 //   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
 //   let routeName;
 
@@ -32,7 +36,7 @@ const AuthStack = () => {
 //         setIsFirstLaunch(false);
 //       }
 //     }); // Add some error handling, also you can simply do setIsFirstLaunch(null)
-  
+
 //   }, []);
 
 //   if (isFirstLaunch === null) {
@@ -42,33 +46,3 @@ const AuthStack = () => {
 //   } else {
 //     routeName = 'Login';
 //   }
-
-  return (
-
-<Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          // options={{title: (props)=> <EmptyHeader/>}}
-        />
-       
-    </Stack.Navigator>
-  );
-};
-
-export default AuthStack;
-
-

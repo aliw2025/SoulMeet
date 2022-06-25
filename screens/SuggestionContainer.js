@@ -11,7 +11,8 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SuggestionScreen from './SuggestionScreen';
-import  MatchProfileScreen from './MatchProfileScreen'
+import MatchProfileScreen from './MatchProfileScreen';
+import ItsAMatchScreen from './ItsAMatchScreen';
 
 import {
   SafeAreaView,
@@ -50,22 +51,43 @@ const search = require('../assets/search.png');
 const arrow = require('../assets/arrrow.png');
 
 var images = [];
-    
+
 const Stack = createNativeStackNavigator();
 
-const SuggestionStack = (props) => {
+const SuggestionStack = props => {
+  console.log('stack paraameters');
+  console.log(props);
   var matchType = props.matchType;
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="SuggestionScreen" initialParams={{ matchType: matchType }} component={SuggestionScreen} />
-      <Stack.Screen name="MatchProfileScreen" component={MatchProfileScreen} />
+      {/* <Stack.Screen
+        name="SuggestionScreen"
+        initialParams={{
+          // parentNavigation: props.parentNavigation,
+          matchType: matchType,
+        }}
+        component={SuggestionScreen}
+      /> */}
+      {/* <Stack.Screen
+        name="MatchProfileScreen"
+        initialParams={{
+          parentNavigation: props.parentNavigation,
+        }}
+        component={MatchProfileScreen}
+      /> */}
+      {/* <Stack.Screen
+        name="ItsAMatchScreen"
+        initialParams={{
+          parentNavigation: props.parentNavigation,
+        }}
+        component={ItsAMatchScreen}
+      /> */}
     </Stack.Navigator>
   );
 };
-
 
 const styles = StyleSheet.create({
   borderLine: {
@@ -111,6 +133,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default SuggestionStack;

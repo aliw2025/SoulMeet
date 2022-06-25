@@ -173,7 +173,7 @@ const MatchesScreen = props => {
                   var n2 = getNum(lpo);
                   var arr = items[n1];
                  
-                  if (arr[n2] == 3) {
+                if (arr[n2] == 3) {
                     usersArr.push({id: i, data: documentSnapshot.data()});
                   }
 

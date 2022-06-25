@@ -12,6 +12,7 @@ import SuggestionStack from './SuggestionContainer';
 import AccountStack from './AccountScreen';
 import MessagesScreen from './MessagesScreen';
 import MatchesScreen from './MatchesScreen';
+import SuggestionScreen from './SuggestionScreen'
 
 // react items
 import {
@@ -57,17 +58,41 @@ const CustomTabBar = props => {
 };
 var i = 0;
 var icons = [match, grayHeart, message, people];
-function MyTabBar({state, descriptors, navigation}) {
- 
+// function MyTabBar(props){
 
-  const navAnim = useRef(new Animated.Value(0)).current;
+function MyTabBar( {state, descriptors, navigation} ){
+  // console.log('olamdddddba :'+def);
+  // console.log(def);
+  // console.log('state');
+  // console.log(state.history[0].key);
+  // console.log(state);
+  // console.log('des1');
+  // console.log(descriptors[state.history[0].key].options['initialRouteName']);
+  // console.log('des2');
+  // console.log(descriptors);
+  // console.log(props);
+  var r = descriptors[state.history[0].key].options['initialRouteName'];
+  // descriptors.map((des)=>{
 
+  //     console.log('desciptor');
+  //     console.log(val);
+  // });
+  
+  const navAnim = useRef(new Animated.Value(state.index)).current;
   function animateLine(value) {
     Animated.timing(navAnim, {
       toValue: value * windowWidth * 0.25,
       duration: 100,
       useNativeDriver: true,
     }).start();
+  }
+  let routeName = state.routes[state.index].name;
+  // console.log('waseem ali kha ');
+  animateLine(state.index);
+  // console.log(state.routes[state.index].name);
+  if (routeName == 'Suggestions') {
+    console.log('inside the hell');
+    
   }
 
   return (
@@ -81,7 +106,7 @@ function MyTabBar({state, descriptors, navigation}) {
           left: 0,
           top: 0,
           width: windowWidth / 4,
-          height: 2,
+          height: 2,  
           backgroundColor: '#FFC700',
         }}></Animated.View>
       {state.routes.map((route, index, i) => {
@@ -97,7 +122,6 @@ function MyTabBar({state, descriptors, navigation}) {
         const isFocused = state.index === index;
 
         const onPress = () => {
-
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -108,9 +132,7 @@ function MyTabBar({state, descriptors, navigation}) {
             animateLine(index);
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
             navigation.navigate({name: route.name});
-
           }
-
         };
         const onLongPress = () => {
           navigation.emit({
@@ -118,7 +140,7 @@ function MyTabBar({state, descriptors, navigation}) {
             target: route.key,
           });
         };
-        
+
         if (route.name == 'Matches') {
           return (
             <TouchableOpacity
@@ -187,29 +209,43 @@ function MyTabBar({state, descriptors, navigation}) {
 
 const Tab = createBottomTabNavigator();
 const TabsScreen = props => {
+ 
+  console.log("tabs screen props: ");
+  console.log(props);
+  var def= "Suggestions"
+  // if(props.route.params.activeScreen){
+  //   def= props.route.params.activeScreen;
+  //   console.log('we need to nav:'+def);
+    
+  // }
+  // console.log(props);
   var matchType = props.route.params.matchType;
   return (
-    <NavigationContainer independent={true}>
+    
       <Tab.Navigator
-        tabBar={props => <MyTabBar {...props} />}
-        screenOptions={{headerShown: false,unmountOnBlur:true}}>
+        tabBar={(props)=> <MyTabBar {...props} />}
+        initialRouteName={def}
+        screenOptions={{ initialRouteName:def,headerShown: false, unmountOnBlur: true}}>
+
         <Tab.Screen
           name="Suggestions"
           children={() => {
-            return < SuggestionStack matchType={matchType} />;
-          }}
-          
+            return <SuggestionScreen {...props}  parentNavigation = {props.navigation} matchType={matchType} />;
+          }}  
         />
+
         <Tab.Screen
           name="Matches"
+          screenOptions={{tabBarVisible: false}}
           children={() => {
             return <MatchesScreen matchType={matchType} />;
           }}
         />
         <Tab.Screen name="Messages" component={MessagesScreen} />
         <Tab.Screen name="Account" component={AccountStack} />
+        
       </Tab.Navigator>
-    </NavigationContainer>
+    
   );
 };
 
