@@ -59,7 +59,8 @@ const MatchesScreen = props => {
   const [lname, setLname] = useState('');
   const [usrData, setUsrData] = useState(undefined);
 
-  
+  console.log('matches props');
+  console.log(props);
   matchType = props.matchType;
 
   const [imageList, setImageList] = useState(images);

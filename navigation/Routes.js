@@ -10,12 +10,11 @@ import SetUpStack from './SetUpStack';
 import AppStack from './AppStack';
 
 const Routes = () => {
-
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
   const [dataState, setDataState] = useState(undefined);
-  const [refresh,setRefresh] = useState(undefined);
-  
+  const [refresh, setRefresh] = useState(undefined);
+
   const onAuthStateChanged = user => {
     setUser(user);
     if (initializing) setInitializing(false);
@@ -36,14 +35,9 @@ const Routes = () => {
     }
   }
 
-  function getDataState(params) {
-
-      
-    
-    
-  }
+  function getDataState(params) {}
   useEffect(() => {
-    console.log("getting data");
+    console.log('getting data');
     if (auth().currentUser) {
       console.log('user is loged in');
       const subscriber = firestore()
@@ -59,23 +53,22 @@ const Routes = () => {
             console.log('error in reciving data');
           }
         });
-        return () => subscriber();
+      return () => subscriber();
     }
-  },[refresh]);
+  }, [refresh]);
 
   function showStack(params) {
     console.log('showing stack ');
-    console.log(user);  
+    console.log(user);
     if (user) {
-      if(!refresh){
+      if (!refresh) {
         setRefresh(true);
       }
       console.log(dataState);
       if (dataState) {
         if (dataState == 'yes') {
           return <AppStack />;
-        }else
-        {
+        } else {
           return <SetUpStack />;
         }
       }

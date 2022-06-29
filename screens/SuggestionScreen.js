@@ -49,8 +49,10 @@ const people = require('../assets/people.png');
 
 //  the screen component
 const SuggestionScreen = props => {
-  console.log("this is suggestion Screen");
+  
+  console.log('suggestion screen props');
   console.log(props);
+
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
   const [shadowRadius, setShadowRadius] = useState(0);
@@ -66,6 +68,7 @@ const SuggestionScreen = props => {
   var matchType = props.matchType;
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
+
   function updateData(data) {
     
     if (data) {
@@ -77,6 +80,7 @@ const SuggestionScreen = props => {
       console.log('error');
     }
   }
+
   useEffect(() => {
     const subscriber = firestore()
       .collection('users')
@@ -92,6 +96,7 @@ const SuggestionScreen = props => {
       });
     return () => subscriber();
   }, []);
+
   var items = [
     [3, 2, 3, 1, 3, 2, 3, 1, 3],
     [2, 3, 2, 3, 1, 3, 1, 3, 2],
@@ -103,6 +108,7 @@ const SuggestionScreen = props => {
     [1, 3, 1, 3, 2, 2, 2, 3, 1],
     [2, 1, 3, 1, 2, 3, 2, 1, 3],
   ];
+
   function getNum(str) {
     var val = 0;
     var arr = str.split('/');
@@ -112,6 +118,7 @@ const SuggestionScreen = props => {
       return arr[1];
     }
   }
+
   useEffect(() => {
     console.log('mouting');
     var subs;
@@ -206,10 +213,12 @@ const SuggestionScreen = props => {
     // setElevation(0);
     setShadowColor('white');
   }
+
   function starAction(params) {
     // setElevation(0);
     setShadowColor2('white');
   }
+
   function updateData(data) {
     console.log('updating data ');
     if (data) {
@@ -240,15 +249,16 @@ const SuggestionScreen = props => {
       });
     return () => subscriber();
   }, []);
-  console.log('parent: ');
-  // console.log(props.navigation.getParent());
+  
+
   const navigationAction = params => {
   
     var nav = props.navigation;
-  //  var nav =  props.navigation.getParent()
+    //var nav =  props.navigation.getParent()
     nav.navigate('MatchProfileScreen', {otherUser: params});
     
   };
+  
 
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
@@ -288,6 +298,7 @@ const SuggestionScreen = props => {
             <TouchableHighlight  underlayColor="clear" onPress = {()=>{
               
               navigationAction(item);
+
             }}>
             <View
               style={{

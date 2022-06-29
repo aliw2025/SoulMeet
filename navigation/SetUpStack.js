@@ -31,11 +31,7 @@ const SetUpStack = () => {
       <Stack.Screen name="BirthDay" component={BirthDayScreen} />
       <Stack.Screen name="ProfileDetails1" component={ProfileDetails1} />
       <Stack.Screen name="ProfileDetails2" component={ProfileDetails2} />
-      <Stack.Screen
-        name="WhoAm"
-       
-        component={WhoAm}
-      />
+      <Stack.Screen name="WhoAm" component={WhoAm} />
     </Stack.Navigator>
   );
 };

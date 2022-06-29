@@ -1,18 +1,24 @@
-import React, {useState} from 'react';
-// import CountryPicker from 'react-native-country-picker-modal';
+import React, {useState, useEffect, useRef} from 'react';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
-import {Dimensions, TouchableHighlightBase,Alert} from 'react-native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import MessageRow from '../components/MessageRow';
+
+import {
+  Dimensions,
+  TouchableHighlightBase,
+  Alert,
+  Keyboard,
+} from 'react-native';
+
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
-
-
-// import {Modal} from '../components/Modal';
 import {
   SafeAreaView,
   ScrollView,
@@ -32,22 +38,7 @@ import {
   Button,
   ImageBackground,
 } from 'react-native';
-// const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
-// const arrow = require('../assets/arrow.png');
-// const setting = require('../assets/setting.png');
-// const photo = require('../assets/photo.png');
-// const mainProfile = require('../assets/mainProfile.png');
-// const cross = require('../assets/cross.png');
-// const star = require('../assets/star.png');
-// const heart = require('../assets/heart.png');
-// const roundContainer = require('../assets/roundContainer.png');
-// const WhiteContainer = require('../assets/whiteContainer.png');
-// const message = require('../assets/message.png');
-// const match = require('../assets/match.png');
-// const grayHeart = require('../assets/grayHeart.png');
-// const dot = require('../assets/dot.png');
-// const people = require('../assets/people.png');
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const photo = require('../assets/girl.png');
@@ -65,6 +56,7 @@ const search = require('../assets/search.png');
 
 var images = [];
 var message = [];
+var j = 0;
 for (var i = 0; i < 10; i++) {
   var type = 0;
   if (i == 3) {
@@ -76,34 +68,289 @@ for (var i = 0; i < 10; i++) {
     images.push({id: i, image: photo});
     type = 2;
   }
-  message.push({
-    id: i,
-    type: type,
-    message:
-      'Hi Jake, how are you? I saw on the app that we’ve crossed paths several times this week 😄',
-  });
+  // message.push({
+  //   id: j,
+  //   type: type,
+  //   message:
+  //     'Hi Jake, how are you? I saw on the app that we’ve crossed paths several times this week 😄',
+  // });
+  // j++;
 }
 
 //  the screen component
 const MessagesScreen = props => {
+  var route = props.route;
+  // console.log('messages screen props');
+  // console.log(props);
   const [text, onChangeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  // console.log('text: '+text);
   const flatListRef = React.useRef();
-
-const [imageList, setImageList] = useState(images);
-
+  const [imageList, setImageList] = useState(images);
+  const [threadList, setThreadList] = useState(undefined);
   const [messageList, setMessageList] = useState(message);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const [sndHeight, setSndHeight] = useState(0);
+  const [msg, setMsg] = useState('');
+  const [refresh, setRefresh] = useState(false);
+  const [refresh2, setRefresh2] = useState(false);
 
-  function check(params) {
-    setText('searching');
+
+  const [otherUser, setOtherUser] = useState(undefined);
+  const [fname2, setFname2] = useState(undefined);
+  const [mname2, setMname2] = useState(undefined);
+  const [lname2, setLname2] = useState(undefined);
+  const [age2, setAge2] = useState(undefined);
+  const [dp2, setDp2] = useState(undefined);
+
+  function messageClicked(params) {
+    setModalVisible(true);
+    setOtherUser(params);
   }
+
+  var [msgId, setMsgId] = useState(j);
+
+  useEffect(() => {
+    
+    var msgs = []
+    const subscriber = firestore()
+      .collection('messagesThreads')
+      .doc(auth().currentUser.uid)
+      .collection('threads')
+      .doc(otherUser)
+      .collection('messages')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          console.log('message #');
+          console.log(
+            'User ID: ',
+            documentSnapshot.id,
+            documentSnapshot.data(),
+          );
+          var msg = {id:documentSnapshot.id,data:documentSnapshot.data()};
+           msgs.push(msg);
+          
+        });
+        
+      })
+      .catch(function (error) {
+        console.log(
+          'There has been a problem with your fetch operation: ' +
+            error.message,
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+      setMessageList(msgs);
+    return () => {
+      subscriber;
+    };
+
+    
+  }, [otherUser,refresh2]);
+  // getting messages THreadd
+  useEffect(() => {
+    var threadArr = [];
+    // const subscriber = firestore().collection('Users').onSnapshot(subs);
+    var subs;
+    const subscriber = firestore()
+      .collection('messagesThreads')
+      .doc(auth().currentUser.uid)
+      .collection('threads')
+      .onSnapshot(subs);
+    // .doc(auth().currentUser.uid)
+    // .collection('threads')
+    firestore()
+      .collection('messagesThreads')
+      .doc(auth().currentUser.uid)
+      .collection('threads')
+      .get()
+      .then(querySnapshot => {
+        var i = 0;
+        console.log('query snapshot done ');
+        console.log(querySnapshot);
+        querySnapshot.forEach(documentSnapshot => {
+          console.log('threads');
+          console.log(
+            'User ID: ',
+            documentSnapshot.id,
+            documentSnapshot.data(),
+          );
+          var data = documentSnapshot.data();
+          threadArr.push({
+            id: documentSnapshot.id,
+            data: documentSnapshot.data(),
+          });
+          i++;
+        });
+        setThreadList(threadArr);
+      })
+      .catch(function (error) {
+        console.log(
+          'There has been a problem with your fetch operation: ' +
+            error.message,
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+
+    return () => {
+      subscriber;
+    };
+  }, [refresh]);
+
+  function sendMsg() {
+    //  sender side
+    var createdAt = firestore.Timestamp.fromDate(new Date());
+    firestore()
+      .collection('messagesThreads')
+      .doc(auth().currentUser.uid)
+      .collection('threads')
+      .doc(otherUser)
+      .collection('messages')
+      .add({
+        snd: auth().currentUser.uid,
+        rsv: otherUser,
+        type: 1,
+        text: msg,
+        createdAt: createdAt,
+      })
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user1 to firestore: ',
+          error,
+        );
+        // showError(error);
+      });
+    firestore()
+      .collection('messagesThreads')
+      .doc(auth().currentUser.uid)
+      .collection('threads')
+      .doc(otherUser)
+      .set({
+        updatedAt: firestore.Timestamp.fromDate(new Date()),
+      })
+      .catch(error => {
+        console.log(
+          'Something went wrong with update1 user to firestore: ',
+          error,
+        );
+        // showError(error);
+      });
+    console.log('sending');
+
+    firestore()
+      .collection('messagesThreads')
+      .doc(otherUser)
+      .collection('threads')
+      .doc(auth().currentUser.uid)
+      .collection('messages')
+      .add({
+        snd: auth().currentUser.uid,
+        rsv: otherUser,
+        type: 1,
+        text: msg,
+        createdAt: createdAt,
+      })
+      .catch(error => {
+        console.log(
+          'Something went wrong with added user2 to firestore: ',
+          error,
+        );
+        // showError(error);
+      });
+    firestore()
+      .collection('messagesThreads')
+      .doc(otherUser)
+      .collection('threads')
+      .doc(auth().currentUser.uid)
+      .set({
+        updatedAt: firestore.Timestamp.fromDate(new Date()),
+      })
+      .catch(error => {
+        console.log(
+          'Something went wrong with update2 user to firestore: ',
+          error,
+        );
+        
+      });
+    setRefresh(!refresh);
+    setRefresh(!refresh2);
+    flatListRef.current.scrollToEnd({animated: true})
+
+  }
+
+  function updateOtherUserData(data) {
+    if (data) {
+      setFname2(data.fname);
+      setMname2(data.mname);
+      setLname2(data.lname);
+      setDp2(data.dp);
+    } else {
+      console.log('error');
+    }
+  }
+  useEffect(() => {
+    var data2;
+    const subscriber = firestore()
+      .collection('users')
+      .doc(otherUser)
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot) {
+          data2 = documentSnapshot.data();
+          console.log('Other user data recived ');
+          updateOtherUserData(data2);
+        } else {
+          console.log('error in reciving data');
+        }
+      });
+    return () => subscriber();
+  }, [otherUser]);
+
+  const onKeyboardShow = event => {
+    // pos = 'absolute';
+    console.log('keyboard opened');
+    setKeyboardOffset(event.endCoordinates.height);
+  };
+
+  const onKeyboardHide = () => {
+    // pos = 'relative';
+    setKeyboardOffset(0);
+  };
+
+  const keyboardDidShowListener = useRef();
+  const keyboardDidHideListener = useRef();
+
+  useEffect(() => {
+    // onKeyboardHide
+    // onKeyboardShow
+    keyboardDidShowListener.current = Keyboard.addListener(
+      'keyboardDidShow',
+      onKeyboardShow,
+    );
+    keyboardDidHideListener.current = Keyboard.addListener(
+      'keyboardDidHide',
+      onKeyboardHide,
+    );
+    return () => {
+      keyboardDidShowListener.current.remove();
+      keyboardDidHideListener.current.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (route.params) {
+      if (route.params.reciver) {
+        setOtherUser(route.params.reciver);
+        setModalVisible(true);
+      }
+    }
+  }, []);
 
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
-    //navigation.navigate("ChartScreen", {name: 'Jane'});
   };
-  // check();
+
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View
@@ -148,7 +395,6 @@ const [imageList, setImageList] = useState(images);
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => {
-            console.log('item:' + item.id);
             return (
               <View style={[styles.messageDp, {width: 60}]}>
                 <Image style={styles.dpImage} source={item.image}></Image>
@@ -165,48 +411,16 @@ const [imageList, setImageList] = useState(images);
       <View
         style={{marginTop: 10, width: windowWidth - 80, alignSelf: 'center'}}>
         <FlatList
-          data={imageList}
+          data={threadList}
           numColumns={1}
+          extraData={refresh}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            console.log('item:' + item.id);
-            return (
-              <TouchableHighlight
-                underlayColor="#F3F3F3"
-                onPress={() => {
-                  console.log('sing is king');
-                  setModalVisible(true);
-                }}>
-                <View style={[styles.MessageRow]}>
-                  <TouchableHighlight
-                    style={{width: '20%'}}
-                    underlayColor="clear"
-                    onPress={() => {
-                      console.log('sing is bling');
-                    }}>
-                    <View style={styles.messageDp}>
-                      <Image style={styles.dpImage} source={item.image}></Image>
-                    </View>
-                  </TouchableHighlight>
-                  <View style={styles.messageSection}>
-                    <Text style={styles.messageHeading}>Name</Text>
-                    <Text>text</Text>
-                  </View>
-                  <View style={styles.detailSection}>
-                    <Text>23min</Text>
-                    <View style={styles.yellowBubble}>
-                      <Text style={styles.bubbleText}>1</Text>
-                    </View>
-                  </View>
-                  <View style={styles.borderLine}></View>
-                </View>
-              </TouchableHighlight>
-            );
-          }}
-          //  keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => <MessageRow messageClicked={messageClicked} {...item} />}
+          keyExtractor={(item, index) => index.toString()}
         />
       </View>
+
       <GestureRecognizer
         onSwipeDown={state => {
           setModalVisible(false);
@@ -254,12 +468,12 @@ const [imageList, setImageList] = useState(images);
                       <View style={styles.messageDp}>
                         <Image
                           style={styles.dpImage}
-                          source={imageList[0].image}></Image>
+                          source={{uri: dp2}}></Image>
                       </View>
                     </TouchableHighlight>
                     <View style={styles.messageSection}>
                       <Text style={[styles.messageHeading, {fontSize: 30}]}>
-                        Name
+                        {fname2}
                       </Text>
                       <View
                         style={{alignItems: 'center', flexDirection: 'row'}}>
@@ -283,11 +497,16 @@ const [imageList, setImageList] = useState(images);
                     </View>
                   </View>
                 </View>
-                <View style={styles.messagesView}>
+                <View
+                  style={[
+                    styles.messagesView,
+                    {height: windowHeight * 0.55 - keyboardOffset},
+                  ]}>
                   <FlatList
                     data={messageList}
                     numColumns={1}
                     ref={flatListRef}
+                    extraData = {refresh2}
                     // horizontal={true}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
@@ -318,11 +537,12 @@ const [imageList, setImageList] = useState(images);
                               {
                                 marginLeft: marginLeft,
                                 backgroundColor: backgroundColor,
-                                borderBottomRightRadius:borderBottomRightRadius,
+                                borderBottomRightRadius:
+                                  borderBottomRightRadius,
                                 borderBottomLeftRadius: borderBottomLeftRadius,
                               },
                             ]}>
-                            <Text>{item.message}</Text>
+                            <Text>{item.data.text}</Text>
                           </View>
                         </View>
                       );
@@ -333,31 +553,90 @@ const [imageList, setImageList] = useState(images);
                 <View
                   style={{
                     // backgroundColor: 'red',
-                    marginTop:10,
-                    width: '100%',
-                    flexDirection:'row',
-                    alignItems:'center',
+                    marginTop: 10,
+                    // width: '100%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // backgroundColor:'pink',
+                    justifyContent: 'space-between',
+                    marginLeft: 40,
+                    marginRight: 40,
+
                     // height: '10%',
                     // backgroundColor: 'red',
                     // position: 'absolute',
                     // bottom: 0,
                   }}>
-                  <View style={[styles.searchBox,{marginLeft:40,alignSelf:'flex-start',width:'60%',marginTop:0,marginBottom:0}]}>
-                    
-                    
+                  <View
+                    style={[
+                      styles.searchBox,
+                      {
+                        // marginLeft: 40,
+                        // alignSelf: 'flex-end',
+                        width: '80%',
+                        marginTop: 0,
+                        marginBottom: 0,
+                      },
+                    ]}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        var m = {
+                          id: j,
+                          type: 1,
+                          message: msg,
+                        };
+                        // messageList.push(m);
+                        // j++;
+                        setRefresh(!refresh);
+                        flatListRef.current.scrollToEnd({animated: true});
+                        sendMsg();
+                        setMsg('');
+                      }}
+                      style={[
+                        {
+                          position: 'absolute',
+                          height: sndHeight,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          top: 0,
+                          right: 0,
+                        },
+                      ]}>
+                      <View
+                        style={[
+                          styles.backBtn,
+                          {borderWidth: 0, height: sndHeight, width: 40},
+                        ]}>
+                        <Text
+                          style={{
+                            color: 'blue',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          >>
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+
                     <TextInput
+                      onBlur={() => {
+                        setSndHeight(0);
+                      }}
+                      onFocus={() => {
+                        setSndHeight(40);
+                      }}
                       placeholder="your message"
                       placeholderTextColor="#00000066"
-                     // important
-                      // value={'your message'}
-                      style={[styles.feildValue,{marginLeft:15,}]}></TextInput>
-                     
+                      onChangeText={setMsg}
+                      // important
+                      value={msg}
+                      style={[styles.feildValue, {marginLeft: 15}]}></TextInput>
                   </View>
                   <TouchableOpacity>
-                        <View style={[styles.backBtn]}>
-                          <Text>:</Text>
-                        </View>
-                      </TouchableOpacity>
+                    <View style={[styles.backBtn]}>
+                      <Text>:</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </ImageBackground>
             </View>
@@ -380,7 +659,7 @@ const styles = StyleSheet.create({
   messagesView: {
     marginLeft: 40,
     marginRight: 40,
-    height: '70%',
+    // height: '65%',
     // backgroundColor: 'pink',
   },
   indicator: {
@@ -418,7 +697,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
     marginBottom: 10,
-    height: 60,
+    height: 50,
     borderWidth: 1,
     borderRadius: 20,
     borderColor: '#E8E6EA',

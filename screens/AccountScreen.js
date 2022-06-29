@@ -95,7 +95,10 @@ const ListItem = props => {
 };
 const Stack = createNativeStackNavigator();
 
-const AccountStack = () => {
+const AccountStack = (props) => {
+  
+  console.log('account Stack pops');
+  console.log(props);
   return (
     <Stack.Navigator
       screenOptions={{

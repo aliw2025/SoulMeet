@@ -56,29 +56,17 @@ const CustomTabBar = props => {
       }}></View>
   );
 };
+
+
 var i = 0;
 var icons = [match, grayHeart, message, people];
 // function MyTabBar(props){
 
-function MyTabBar( {state, descriptors, navigation} ){
-  // console.log('olamdddddba :'+def);
-  // console.log(def);
-  // console.log('state');
-  // console.log(state.history[0].key);
-  // console.log(state);
-  // console.log('des1');
-  // console.log(descriptors[state.history[0].key].options['initialRouteName']);
-  // console.log('des2');
-  // console.log(descriptors);
-  // console.log(props);
-  var r = descriptors[state.history[0].key].options['initialRouteName'];
-  // descriptors.map((des)=>{
-
-  //     console.log('desciptor');
-  //     console.log(val);
-  // });
+function MyTabBar({descriptors,state,navigation}) {
+  
   
   const navAnim = useRef(new Animated.Value(state.index)).current;
+
   function animateLine(value) {
     Animated.timing(navAnim, {
       toValue: value * windowWidth * 0.25,
@@ -86,15 +74,9 @@ function MyTabBar( {state, descriptors, navigation} ){
       useNativeDriver: true,
     }).start();
   }
-  let routeName = state.routes[state.index].name;
-  // console.log('waseem ali kha ');
-  animateLine(state.index);
-  // console.log(state.routes[state.index].name);
-  if (routeName == 'Suggestions') {
-    console.log('inside the hell');
-    
-  }
 
+  animateLine(state.index);
+ 
   return (
     <View style={{flexDirection: 'row', paddingTop: 10, paddingBottom: 10}}>
       <Animated.View
@@ -193,13 +175,17 @@ function MyTabBar( {state, descriptors, navigation} ){
               borderWidth: 0,
               alignItems: 'center',
             }}>
-            <Image
+              <View>
+              <Image
               source={icons[index]}
               style={{
                 tintColor: isFocused ? '#FFC700' : '#ADAFBB',
                 width: 20,
                 height: 20,
               }}></Image>
+                
+              </View>
+           
           </TouchableOpacity>
         );
       })}
@@ -210,22 +196,15 @@ function MyTabBar( {state, descriptors, navigation} ){
 const Tab = createBottomTabNavigator();
 const TabsScreen = props => {
  
-  console.log("tabs screen props: ");
-  console.log(props);
-  var def= "Suggestions"
-  // if(props.route.params.activeScreen){
-  //   def= props.route.params.activeScreen;
-  //   console.log('we need to nav:'+def);
-    
-  // }
-  // console.log(props);
+ 
+  
   var matchType = props.route.params.matchType;
   return (
     
       <Tab.Navigator
-        tabBar={(props)=> <MyTabBar {...props} />}
-        initialRouteName={def}
-        screenOptions={{ initialRouteName:def,headerShown: false, unmountOnBlur: true}}>
+        tabBar={(prop)=> <MyTabBar  {...prop}  />}
+        
+        screenOptions={{ headerShown: false, unmountOnBlur: true}}>
 
         <Tab.Screen
           name="Suggestions"
@@ -233,7 +212,6 @@ const TabsScreen = props => {
             return <SuggestionScreen {...props}  parentNavigation = {props.navigation} matchType={matchType} />;
           }}  
         />
-
         <Tab.Screen
           name="Matches"
           screenOptions={{tabBarVisible: false}}
@@ -241,11 +219,18 @@ const TabsScreen = props => {
             return <MatchesScreen matchType={matchType} />;
           }}
         />
-        <Tab.Screen name="Messages" component={MessagesScreen} />
+
+        {/* <Tab.Screen
+          name="Messages"
+          screenOptions={{tabBarVisible: false}}
+          children={() => {
+            return <MessagesScreen />;
+          }}
+        /> */}
+        <Tab.Screen name="Messages"  component={MessagesScreen} />
         <Tab.Screen name="Account" component={AccountStack} />
-        
+
       </Tab.Navigator>
-    
   );
 };
 
@@ -257,3 +242,13 @@ const styles = StyleSheet.create({
   },
 });
 export default TabsScreen;
+
+// console.log('state');
+  // console.log(props);
+  // console.log(state);
+  // console.log(state);
+  // console.log('des1');
+  // console.log(descriptors[state.history[0].key].options['initialRouteName']);
+  // console.log('des2');
+  // console.log(descriptors);
+  // console.log(props);

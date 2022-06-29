@@ -46,9 +46,7 @@ const ItsAMatchScreen = props => {
  const [profileImg, setProfileImg] = useState(undefined);
  const [dp, setDp] = useState(undefined);
 
-console.log("fdfdfdfdd");
-console.log(props.route.params.otherUser);
-console.log(props.route.params);
+
 
  // other usre Data
  const [otherUser ,setOtherUser] = useState(props.route.params.otherUser);
@@ -102,26 +100,27 @@ console.log(props.route.params);
     return () => subscriber();
   }, []);
 
-  useEffect(() => {
-    var data2;
-    const subscriber = firestore()
-      .collection('users')
-      .doc(otherUser.id)
-      .onSnapshot(documentSnapshot => {
-        if(documentSnapshot){
-          data2= documentSnapshot.data();
-          console.log('Other user data recived ');
-          updateOtherUserData(data2);
-          // updateData(data);
-        }else{
-          console.log('error in reciving data');
-        }
-      });
-    return () => subscriber();
-  }, []);
+useEffect(() => {
+  var data2;
+  const subscriber = firestore()
+    .collection('users')
+    .doc(otherUser.id)
+    .onSnapshot(documentSnapshot => {
+      if(documentSnapshot){
+        data2= documentSnapshot.data();
+        console.log('Other user data recived ');
+        updateOtherUserData(data2);
+        // updateData(data);
+      }else{
+        console.log('error in reciving data');
+      }
+    });
+  return () => subscriber();
+}, []);
 
   const navigationAction = params => {
-    props.navigation.navigate('Messages', {activeScreen: 'Messages',reciver:otherUser.id});
+    console.log("saying hello");
+    props.navigation.navigate('Messages', {reciver:otherUser.id});
   };
 
   return (

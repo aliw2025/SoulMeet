@@ -32,6 +32,7 @@ const windowHeight = Dimensions.get('window').height;
 
 //  the screen component
 const ChartScreen = props => {
+  console.log(props);
   // console.log(props.route.params);
   // var day = props.route.params.day;
   // var month = props.route.params.month;
