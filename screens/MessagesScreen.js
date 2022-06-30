@@ -5,14 +5,12 @@ import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import MessageRow from '../components/MessageRow';
-
 import {
   Dimensions,
   TouchableHighlightBase,
   Alert,
   Keyboard,
 } from 'react-native';
-
 import InfoBox from '../components/InfoBox';
 import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
@@ -68,13 +66,6 @@ for (var i = 0; i < 10; i++) {
     images.push({id: i, image: photo});
     type = 2;
   }
-  // message.push({
-  //   id: j,
-  //   type: type,
-  //   message:
-  //     'Hi Jake, how are you? I saw on the app that we’ve crossed paths several times this week 😄',
-  // });
-  // j++;
 }
 
 //  the screen component
@@ -93,8 +84,6 @@ const MessagesScreen = props => {
   const [msg, setMsg] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [refresh2, setRefresh2] = useState(false);
-
-
   const [otherUser, setOtherUser] = useState(undefined);
   const [fname2, setFname2] = useState(undefined);
   const [mname2, setMname2] = useState(undefined);
@@ -103,14 +92,17 @@ const MessagesScreen = props => {
   const [dp2, setDp2] = useState(undefined);
 
   function messageClicked(params) {
-    setModalVisible(true);
     setOtherUser(params);
+    setModalVisible(true);
+    
   }
 
-  var [msgId, setMsgId] = useState(j);
+  function getMessagesCount(id){
 
+  }
+
+/** function to get Messages from firebase **/
   useEffect(() => {
-    
     var msgs = []
     const subscriber = firestore()
       .collection('messagesThreads')
@@ -118,6 +110,7 @@ const MessagesScreen = props => {
       .collection('threads')
       .doc(otherUser)
       .collection('messages')
+      .orderBy('createdAt')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
@@ -128,8 +121,7 @@ const MessagesScreen = props => {
             documentSnapshot.data(),
           );
           var msg = {id:documentSnapshot.id,data:documentSnapshot.data()};
-           msgs.push(msg);
-          
+           msgs.push(msg); 
         });
         
       })
@@ -145,25 +137,23 @@ const MessagesScreen = props => {
     return () => {
       subscriber;
     };
-
-    
   }, [otherUser,refresh2]);
-  // getting messages THreadd
+
+  /** function to get Messages threads from firebase **/
   useEffect(() => {
     var threadArr = [];
-    // const subscriber = firestore().collection('Users').onSnapshot(subs);
     var subs;
     const subscriber = firestore()
       .collection('messagesThreads')
       .doc(auth().currentUser.uid)
       .collection('threads')
       .onSnapshot(subs);
-    // .doc(auth().currentUser.uid)
-    // .collection('threads')
+    
     firestore()
       .collection('messagesThreads')
       .doc(auth().currentUser.uid)
       .collection('threads')
+      .orderBy('updatedAt', 'desc')
       .get()
       .then(querySnapshot => {
         var i = 0;
@@ -190,7 +180,6 @@ const MessagesScreen = props => {
           'There has been a problem with your fetch operation: ' +
             error.message,
         );
-        // ADD THIS THROW error
         throw error;
       });
 
@@ -199,8 +188,26 @@ const MessagesScreen = props => {
     };
   }, [refresh]);
 
+  /*** geting user data to be used in mesaage card ****/
+  useEffect(() => {
+    var data2;
+    const subscriber = firestore()
+      .collection('users')
+      .doc(otherUser)
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot) {
+          data2 = documentSnapshot.data();
+          console.log('Other user data recived ');
+          updateOtherUserData(data2);
+        } else {
+          console.log('error in reciving data');
+        }
+      });
+    return () => subscriber();
+  }, [otherUser]);
+
   function sendMsg() {
-    //  sender side
+    /******* sender side *****/
     var createdAt = firestore.Timestamp.fromDate(new Date());
     firestore()
       .collection('messagesThreads')
@@ -211,7 +218,6 @@ const MessagesScreen = props => {
       .add({
         snd: auth().currentUser.uid,
         rsv: otherUser,
-        type: 1,
         text: msg,
         createdAt: createdAt,
       })
@@ -220,7 +226,7 @@ const MessagesScreen = props => {
           'Something went wrong with added user1 to firestore: ',
           error,
         );
-        // showError(error);
+
       });
     firestore()
       .collection('messagesThreads')
@@ -235,10 +241,10 @@ const MessagesScreen = props => {
           'Something went wrong with update1 user to firestore: ',
           error,
         );
-        // showError(error);
+       
       });
-    console.log('sending');
-
+    
+     /******* sender side *****/
     firestore()
       .collection('messagesThreads')
       .doc(otherUser)
@@ -248,7 +254,6 @@ const MessagesScreen = props => {
       .add({
         snd: auth().currentUser.uid,
         rsv: otherUser,
-        type: 1,
         text: msg,
         createdAt: createdAt,
       })
@@ -257,7 +262,7 @@ const MessagesScreen = props => {
           'Something went wrong with added user2 to firestore: ',
           error,
         );
-        // showError(error);
+
       });
     firestore()
       .collection('messagesThreads')
@@ -290,40 +295,19 @@ const MessagesScreen = props => {
       console.log('error');
     }
   }
-  useEffect(() => {
-    var data2;
-    const subscriber = firestore()
-      .collection('users')
-      .doc(otherUser)
-      .onSnapshot(documentSnapshot => {
-        if (documentSnapshot) {
-          data2 = documentSnapshot.data();
-          console.log('Other user data recived ');
-          updateOtherUserData(data2);
-        } else {
-          console.log('error in reciving data');
-        }
-      });
-    return () => subscriber();
-  }, [otherUser]);
 
+  
+
+ /*** responseive keyboard ****/
   const onKeyboardShow = event => {
-    // pos = 'absolute';
-    console.log('keyboard opened');
     setKeyboardOffset(event.endCoordinates.height);
   };
-
   const onKeyboardHide = () => {
-    // pos = 'relative';
     setKeyboardOffset(0);
   };
-
   const keyboardDidShowListener = useRef();
   const keyboardDidHideListener = useRef();
-
   useEffect(() => {
-    // onKeyboardHide
-    // onKeyboardShow
     keyboardDidShowListener.current = Keyboard.addListener(
       'keyboardDidShow',
       onKeyboardShow,
@@ -337,6 +321,8 @@ const MessagesScreen = props => {
       keyboardDidHideListener.current.remove();
     };
   }, []);
+
+
 
   useEffect(() => {
     if (route.params) {
@@ -518,7 +504,7 @@ const MessagesScreen = props => {
                       var marginLeft = '0%';
                       var borderBottomLeftRadius = 10;
                       var borderBottomRightRadius = 10;
-                      if (item.type == 1) {
+                      if (item.snd == auth().currentUser.uid) {
                         marginLeft = '20%';
                         backgroundColor = '#F3F3F3';
                         // borderBottomLeftRadius = 0;
