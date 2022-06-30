@@ -132,7 +132,7 @@ export const AuthProvider = ({children}) => {
         },
         register: async (email, password) => {
           setLoading(true);
-          try {
+          try {mes
             await auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
               

@@ -224,7 +224,8 @@ const TabsScreen = props => {
           name="Messages"
           screenOptions={{tabBarVisible: false}}
           children={() => {
-            return <MessagesScreen />;
+            return <MessagesScr
+            een />;
           }}
         /> */}
         <Tab.Screen name="Messages"  component={MessagesScreen} />

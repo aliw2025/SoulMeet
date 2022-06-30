@@ -50,8 +50,8 @@ const people = require('../assets/people.png');
 //  the screen component
 const SuggestionScreen = props => {
   
-  console.log('suggestion screen props');
-  console.log(props);
+  // console.log('suggestion screen props');
+  // console.log(props);
 
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(0);
