@@ -249,7 +249,7 @@ const MatchesScreen = props => {
                   </TouchableOpacity>
                   <Text style={styles.name}> {item.data.fname}, 19</Text>
                   <View style={[styles.parentBlur, {alignSelf: alignment}]}>
-                    <BlurView
+                    <View
                       // blurType="dark"
                       // blurAmount={10}
                       // reducedTransparencyFallbackColor="white"
@@ -264,7 +264,7 @@ const MatchesScreen = props => {
                       <View style={styles.box}>
                         <Image source={whiteheart}></Image>
                       </View>
-                    </BlurView>
+                    </View>
                   </View>
                 </View>
               );

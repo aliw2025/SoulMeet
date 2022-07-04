@@ -40,6 +40,7 @@ import {
 } from 'react-native';
 
 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const photo = require('../assets/girl.png');
@@ -53,6 +54,7 @@ const indicator = require('../assets/indicator.png');
 const mainProfile = require('../assets/mainProfile.png');
 const mainProfile2 = require('../assets/redhaird.png');
 const search = require('../assets/search.png');
+
 
 var images = [];
 var message = [];
@@ -69,8 +71,11 @@ for (var i = 0; i < 10; i++) {
     type = 2;
   }
 }
+
 //  the screen component
 const MessagesScreen = props => {
+
+
   var route = props.route;
   const [text, onChangeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -78,37 +83,32 @@ const MessagesScreen = props => {
   const [threadList, setThreadList] = useState(undefined); 
   const [refresh, setRefresh] = useState(false);
   const [otherUser, setOtherUser] = useState(undefined);
+
   
   function messageClicked(params) {
     console.log("param "+params);
-    setOtherUser(params);
     setModalVisible(true);
+    setOtherUser(params);
+    
   }
 
   function getMessagesCount(id){
+    
 
   }
 
   /** function to get Messages threads from firebase **/
   useEffect(() => {
-    var threadArr = [];
-    var subs;
     const subscriber = firestore()
       .collection('messagesThreads')
       .doc(auth().currentUser.uid)
       .collection('threads')
-      .onSnapshot(subs);
-    
-    firestore()
-      .collection('messagesThreads')
-      .doc(auth().currentUser.uid)
-      .collection('threads')
       .orderBy('updatedAt', 'desc')
-      .get()
-      .then(querySnapshot => {
+      .onSnapshot((querySnapshot)=>{
+        var threadArr = [];
         var i = 0;
         querySnapshot.forEach(documentSnapshot => {
-
+          console.log(documentSnapshot.data());
           var data = documentSnapshot.data();
           threadArr.push({
             id: documentSnapshot.id,
@@ -117,24 +117,18 @@ const MessagesScreen = props => {
           i++;
         });
         setThreadList(threadArr);
-      })
-      .catch(function (error) {
-        console.log(
-          'There has been a problem with your fetch operation: ' +
-            error.message,
-        );
-        throw error;
-      });
+      })  
     return () => {
-      subscriber;
+      subscriber();
     };
   }, [refresh]);
 
   useEffect(() => {
     if (route.params) {
       if (route.params.reciver) {
-        setOtherUser(route.params.reciver);
+        console.log('passing other id');
         setModalVisible(true);
+        setOtherUser(route.params.reciver);
       }
     }
   }, []);

@@ -44,7 +44,7 @@ const indicator = require('../assets/indicator.png');
 const search = require('../assets/search.png');
 var message = [];
 const MessageCard = props => {
-  
+  console.log(props);
   const otherUser= props.otherUser;
   const setOtherUser = props.setOtherUser;
   const modalVisible = props.modalVisible;
@@ -53,18 +53,18 @@ const MessageCard = props => {
   const [msg, setMsg] = useState('');
   const [sndHeight, setSndHeight] = useState(0);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
-  const [messageList, setMessageList] = useState(undefined);
+  const [messageList, setMessageList] = useState(message);
   const [refresh2, setRefresh2] = useState(false);
   const [fname2, setFname2] = useState(undefined);
   const [mname2, setMname2] = useState(undefined);
   const [lname2, setLname2] = useState(undefined);
   const [age2, setAge2] = useState(undefined);
   const [dp2, setDp2] = useState(undefined);
-  var msgs = []
+  
   /** function to get Messages from firebase **/
   useEffect(() => {
+    var temp;
     console.log('getting messages for '+otherUser);
-    
     const subscriber = firestore()
       .collection('messagesThreads')
       .doc(auth().currentUser.uid)
@@ -72,34 +72,27 @@ const MessageCard = props => {
       .doc(otherUser)
       .collection('messages')
       .orderBy('createdAt')
-      .get()
-      .then(querySnapshot => {
+      .onSnapshot((querySnapshot)=>{
+        var msgs = []
         querySnapshot.forEach(documentSnapshot => {
-          console.log('message #');
-          console.log(
-            'User ID: ',
-            documentSnapshot.id,
-            documentSnapshot.data(),
-          );
+          // console.log('rxv');
+          // console.log(
+          //    'User ID: ',
+          //   documentSnapshot.id,
+          //   documentSnapshot.data(),
+          //   auth().currentUser.uid,
+          // );
           var msg = {id:documentSnapshot.id,data:documentSnapshot.data()};
            msgs.push(msg); 
         });
         setMessageList(msgs);
+       
       })
-      .catch(function (error) {
-        console.log(
-          'There has been a problem with your fetch operation: ' +
-            error.message,
-        );
-        // ADD THIS THROW error
-        throw error;
-      });
-      
+     
     return () => {
-      subscriber;
+      subscriber();
     };
   }, [otherUser,refresh2]);
-
 
   function updateOtherUserData(data) {
     if (data) {
@@ -111,6 +104,7 @@ const MessageCard = props => {
       console.log('error');
     }
   }
+  
   /*** geting user data to be used in mesaage card ****/
   useEffect(() => {
     var data2;
@@ -122,11 +116,18 @@ const MessageCard = props => {
           data2 = documentSnapshot.data();
           console.log('Other user data recived ');
           updateOtherUserData(data2);
+          setRefresh2(!refresh2);
         } else {
           console.log('error in reciving data');
+
         }
       });
-    return () => subscriber();
+    return () => {
+      subscriber();
+      setFname2(undefined);
+      setDp2(undefined);
+      setMessageList(undefined);
+    } 
   }, [otherUser]);
 
   /*** responseive keyboard ****/
@@ -181,6 +182,7 @@ const MessageCard = props => {
       .doc(otherUser)
       .set({
         updatedAt: firestore.Timestamp.fromDate(new Date()),
+        lastMSg:msg,
       })
       .catch(error => {
         console.log(
@@ -207,7 +209,6 @@ const MessageCard = props => {
           'Something went wrong with added user2 to firestore: ',
           error,
         );
-
       });
     firestore()
       .collection('messagesThreads')
@@ -216,18 +217,23 @@ const MessageCard = props => {
       .doc(auth().currentUser.uid)
       .set({
         updatedAt: firestore.Timestamp.fromDate(new Date()),
+        lastMSg:msg,
       })
       .catch(error => {
         console.log(
           'Something went wrong with update2 user to firestore: ',
           error,
         );
-        
       });
     // setRefresh(!refresh);
+    flatListRef.current.scrollToEnd({animated: true});
     setRefresh2(!refresh2);
-    flatListRef.current.scrollToEnd({animated: true})
+  }
 
+  
+  if(messageList==undefined){
+    console.log('nil');
+    return null;
   }
   return(
     <GestureRecognizer
@@ -321,12 +327,14 @@ const MessageCard = props => {
                   var marginLeft = '0%';
                   var borderBottomLeftRadius = 10;
                   var borderBottomRightRadius = 10;
-                  if (item.snd == auth().currentUser.uid) {
+                  if (item.data.snd == auth().currentUser.uid) {
+                    // console.log('id us '+item.data.snd);
                     marginLeft = '20%';
                     backgroundColor = '#F3F3F3';
                     // borderBottomLeftRadius = 0;
                     borderBottomRightRadius = 0;
                   } else {
+                    // console.log('i2d us '+item.data.snd);
                     marginLeft = '0%';
                     backgroundColor = '#fff9e6';
                     borderBottomLeftRadius = 0;
