@@ -21,8 +21,8 @@ import {
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const MessageRow = item => {
-  console.log('item');
-  console.log(item);
+  // console.log('item');
+  // console.log(item);
   var date = item.data.updatedAt.toDate();
   // console.log(date);
   // console.log(formatAMPM(date));
@@ -68,7 +68,7 @@ const MessageRow = item => {
           style={{width: '20%'}}
           underlayColor="clear"
           onPress={() => {
-            console.log('sing is bling');
+            // console.log('sing is bling');
           }}>
           <View style={styles.messageDp}>
             <Image style={styles.dpImage} source={{uri: dp}}></Image>

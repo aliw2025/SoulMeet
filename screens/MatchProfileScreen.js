@@ -82,7 +82,7 @@ const TableCell = props => {
         },
       ]}>
       <Text adjustsFontSizeToFit style={styles.headingText}>
-        7 Heart’s Desire
+       {props.val}{'  '}{props.text}
       </Text>
       <View
         style={{
@@ -108,8 +108,8 @@ const TableRow = props => {
   return (
     <View style={[styles.tableRow, {height: x}]}>
       <View style={styles.matchedView}></View>
-      <TableCell></TableCell>
-      <TableCell last={props.last}></TableCell>
+      <TableCell val = {props.val1} text = {props.text}></TableCell>
+      <TableCell val = {props.val2} last={props.last} text = {props.text}></TableCell>
       <TableCell></TableCell>
     </View>
   );
@@ -124,6 +124,18 @@ const MatchProfileScreen = (props) => {
   const [usrData, setUsrData] = useState(undefined);
   const [profileImg, setProfileImg] = useState(undefined);
   const [dp, setDp] = useState(undefined);
+// life path
+const [lp,setLp ] = useState(undefined);
+// birth day number
+const [bn,setBn ] = useState(undefined);
+// expression  number
+const [exp,setExp ] = useState(undefined);
+// birth day number
+const [hd,setHd ] = useState(undefined);
+// personality day number
+const [per,setPer ] = useState(undefined);
+// maturity day number
+const [mat,setMat ] = useState(undefined);
 
 var navigation = props.navigation;
   // other usre Data
@@ -133,6 +145,22 @@ var navigation = props.navigation;
   const [lname2, setLname2] = useState(undefined);
   const [age2,setAge2] = useState(undefined);
   const [dp2, setDp2] = useState(undefined);
+
+  // life path
+  const [lp2,setLp2 ] = useState(undefined);
+  // birth day number
+  const [bn2,setBn2 ] = useState(undefined);
+  // expression  number
+  const [exp2,setExp2 ] = useState(undefined);
+  // birth day number
+  const [hd2,setHd2 ] = useState(undefined);
+  // personality day number
+  const [per2,setPer2 ] = useState(undefined);
+  // maturity day number
+  const [mat2,setMat2 ] = useState(undefined);
+
+
+  
   
 
   function updateOtherUserData (data){
@@ -142,6 +170,13 @@ var navigation = props.navigation;
       setLname2(data.lname);
       setAge2(data.age);
       setDp2(data.dp);
+
+      setLp2(data.numbers.lifePathNumber)
+      setBn2(data.numbers.birthDayNumber) 
+      setExp2(data.numbers.expressionDestiny)
+      setHd2(data.numbers.soulUrge)
+      setPer2(data.numbers.personality)
+      setMat2(data.numbers.maturity)
      
     } else {
       console.log('error');
@@ -156,6 +191,13 @@ var navigation = props.navigation;
       setLname(data.lname);
       setAge(data.age);
       setDp(data.dp);
+
+      setLp(data.numbers.lifePathNumber)
+      setBn(data.numbers.birthDayNumber) 
+      setExp(data.numbers.expressionDestiny)
+      setHd(data.numbers.soulUrge)
+      setPer(data.numbers.personality)
+      setMat(data.numbers.maturity)
 
     } else {
 
@@ -297,11 +339,12 @@ var navigation = props.navigation;
             </View>
             {/* body area */}
             {/* row 1 */}
-            <TableRow></TableRow>
-            <TableRow></TableRow>
-            <TableRow></TableRow>
-            <TableRow></TableRow>
-            <TableRow last={true}></TableRow>
+            <TableRow val1={lp} val2={lp2} text = {'Life Path'} ></TableRow>
+            <TableRow val1={bn} val2={bn2} text = {'Birthday'}></TableRow>
+            <TableRow val1={exp} val2={exp2} text = {'Expression'}></TableRow>
+            <TableRow val1={hd} val2={hd2} text = {'Heart\'s Desire '}></TableRow>
+            <TableRow val1={per} val2={per2} text = {'Personality'}></TableRow>
+            <TableRow  val1={mat} val2={mat2} text = {'Maturity'} last={true}></TableRow>
           </View>
           {/* match area */}
           <View

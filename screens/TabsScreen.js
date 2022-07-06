@@ -159,6 +159,10 @@ function MyTabBar({descriptors,state,navigation}) {
             </TouchableOpacity>
           );
         }
+        var bottom = 0;
+        if (Platform.OS === 'ios') {
+          bottom = 20;
+        }
         return (
           <TouchableOpacity
             key={route.key}
@@ -174,6 +178,7 @@ function MyTabBar({descriptors,state,navigation}) {
               marginRight: 0,
               borderWidth: 0,
               alignItems: 'center',
+              marginBottom:bottom,
             }}>
               <View>
               <Image

@@ -44,7 +44,7 @@ const indicator = require('../assets/indicator.png');
 const search = require('../assets/search.png');
 var message = [];
 const MessageCard = props => {
-  console.log(props);
+  // console.log(props);
   const otherUser= props.otherUser;
   const setOtherUser = props.setOtherUser;
   const modalVisible = props.modalVisible;
@@ -64,7 +64,7 @@ const MessageCard = props => {
   /** function to get Messages from firebase **/
   useEffect(() => {
     var temp;
-    console.log('getting messages for '+otherUser);
+    // console.log('getting messages for '+otherUser);
     const subscriber = firestore()
       .collection('messagesThreads')
       .doc(auth().currentUser.uid)
@@ -114,7 +114,7 @@ const MessageCard = props => {
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot) {
           data2 = documentSnapshot.data();
-          console.log('Other user data recived ');
+          // console.log('Other user data recived ');
           updateOtherUserData(data2);
           setRefresh2(!refresh2);
         } else {
@@ -153,6 +153,17 @@ const MessageCard = props => {
       keyboardDidHideListener.current.remove();
     };
   }, []);
+ 
+  function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
   function sendMsg() {
     /******* sender side *****/
     var createdAt = firestore.Timestamp.fromDate(new Date());
@@ -226,13 +237,13 @@ const MessageCard = props => {
         );
       });
     // setRefresh(!refresh);
-    flatListRef.current.scrollToEnd({animated: true});
+    // flatListRef.current.scrollToEnd({animated: true});
     setRefresh2(!refresh2);
   }
 
   
   if(messageList==undefined){
-    console.log('nil');
+    
     return null;
   }
   return(
@@ -261,7 +272,7 @@ const MessageCard = props => {
               style={{marginTop: 40, marginLeft: 40, marginRight: 40}}
               underlayColor="#F3F3F3"
               onPress={() => {
-                console.log('sing is king');
+               
                 setModalVisible(true);
               }}>
               <View style={[styles.MessageRow]}>
@@ -269,7 +280,7 @@ const MessageCard = props => {
                   style={{width: '20%'}}
                   underlayColor="clear"
                   onPress={() => {
-                    console.log('sing is bling');
+                    
                   }}>
                   <View style={styles.messageDp}>
                     <Image
@@ -313,12 +324,14 @@ const MessageCard = props => {
                 numColumns={1}
                 ref={flatListRef}
                 extraData = {refresh2}
+                inverted
+                data={[...messageList].reverse()}
                 // horizontal={true}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 onLayout={() =>{
-                  console.log('layouting');
-                  flatListRef.current.scrollToEnd({animated: true});
+                  
+                  // flatListRef.current.scrollToEnd({animated: true});
                 }
                  
                 }
@@ -327,12 +340,15 @@ const MessageCard = props => {
                   var marginLeft = '0%';
                   var borderBottomLeftRadius = 10;
                   var borderBottomRightRadius = 10;
+                  var align = 'left';
                   if (item.data.snd == auth().currentUser.uid) {
                     // console.log('id us '+item.data.snd);
                     marginLeft = '20%';
                     backgroundColor = '#F3F3F3';
                     // borderBottomLeftRadius = 0;
                     borderBottomRightRadius = 0;
+                    align = 'right';
+                    
                   } else {
                     // console.log('i2d us '+item.data.snd);
                     marginLeft = '0%';
@@ -340,6 +356,8 @@ const MessageCard = props => {
                     borderBottomLeftRadius = 0;
 
                   }
+                  var date = item.data.createdAt.toDate();
+                  var msgTime = formatAMPM(date)
                   return (
                     <View style={{marginTop: 10}}>
                       <View
@@ -355,6 +373,7 @@ const MessageCard = props => {
                         ]}>
                         <Text>{item.data.text}</Text>
                       </View>
+                      <Text style = {{textAlign:align,color:'rgba(0, 0, 0, 0.4)'}}>{msgTime}</Text>
                     </View>
                   );
                 }}
@@ -386,7 +405,7 @@ const MessageCard = props => {
                     setRefresh2(!refresh2);
                     sendMsg();
                     setMsg('');
-                    flatListRef.current.scrollToEnd({animated: true});
+                    // flatListRef.current.scrollToEnd({animated: true});
                   }}
 
                   style={[

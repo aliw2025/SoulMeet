@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-// import CountryPicker from 'react-native-country-picker-modal';
 import {CountryCode, Country} from '../types.ts';
 import ButtonWithBg from '../components/ButtonWithBg';
 import LanguagePickerBtn from '../components/LanguagePickerBtn.js';
@@ -32,32 +31,178 @@ const windowHeight = Dimensions.get('window').height;
 
 //  the screen component
 const ChartScreen = props => {
-  console.log(props);
-  // console.log(props.route.params);
-  // var day = props.route.params.day;
-  // var month = props.route.params.month;
-  // var year = props.route.params.year;
-  // var fname = props.route.params.fname;
-  // var mname = props.route.params.mname;
-  // var lname = props.route.params.lname;
+  
+  var navigation = props.navigation;
+  const [initializing, setInitializing] = useState(true);
+  let db = firestore();
+
+  // const [lifePathNumber, setlifePathNumber] = useState(undefined);
+  var lifePathNumber = 0;
+  function setlifePathNumber(param) {
+    lifePathNumber = param;
+  }
+  
   const [fname, setFname] = useState(undefined);
   const [mname, setMname] = useState(undefined);
   const [lname, setLname] = useState(undefined);
   const [day, setDay] = useState();
   const [month, setMonth] = useState(undefined);
   const [year, setYear] = useState(undefined);
-  // const [initializing,setInitializing]  = useState('true');
+  // // pinnacle ages
+  // const [pinnacleAge1,setpinnacleAge1] = useState(undefined);
+  // const [pinnacleAge2,setpinnacleAge2] = useState(undefined);
+  // const [pinnacleAge3,setpinnacleAge3] = useState(undefined);
+  // //  period ages
+  // const [periodAge1,setperiodAge1] = useState(undefined);
+  // const [periodAge2,setperiodAge2] = useState(undefined);
 
-  var navigation = props.navigation;
-  // authentication variables
-  const [initializing, setInitializing] = useState(true);
-  // const [user, setUser] = useStat  e();
-  // firestore refrence
-  let db = firestore();
+  var pinnacleAge1 = 0;
+  var pinnacleAge2 = 0;
+  var pinnacleAge3 = 0;
+
+  function setpinnacleAge1(param){
+    console.log('param is ' );
+    pinnacleAge1 = param;
+  }
+  function setpinnacleAge2(param){
+    pinnacleAge2 = param;
+  }
+  function setpinnacleAge3(param){
+    pinnacleAge3 = param;
+  }
+  
+  
+  var periodAge1 = 0;
+  var periodAge2= 0;
+  function setperiodAge1(param){
+    console.log('parasm is '+param);
+    periodAge1 = param;
+  }
+  function setperiodAge2(param){
+    periodAge2 = param;
+  }
+
+
+  /** function to calcuate ages **/
+  function calculateCylesAges() {
+    console.log('outside');
+    if(lifePathNumber){
+      console.log('inside '+ lifePathNumber);
+      if(lifePathNumber == 1){
+        // period ages
+        setperiodAge1(26);
+        setperiodAge2(53);
+        // pinnacle ages
+        setpinnacleAge1(35)
+        setpinnacleAge2(44)
+        setpinnacleAge3(53)
+
+      }else if(lifePathNumber == 2){
+        // period ages
+        setperiodAge1(34);
+        setperiodAge2(61);
+        // pinnacle ages
+        setpinnacleAge1(34)
+        setpinnacleAge2(43)
+        setpinnacleAge3(52)
+
+      }
+      else if(lifePathNumber == 3){
+        // period ages
+        setperiodAge1(33);
+        setperiodAge2(60);
+        // pinnacle ages
+        setpinnacleAge1(33)
+        setpinnacleAge2(42)
+        setpinnacleAge3(51)
+      }
+      else if(lifePathNumber == 4){
+        // period ages
+        setperiodAge1(32);
+        setperiodAge2(59);
+        // pinnacle ages
+        setpinnacleAge1(32)
+        setpinnacleAge2(41)
+        setpinnacleAge3(50)
+      }
+      else if(lifePathNumber == 5){
+        // period ages
+        setperiodAge1(31);
+        setperiodAge2(58);
+        // pinnacle ages
+        setpinnacleAge1(31)
+        setpinnacleAge2(40)
+        setpinnacleAge3(49)
+      }
+      else if(lifePathNumber == 6){
+        // period ages
+        setperiodAge1(30);
+        setperiodAge2(57);
+        // pinnacle ages
+        setpinnacleAge1(30)
+        setpinnacleAge2(39)
+        setpinnacleAge3(48)
+      }
+      else if(lifePathNumber == 7){
+        // period ages
+        setperiodAge1(29);
+        setperiodAge2(56);
+        // pinnacle ages
+        setpinnacleAge1(29)
+        setpinnacleAge2(38)
+        setpinnacleAge3(47)
+      }
+      else if(lifePathNumber == 8){
+        // period ages
+        setperiodAge1(28);
+        setperiodAge2(55);
+        // pinnacle ages
+        setpinnacleAge1(28)
+        setpinnacleAge2(37)
+        setpinnacleAge3(46)    
+      }
+      else if(lifePathNumber == 9){
+        // period ages
+        setperiodAge1(27);
+        setperiodAge2(54);
+        // pinnacle ages
+        setpinnacleAge1(27)
+        setpinnacleAge2(36)
+        setpinnacleAge3(45)
+      }
+      else if(lifePathNumber == 11){
+        // period ages
+        setperiodAge1(34);
+        setperiodAge2(61);
+        // pinnacle ages
+        setpinnacleAge1(34)
+        setpinnacleAge2(43)
+        setpinnacleAge3(52)
+      }
+      else if(lifePathNumber == 22){
+        // period ages
+        setperiodAge1(32);
+        setperiodAge2(59);
+        // pinnacle ages
+        setpinnacleAge1(32)
+        setpinnacleAge2(41)
+        setpinnacleAge3(50)
+      }
+      else if(lifePathNumber == 33){
+        // period ages
+        setperiodAge1(30);
+        setperiodAge2(57);
+        // pinnacle ages
+        setpinnacleAge1(30)
+        setpinnacleAge2(39)
+        setpinnacleAge3(48)
+      }
+    }
+  }
+  
+ 
   function updateData(data) {
-    console.log('updating data ');
     if (data) {
-      // setUsrData(data);
       setFname(data.fname);
       setMname(data.mname);
       setLname(data.lname);
@@ -91,13 +236,6 @@ const ChartScreen = props => {
     db.collection('users')
       .doc(auth().currentUser.uid)
       .update({
-        // numbers:{
-        //   lifePathNumber:lpnText,
-        //   birthDayNumber:bnText,
-        //   expressionDestiny:exp,
-        //   minorExpression:mExp,
-        //   soulUrge:desireText,
-        // },
         numbers: {
           lifePathNumber: lpnText,
           birthDayNumber: bnText,
@@ -140,11 +278,9 @@ const ChartScreen = props => {
   if(initializing){
     return null;
   }
-  // var day = 20;
-  // var month = 2;
-  // var year = 1996;
-  var stval = '';
+  
 
+  var stval = '';
   if (day && year && month) {
     stval = stval.concat(
       year.toString(),
@@ -162,9 +298,6 @@ const ChartScreen = props => {
    * digit exvept the master number
    */
   const sum = (arr = []) => {
-    // if (arr.length === 1) {
-    //   return +arr[0];
-    // }
     if (arr.length == 0) {
       return 0;
     }
@@ -174,6 +307,8 @@ const ChartScreen = props => {
     }
     return sum(String(total).split('').map(Number));
   };
+
+  
   /**
    * functio to add only last resutls to get
    * single digit and the orignal full number
@@ -190,19 +325,18 @@ const ChartScreen = props => {
       return {reduced: reduced, total: total};
     }
   };
+
+  /** function to sum with master numbers and use stack for master **/
   const sumFinal = (arr = []) => {
-    // if (arr.length === 1) {
-    //   return +arr[0];
-    // }
     let total = arr.reduce((acc, val) => acc + val);
     if (total < 10 || total == 11 || total == 22 || total == 33) {
       return total;
     }
-    // console.log("pushin :"+total);
     stack.push(total);
     return sumFinal(String(total).split('').map(Number));
   };
 
+  /** function to connvert total to text **/
   function convetToText(total) {
     var text = '';
     if (stack.length == 0 || total == 11 || total == 22 || total == 33) {
@@ -216,36 +350,21 @@ const ChartScreen = props => {
     }
     return text;
   }
-  /**
-   * function to calculate the lipe path number
-   */
-  // const CalLifePathNumber = (date = '') => {
 
-  //   let [year, month, day] = date.split('-');
-  //   year = sum(String(year).split('').map(Number));
-  //   month = sum(String(month).split('').map(Number));
-  //   day = sum(String(day).split('').map(Number));
-
-  //   return sumAll([year, month, day]);
-
-  // };
-
-  // let lpnObj = CalLifePathNumber(stval);
-  // var lpnText = '';
-  // lpnText = lpnText.concat(lpnObj.total, '/', lpnObj.reduced);
-
-  // new
+ /** function to calculate life path number **/
   const CalLifePathNumber = (date = '') => {
     let [year, month, day] = date.split('-');
     year = sum(String(year).split('').map(Number));
     month = sum(String(month).split('').map(Number));
     day = sum(String(day).split('').map(Number));
-
     var total = simpleSum([year, month, day]);
     var text = convetToText(total);
+    setlifePathNumber(total);
+    calculateCylesAges();
     return text;
   };
 
+/** function to calculate birth day number **/
   function calBirhtDayNumber(day) {
     if (day < 10) {
       return {reduced: day, total: day};
@@ -257,11 +376,16 @@ const ChartScreen = props => {
       return {reduced: reduced, total: day};
     }
   }
-
   let bnObj = calBirhtDayNumber(day);
   var bnText = '';
-  bnText = bnText.concat(bnObj.total, '/', bnObj.reduced);
+  if(bnObj.total != bnObj.reduced){
+    bnText = bnText.concat(bnObj.total, '/', bnObj.reduced);
+  }else{
+    bnText = bnObj.total;
+  } 
 
+
+  /** function to calculate expression  number **/
   function calExpressionNumber(fname, mname, lname) {
     let c = 'c';
     fname = fname.toLowerCase();
@@ -279,190 +403,143 @@ const ChartScreen = props => {
   stack = [];
   let expText = calExpressionNumber(fname, mname, lname);
 
+  /** function to calculate minor expression  number **/
   function calMinorExpressionNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
     var fval = sum(fname.split('').map(val => val.charCodeAt(0) - 96));
-    // console.log(fval);
     var lval = sum(lname.split('').map(val => val.charCodeAt(0) - 96));
-    // console.log(lval);
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
   }
 
+  /** function to calculate desire  number **/
   function calDesireNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
-
+    // step 1
     var fval = 0;
     let  arrY = fname.match((/[y]/gi))
-    
-    console.log("arr2:"+arrY);
     let arr = fname.match(/[aeiouy]/gi);
-    // if(arrY!=null){
-    //   if(arr==null){
-    //     for(var i = 0 ;i<arrY.length; i++){
-    //       arr.push(arrY[i]);
-    //     }
-    //   }else if(fname[fname.length-1]=='y'){
-    //     console.log('y in the last');
-    //     arr.push('y');
-    //   }
-
-    // }
-   
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
+    // step 2
     arrY= [];
     var mval = 0;
     arrY = mname.match((/[y]/gi))
     let arr2 = mname.match(/[aeiouy]/gi);
-    // if(arrY!=null){
-    //   if(arr2==null){
-    //     for(var i = 0 ;i<arrY.length; i++){
-    //       arr2.push(arrY[i]);
-    //     }
-    //   }else if(mname[mname.length-1]=='y'){
-    //     console.log('y in the last');
-    //     arr2.push('y');
-    //   }
-
-    // }
     if (arr2 != null) {
       mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
     }
+    // step 3
     arrY= [];
     var lval = 0;
     arrY = lname.match((/[y]/gi))
     let arr3 = lname.match(/[aeiouy]/gi);
-    // if(arrY!=null){
-    //   if(arr3==null){
-    //     for(var i = 0 ;i<arrY.length; i++){
-    //       arr3.push(arrY[i]);
-    //     }
-    //   }else if(lname[lname.length-1]=='y'){
-    //     console.log('y in the last');
-    //     arr3.push('y');
-    //   }
-    // }
-
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
-
+    // final step
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
   }
 
+/** function to calculate minor desire  number **/
   function calMinorDesireNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
-    
+    // step 1
     var fval = 0;
     arrY= []
-     arrY = fname.match((/[y]/gi))
-    console.log("arr2:"+arrY);
+    arrY = fname.match((/[y]/gi))
     let arr = fname.match(/[aeiouy]/gi);
-    // if(arrY!=null){
-    //   if(arr==null){
-    //     for(var i = 0 ;i<arrY.length; i++){
-    //       arr.push(arrY[i]);
-    //     }
-    //   }else if(fname[fname.length-1]=='y'){
-    //     console.log('y in the last');
-    //     arr.push('y');
-    //   }
-
-    // }
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
+    // step 2
     var lval = 0;
     arrY = [];
     let  arrY = lname.match((/[y]/gi))
     let arr3 = lname.match(/[aeiouy]/gi);
-    // if(arrY!=null){
-    //   if(arr3==null){
-    //     for(var i = 0 ;i<arrY.length; i++){
-    //       arr3.push(arrY[i]);
-    //     }
-    //   }else if(lname[lname.length-1]=='y'){
-    //     console.log('y in the last');
-    //     arr3.push('y');
-    //   }
-
-    // }
-
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
-
+    // final step
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
-  }
 
+  }
+  /** function to calculate personalalty  number **/
   function calPersonNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
     lname = lname.toLowerCase();
+    // step 1
     let arr = fname.match(/[^aeiou]/gi);
     var fval = 0;
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
-
+    // step 2
     let arr2 = mname.match(/[^aeiou]/gi);
     var mval = 0;
     if (arr2 != null) {
       mval = sum(arr2.map(val => val.charCodeAt(0) - 96));
     }
+    // step 3
     let arr3 = lname.match(/[^aeiou]/gi);
     var lval = 0;
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
-
+    // step 4
     var total = sumFinal([fval, mval, lval]);
     var text = convetToText(total);
     return text;
   }
 
+  /** function to calculate minor personlalty  number **/
   function calMpersonNumber(fname, lname) {
     fname = fname.toLowerCase();
     lname = lname.toLowerCase();
+    // step 1
     let arr = fname.match(/[^aeiou]/gi);
     var fval = 0;
     if (arr != null) {
       fval = sum(arr.map(val => val.charCodeAt(0) - 96));
     }
-
+    // step 2
     let arr3 = lname.match(/[^aeiou]/gi);
     var lval = 0;
     if (arr3 != null) {
       lval = sum(arr3.map(val => val.charCodeAt(0) - 96));
     }
+    // step 3
     var total = sumFinal([fval, lval]);
     var text = convetToText(total);
     return text;
   }
 
+  /** function to calculate both bridge numbers **/
   function calBridgeNumber(val1, val2) {
-    //console.log('IAML '+val1.split('/').map(Number)[0]);
+    // step 1
     val1 = val1.split('/').map(Number)[0];
     val1 = String(val1)
       .split('')
       .map(Number)
       .reduce((acc, val) => acc + val);
+    // step 2
     val2 = val2.split('/').map(Number)[0];
     val2 = String(val2)
       .split('')
       .map(Number)
       .reduce((acc, val) => acc + val);
+    // step 3
     var res = parseInt(val2) - parseInt(val1);
     if(res < 0 ){
       res = res * -1;
@@ -470,6 +547,7 @@ const ChartScreen = props => {
     return res.toString();
     
   }
+
 
   const simpleSum = (arr = []) => {
     let total = arr.reduce((acc, val) => acc + val);
@@ -497,13 +575,12 @@ const ChartScreen = props => {
 
   // function to calculate life path number
   const CalAttitudeNumber = (date = '') => {
-   
     let [year,day,month] = date.split('-');
-    console.log('dfdf datdddt: '+month+" "+day);
     var res = sum([parseInt(month), parseInt(day)]);
     return res.toString();
   };
 
+  // funcion to calculate rational taught number
   function calRtn(birthDay, fname) {
     fname = fname.toLowerCase();
     let arr = fname.match(/[a-z]/gi);
@@ -511,7 +588,7 @@ const ChartScreen = props => {
     if (arr != null) {
       fval = simpleSum(arr.map(val => val.charCodeAt(0) - 96));
     }
-    // console.log("ffval: "+fval);
+
     let birthDayNo = birthDay.split('/').map(Number)[0];
     birthDayNo = String(birthDayNo)
       .split('')
@@ -520,7 +597,7 @@ const ChartScreen = props => {
     var res = simpleSum([parseInt(fval), parseInt(birthDayNo)]);
     return res.toString();
   }
-
+  /** function to calculate balance  number **/
   function calBalanceNumber(fname, mname, lname) {
     fname = fname.toLowerCase();
     mname = mname.toLowerCase();
@@ -530,6 +607,7 @@ const ChartScreen = props => {
     if (fname.length != 0) {
       fval = fname[0].charCodeAt(0) - 96;
     }
+
     var mval = 0;
     if (mname.length != 0) {
       mval = mname[0].charCodeAt(0) - 96;
@@ -539,10 +617,6 @@ const ChartScreen = props => {
     if (lname.length != 0) {
       lval = lname[0].charCodeAt(0) - 96;
     }
-
-    // console.log(fval);
-    // console.log(mval);
-    // console.log(lval);
     var res = simpleSum([fval, mval, lval]);
     return res.toString();
   }
@@ -555,8 +629,7 @@ const ChartScreen = props => {
     var text = '';
     var fullname = '';
     fullname = fullname.concat(fname, mname, lname);
-    // console.log("my full name is :"+fullname);
-    // console.log(fullname.split('').map((val)=>simpleSum(String(val.charCodeAt(0)-96).split('').map(Number))))
+
     fullname.split('').map(
       val =>
         (flags[
@@ -567,7 +640,7 @@ const ChartScreen = props => {
           )
         ] = 1),
     );
-    // console.log(flags);
+    
     var first = 0;
     flags.map((val, index) => {
       if (val == 0 && index != 0) {
@@ -583,8 +656,8 @@ const ChartScreen = props => {
   }
   function calSubConSelfNumber(karamicText) {
     var len = keramicText.split(',').length;
-    // console.log(len);
     return (9 - len).toString();
+
   }
 
   flags = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -606,7 +679,6 @@ const ChartScreen = props => {
         ] += 1),
     );
     var maxValue = Math.max(...flags);
-    console.log(Math.max(...flags));
     var indices = [];
     var text = '';
     var first = 0;
@@ -622,7 +694,7 @@ const ChartScreen = props => {
     }
     const index = flags.indexOf(maxValue);
     return text;
-    // console.log(flags)
+   
   }
 
   function calPlanes(fname, mname, lname) {
@@ -644,13 +716,11 @@ const ChartScreen = props => {
         arr1.map(val => {
           var x = val.charCodeAt(0) - 96;
           x = sum(String(x).split('').map(Number));
-          console.log(val + ' : ' + x);
           return x;
         }),
       );
     }
     var physicalPlane = convetToText(ans);
-    // console.log('ans 1: ' + physicalPlane);
     stack = [];
     ans = 0;
     let arr2 = fullname.match(/[ahjnpgl]/gi);
@@ -659,13 +729,12 @@ const ChartScreen = props => {
         arr2.map(val => {
           var x = val.charCodeAt(0) - 96;
           x = sum(String(x).split('').map(Number));
-          // console.log(val + ' : ' + x);
           return x;
         }),
       );
     }
     var mentalPlane = convetToText(ans);
-    // console.log('ans 2: ' + mentalPlane);
+    
     stack = [];
     ans = 0;
     let arr3 = fullname.match(/[iorzbstx]/gi);
@@ -712,6 +781,7 @@ const ChartScreen = props => {
     year = sum(String(year).split('').map(Number));
     return [month.toString(), day.toString(), year.toString()];
   }
+
   function calPinnacleCycles(day, month, year) {
     day = sum(String(day).split('').map(Number));
     month = sum(String(month).split('').map(Number));
@@ -828,8 +898,17 @@ const ChartScreen = props => {
     return null;
   }
   function backAction(params) {
-    // console.log('backAction');
+    
   }
+  var periodHeading1 = "First Period Cycle (From Birth to Age "+periodAge1.toString()+ " )";
+  var periodHeading2 = "Second Period Cycle (From Age "+periodAge1.toString()+ " to Age "+periodAge2.toString();
+  var periodHeading3 = "Third Period Cycle (From Age "+periodAge2.toString()+" and on)";
+
+  var pinnacleHeading1 = "First Pinnacle Number (From Birth to age "+pinnacleAge1.toString() +" )"
+  var pinnacleHeading2  = "Second Pinnacle Number (From age "+pinnacleAge1.toString()+" to age " +pinnacleAge2.toString();
+  var pinnacleHeading3  = "Third Pinnacle Number (From age "+pinnacleAge2.toString()+" to age " +pinnacleAge3.toString();
+  var pinnacleHeading4  = "Third Pinnacle Number (From Age "+pinnacleAge3.toString()+" and on)";
+
   return (
     <ImageBackground
       source={image}
@@ -1028,22 +1107,19 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="First Period Cycle
-                (From Birth to Age 33)"
+                heading={periodHeading1}
                 value={periodCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="Second Period Cycle
-                (From Age 34 to Age 60)"
+                heading={periodHeading2}
                 value={periodCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="Third Period Cycle
-                (From Age 61 and on)"
+                heading={periodHeading3}
                 value={periodCyleText3}></ValueBox>
               <Text style={styles.scrollViewHeading}>Seasons of Your Life</Text>
 
@@ -1051,29 +1127,25 @@ const ChartScreen = props => {
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="First Pinnacle Number
-                (From Birth to age 33)"
+                heading={pinnacleHeading1}
                 value={pinnalceCyleText1}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="Second Pinnacle Number
-                (From age 34 to age 42)"
+                heading={pinnacleHeading2}
                 value={pinnalceCyleText2}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="Third Pinnacle Number
-                (From age 43 to age 51)"
+                heading={pinnacleHeading3}
                 value={pinnalceCyleText3}></ValueBox>
               <ValueBox
                 boxWidth={120}
                 marginRight={0}
                 navigation={navigation}
-                heading="Fourth Pinnacle Number
-                (From age 53 and on)"
+                heading={pinnacleHeading4}
                 value={pinnalceCyleText4}></ValueBox>
               <Text style={styles.scrollViewHeading}>
                 Your Challenges in Life
@@ -1172,3 +1244,15 @@ const styles = StyleSheet.create({
 });
 
 export default ChartScreen;
+
+// if(arrY!=null){
+    //   if(arr==null){
+    //     for(var i = 0 ;i<arrY.length; i++){
+    //       arr.push(arrY[i]);
+    //     }
+    //   }else if(fname[fname.length-1]=='y'){
+    //     console.log('y in the last');
+    //     arr.push('y');
+    //   }
+
+    // }

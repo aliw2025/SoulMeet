@@ -9,6 +9,7 @@ import ValueBox from '../components/valueBox';
 import ResultBox from '../components/ResultBox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
 // import {BlurView} from '@react-native-community/blur';
 import {
   SafeAreaView,

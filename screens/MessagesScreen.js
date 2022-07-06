@@ -86,7 +86,7 @@ const MessagesScreen = props => {
 
   
   function messageClicked(params) {
-    console.log("param "+params);
+  
     setModalVisible(true);
     setOtherUser(params);
     
@@ -108,7 +108,7 @@ const MessagesScreen = props => {
         var threadArr = [];
         var i = 0;
         querySnapshot.forEach(documentSnapshot => {
-          console.log(documentSnapshot.data());
+          // console.log(documentSnapshot.data());
           var data = documentSnapshot.data();
           threadArr.push({
             id: documentSnapshot.id,
@@ -126,7 +126,7 @@ const MessagesScreen = props => {
   useEffect(() => {
     if (route.params) {
       if (route.params.reciver) {
-        console.log('passing other id');
+        
         setModalVisible(true);
         setOtherUser(route.params.reciver);
       }
