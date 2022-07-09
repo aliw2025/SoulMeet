@@ -68,7 +68,7 @@ const SuggestionScreen = props => {
   var matchType = props.matchType;
   const [users, setUsers] = useState(undefined);
   const usersArr = [];
-
+  
   function updateData(data) {
     
     if (data) {
@@ -118,7 +118,14 @@ const SuggestionScreen = props => {
       return arr[1];
     }
   }
-
+  function singleDigit(val1) {
+    val1 = val1.split('/').map(Number)[0];
+    val1 = String(val1)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+      return val1;
+   }
   useEffect(() => {
     console.log('mouting');
     var subs;
@@ -126,63 +133,99 @@ const SuggestionScreen = props => {
     const subscriber = firestore().collection('Users').onSnapshot(subs);
 
     if (usrData) {
-      firestore()
+      var filter = [];
+      if(usrData.gender=="man"){
+        filter.push('woman');
+      }else if(usrData.gender=="woman"){
+        filter.push('man');
+      }else if(usrData.gender=="bi"){
+        filter.push('woman');
+        filter.push('man');
+        filter.push('bi');
+      }
+      const subscriber = firestore()
         .collection('users')
-        .get()
-        .then(querySnapshot => {
+        .where('gender', 'in',filter)
+        .onSnapshot((querySnapshot)=>{
           var i = 0;
           querySnapshot.forEach(documentSnapshot => {
             // console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
             var data = documentSnapshot.data();
             if (data.numbers != undefined) {
-              // console.log(auth().currentUser.uid);
+             
               if (documentSnapshot.id != auth().currentUser.uid) {
                 if (matchType == 'twin') {
-                  // console.log('inside twin');
-                  // // console.log(usrData);
-                  // var lpu = usrData.numbers.lifePathNumber;
-                  // var lpo = data.numbers.lifePathNumber
+                                // // console.log(usrData);
+                  var lpu = singleDigit(usrData.numbers.lifePathNumber);
+                  var lpo = singleDigit(data.numbers.lifePathNumber);
 
-                  // var sou = usrData.numbers.soulUrge;
-                  // var soo = data.numbers.soulUrge;
+                  var sou = singleDigit(usrData.numbers.soulUrge);
+                  var soo = singleDigit(data.numbers.soulUrge);
 
-                  // var eu = usrData.numbers.birthDayNumber;
-                  // var bo = data.numbers.birthDayNumber;
+                  var bu = singleDigit(usrData.numbers.birthDayNumber);
+                  var bo = singleDigit(data.numbers.birthDayNumber);
 
-                  // var eu = usrData.numbers.expressionDestiny;
-                  // var eo =data.numbers.expressionDestiny;
+                  var eu = singleDigit(usrData.numbers.expressionDestiny);
+                  var eo =singleDigit(data.numbers.expressionDestiny);
 
-                  // var pu = usrData.numbers.personality;
-                  // var po =data.numbers.personality;
+                  var pu = singleDigit(usrData.numbers.personality);
+                  var po =singleDigit(data.numbers.personality);
 
-                  // var au = usrData.numbers.attitude;
-                  // var ao = data.numbers.attitude;
+                  var au = singleDigit(usrData.numbers.attitude);
+                  var ao = singleDigit(data.numbers.attitude);
 
-                  // if(lpu == lop && sou == soo) {
-
-                  // }
-                  // if(pu == lop && sou == soo && bu == bo){
-
-                  // }
-                  usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
-                  i++;
-                } else if (matchType == 'couple') {
-                  // console.log('inside couple');
-                  // console.log(getNum(usrData.numbers.lifePathNumber));
-                  var lpu = usrData.numbers.lifePathNumber;
-                  var lpo = data.numbers.lifePathNumber;
-                  // console.log(lpu);
-                  // console.log(lpo);
-                  var n1 = getNum(lpu);
-                  var n2 = getNum(lpo);
-                  var arr = items[n1];
-                  // console.log(arr);
-                  if (arr[n2] == 3) {
+                  if(lpu == lpo && sou == soo) {
                     usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
                   }
-                  i++;
+                  else if(lpu == lpo && sou == soo && bu == bo){
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }
+                  else if(sou == soo && pu==po && eu == eo && bu == bo){
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }
+                  else if(sou == soo && au==ao && eu == eo && bu == bo){
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }
+                  
+                } else if (matchType == 'couple') {
+                  
+
+                  var lpu = singleDigit(usrData.numbers.lifePathNumber);
+                  var lpo = singleDigit(data.numbers.lifePathNumber);
+
+                  var sou = singleDigit(usrData.numbers.soulUrge);
+                  var soo = singleDigit(data.numbers.soulUrge);
+
+                  var bu = singleDigit(usrData.numbers.birthDayNumber);
+                  var bo = singleDigit(data.numbers.birthDayNumber);
+
+                  var eu = singleDigit(usrData.numbers.expressionDestiny);
+                  var eo =singleDigit(data.numbers.expressionDestiny);
+
+                  var pu = singleDigit(usrData.numbers.personality);
+                  var po =singleDigit(data.numbers.personality);
+
+                  var au = singleDigit(usrData.numbers.attitude);
+                  var ao = singleDigit(data.numbers.attitude);
+                 
+                
+                  if (items[lpu][lpo] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }else  if (items[sou][soo] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }else  if (items[bu][bo] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }else  if (items[eu][eo] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }
+                  else  if (items[pu][po] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }else  if (items[qu][ao] == 3) {
+                    usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
+                  }
+                  
                 } else {
-                  // console.log('none');
+                  
                   usersArr.push({id: documentSnapshot.id, data: documentSnapshot.data()});
                 }
               }
@@ -191,14 +234,7 @@ const SuggestionScreen = props => {
           if(isMounted)
           setUsers(usersArr);
         })
-        .catch(function (error) {
-          console.log(
-            'There has been a problem with your fetch operation: ' +
-              error.message,
-          );
-          // ADD THIS THROW error
-          throw error;
-        });
+       
     }
     return () => {
       isMounted = false
@@ -265,7 +301,9 @@ const SuggestionScreen = props => {
       {/* top row sectoin */}
       <View style={styles.topRow}>
         <View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress = {()=>{
+            props.navigation.goBack();
+          }}>
             <View style={[styles.backBtn]}>
               <Image source={arrow}></Image>
             </View>

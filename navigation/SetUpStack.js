@@ -26,7 +26,7 @@ const SetUpStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="SelectLanguage" component={SelectLanguage} />
+      
       <Stack.Screen name="AreYouHere" component={AreYouHere} />
       <Stack.Screen name="BirthDay" component={BirthDayScreen} />
       <Stack.Screen name="ProfileDetails1" component={ProfileDetails1} />

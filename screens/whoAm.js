@@ -95,6 +95,7 @@ const WhoAm = props => {
         gender: type,
         dataProvided:'yes',
       })
+
       //ensure we catch any errors at this stage to advise us if something does go wrong
       .catch(error => {
         console.log(
@@ -106,7 +107,8 @@ const WhoAm = props => {
     if (user) {
       saveData();
     }
-   
+
+  
     // props.navigation.navigate('ChartScreen', {
     //   day: day,
     //   month: month,
@@ -132,7 +134,7 @@ const WhoAm = props => {
     console.log('skip action');
   }
   const backAction = () =>{
-    console.log('back action');
+   props.navigation.goBack();
   }
   function womanSelected(params) {
     setState1('active')

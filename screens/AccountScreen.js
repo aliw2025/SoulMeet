@@ -11,6 +11,7 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SettingsScreen from './SettingsScreen';
+import DesScreen from './DesScreen';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
@@ -107,6 +108,8 @@ const AccountStack = (props) => {
       }}>
       <Stack.Screen name="AccountScreen" component={AccountScreen} />
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+      <Stack.Screen name="DesScreen" component={DesScreen} />
+
     </Stack.Navigator>
   );
 };
@@ -153,7 +156,7 @@ const AccountScreen = props => {
   const navigationAction = params => {
     props.navigation.navigate('MatchProfileScreen', {name: 'avvv'});
   };
-
+  var admin = false;
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View
@@ -200,6 +203,11 @@ const AccountScreen = props => {
         navigation={props.navigation}
         screen={'SettingsScreen'}></ListItem>
       <ListItem name={'Term & Policy'} navigation={props.navigation}></ListItem>
+      {  admin? (<ListItem name={'Settings'}
+        navigation={props.navigation}
+        screen={'DesScreen'} 
+        name={'add values'} 
+        navigation={props.navigation}></ListItem>):null}
     </SafeAreaView>
   );
 };

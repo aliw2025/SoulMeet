@@ -111,7 +111,9 @@ const MatchesScreen = props => {
     [1, 3, 1, 3, 2, 2, 2, 3, 1],
     [2, 1, 3, 1, 2, 3, 2, 1, 3],
   ];
+
   function getNum(str) {
+    
     var val = 0;
     var arr = str.split('/');
     if (arr.length == 0) {
@@ -120,6 +122,7 @@ const MatchesScreen = props => {
       return arr[1];
     }
   }
+
   useEffect(() => {
    
     if (usrData) {
@@ -215,7 +218,6 @@ const MatchesScreen = props => {
         </TouchableOpacity>
       </View>
       {/* iis a match text */}
-
       <Text style={[styles.matchSubHeading]}>
         This is a list of people who have liked you and your matches.
       </Text>
@@ -224,7 +226,6 @@ const MatchesScreen = props => {
         style={{marginTop: 40, width: windowWidth - 80, alignSelf: 'center'}}>
         <FlatList
           data={users}
-          // data={imageList}
           numColumns={2}
           renderItem={({item}) => {
             var alignment = '';
@@ -240,7 +241,7 @@ const MatchesScreen = props => {
                     key={item.id}
                     style={{flex: 1}}
                     onPress={() => {
-                      navigationAction();
+                      // navigationAction();
                     }}>
                     <Image
                       blurRadius={0}

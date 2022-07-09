@@ -10,7 +10,6 @@ import ResultBox from '../components/ResultBox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 // import {Modal} from '../components/Modal';
-
 import {
   SafeAreaView,
   ScrollView,
@@ -48,125 +47,140 @@ const SummaryScreen = props => {
   var lname = props.route.params.lname;
   var navigation = props.navigation;
   const [usrData,setUsrData] = useState(undefined);
+  const [percentagesNumbers,setPercenatagesNumber] = useState(undefined); 
   if(mname == ''){
     mname = lname;
   }else if(lname == ''){
     lname = mname;
   }
+  function backAction(params) {
+    navigation.goBack()
+  }
+  function singleDigit(val1) {
+    console.log('val: '+val1);
+    val1 = val1.split('/').map(Number)[0];
+    val1 = String(val1)
+      .split('')
+      .map(Number)
+      .reduce((acc, val) => acc + val);
+    
+      return val1;
+   }
 
 function calculatePercentage(i,data) {
+
+  // calculating percentages
   var total = 0;
-  if(data.numbers.lifePathNumber == i){
+  if(singleDigit(data.numbers.lifePathNumber )== i){
     total += 12;
   }
-  if(data.numbers.birthDayNumber == i){
+  if(singleDigit(data.numbers.birthDayNumber )== i){
     total += 10;
   }
-  if(data.numbers.expressionDestiny == i){
+  if(singleDigit(data.numbers.expressionDestiny )== i){
     total += 10;
   }
-  if(data.numbers.soulUrge == i){
+  if(singleDigit(data.numbers.soulUrge )== i){
     total += 10;
   }
-  if(data.numbers.Personality == i){
+  if(singleDigit(data.numbers.personality )== i){
     total += 10;
   }
-  if(data.numbers.minorExpression == i){
+  if(singleDigit(data.numbers.minorExpression )== i){
     total += 1;
   }
-  if(data.numbers.minorSoulUrger == i){
+  if(singleDigit(data.numbers.minorSoulUrger )== i){
     total += 1;
   }
-  if(data.numbers.minorPersonality == i){
+  if(singleDigit(data.numbers.minorPersonality )== i){
     total += 1;
   }
-  if(data.numbers.attitude == i){
+  if(singleDigit(data.numbers.attitude )== i){
     total += 5;
   }
-  if(data.numbers.maturity == i){
+  if(singleDigit(data.numbers.maturity )== i){
     total += 5;
   }
-  if(data.numbers.maturity == i){
+  if(singleDigit(data.numbers.maturity )== i){
     total += 5;
   }
-  if(data.numbers.lifePathExpBrdige == i){
+  if(singleDigit(data.numbers.lifePathExpBrdige )== i){
     total += 2;
   }
-  if(data.numbers.heartDesirePersonaliyBriger == i){
+  if(singleDigit(data.numbers.heartDesirePersonaliyBriger )== i){
     total += 2;
   }
-  if(data.numbers.lifePathExpBrdige == i){
+  if(singleDigit(data.numbers.lifePathExpBrdige )== i){
     total += 2;
   }
-  if(data.numbers.rationalThaughtNumber == i){
+  if(singleDigit(data.numbers.rationalThaughtNumber )== i){
     total += 2;
   }
-  if(data.numbers.balanceNumber == i){
+  if(singleDigit(data.numbers.balanceNumber )== i){
     total += 2;
   }
-  if(data.numbers.subConNumber == i){
+  if(singleDigit(data.numbers.subConNumber )== i){
     total += 2;
   }
-  if(data.numbers.kermicLesson == i){
+  if(singleDigit(data.numbers.kermicLesson )== i){
     total += 2;
   }
-  if(data.numbers.hiddenPassion == i){
+  if(singleDigit(data.numbers.hiddenPassion )== i){
     total += 2;
   }
-  if(data.numbers.physicalPlane == i){
+  if(singleDigit(data.numbers.physicalPlane )== i){
     total += 2;
   }
-  if(data.numbers.mentalPlane== i){
+  if(singleDigit(data.numbers.mentalPlane)== i){
     total += 2;
   }
-  if(data.numbers.intiuativePlane == i){
+  if(singleDigit(data.numbers.intiuativePlane )== i){
     total += 2;
   }
-  if(data.numbers.emotionalPlane == i){
+  if(singleDigit(data.numbers.emotionalPlane )== i){
     total += 2;
   }
-  if(data.numbers.corenerStong == i){
+  if(singleDigit(data.numbers.corenerStong )== i){
     total += 2;
   }
-  if(data.numbers.firstPeriodCycle == i){
+  if(singleDigit(data.numbers.firstPeriodCycle )== i){
     total += 1;
   }
-  if(data.numbers.firstPeriodCycle == i){
+  if(singleDigit(data.numbers.firstPeriodCycle )== i){
     total += 1;
   }
-  if(data.numbers.secPeriodCycle == i){
+  if(singleDigit(data.numbers.secPeriodCycle )== i){
     total += 1;
   }
-  if(data.numbers.thirdPeriodCycle== i){
+  if(singleDigit(data.numbers.thirdPeriodCycle)== i){
     total += 1;
   }
-  if(data.numbers.pinnacle1 == i){
+  if(singleDigit(data.numbers.pinnacle1 )== i){
     total += 1;
   }
-  if(data.numbers.pinnacle2 == i){
+  if(singleDigit(data.numbers.pinnacle2 )== i){
     total += 1;
   }
-  if(data.numbers.pinnacle3 == i){
+  if(singleDigit(data.numbers.pinnacle3 )== i){
     total += 1;
   }
-  if(data.numbers.pinnacle4 == i){
+  if(singleDigit(data.numbers.pinnacle4)== i){
     total += 1;
   }
-  if(data.numbers.challenge1== i){
+  if(singleDigit(data.numbers.challenge1)== i){
     total += 1;
   }
-  if(data.numbers.challenge2== i){
+  if(singleDigit(data.numbers.challenge2)== i){
     total += 1;
   }
-  if(data.numbers.challenge3== i){
+  if(singleDigit(data.numbers.challenge3)== i){
     total += 1;
   }
-  if(data.numbers.challenge4== i){
+  if(singleDigit(data.numbers.challenge4)== i){
     total += 1;
   }
 
-
-  
+return total;
     
 }
 function percetageOfNumberCalculator(data){
@@ -176,8 +190,9 @@ function percetageOfNumberCalculator(data){
     percentages[i-1] = calculatePercentage(i,data);
 
   }
-
+  return percentages;
 }
+
   //  map of life path numbers matching
 function updateData(data) {
     console.log('updating data ');
@@ -185,6 +200,8 @@ function updateData(data) {
       setUsrData(data);
       getCompatible(data);
       percetageOfNumberCalculator(data);
+      setPercenatagesNumber(percetageOfNumberCalculator(data));
+       
       // setFname(data.fname);
       // setMname(data.mname);
       // setLname(data.lname);
@@ -439,6 +456,10 @@ function updateData(data) {
   // [bn, setBn] = useState(bnText);
   var box2 = 40;
   var indeicator = require('../assets/indicator.png');
+  console.log(percentagesNumbers);
+  if(!percentagesNumbers){
+    return null;
+  }
   return (
     <ImageBackground
       source={image}
@@ -447,7 +468,9 @@ function updateData(data) {
       {/* <TouchableOpacity onPress = {()=>onClick()}> */}
       <SafeAreaView style={[{flex: 1}]}>
         {/* <View> */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress = {()=>{
+          backAction();
+        }}>
           <View style={[styles.backBtn]}>
             <Text
               style={[{color: '#FFC700', fontSize: 20, fontWeight: 'bold'}]}>
@@ -489,47 +512,47 @@ function updateData(data) {
                   <ResultBox
                     haveHeading={true}
                     heading={1}
-                    bodyText="10%"
+                    bodyText={percentagesNumbers[0].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={2}
-                    bodyText="15%"
+                    bodyText={percentagesNumbers[1].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={3}
-                    bodyText="2%"
+                    bodyText={percentagesNumbers[2].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={4}
-                    bodyText="17%"
+                    bodyText={percentagesNumbers[3].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={5}
-                    bodyText="1%"
+                    bodyText={percentagesNumbers[4].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={6}
-                    bodyText="18%"
+                    bodyText={percentagesNumbers[5].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={7}
-                    bodyText="2%"
+                    bodyText={percentagesNumbers[6].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={8}
-                    bodyText="23%"
+                    bodyText={percentagesNumbers[7].toString()+"%"}
                     width={box9}></ResultBox>
                   <ResultBox
                     haveHeading={true}
                     heading={9}
-                    bodyText="12%"
+                    bodyText={percentagesNumbers[8].toString()+"%"}
                     width={box9}></ResultBox>
                 </View>
               </View>
@@ -557,7 +580,7 @@ function updateData(data) {
                     height={box2}
                     haveHeading={false}
                     heading={1}
-                    bodyText="1"
+                    bodyText='1'
                     Compatibility = {compArray[0]}
                     width={box9}></ResultBox>
                   <ResultBox
@@ -775,7 +798,7 @@ function updateData(data) {
                     
                   }>
                   <View style={{alignItems: 'center'}}>
-                    <Image style={styles.tinyLogo} source={couple} />
+                    <Image style={styles.tinyLogo} source={network} />
                     <Text adjustsFontSizeToFit style={styles.name}>Connect with Other Users</Text>
                   </View>
                 </TouchableHighlight>

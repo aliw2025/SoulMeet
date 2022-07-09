@@ -22,12 +22,19 @@ import TabsScreen from '../screens/TabsScreen';
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
       {/* // options={{title:  (props)=> <EmptyHeader/>}}   */}
+      {/* <Stack.Screen name="SelectLanguage" component={SelectLanguage} /> */}
+      <Stack.Screen name="AreYouHere" component={AreYouHere} />
+      {/* <Stack.Screen name="BirthDay" component={BirthDayScreen} />
+      <Stack.Screen name="ProfileDetails1" component={ProfileDetails1} />
+      <Stack.Screen name="ProfileDetails2" component={ProfileDetails2} />
+      <Stack.Screen name="WhoAm" component={WhoAm} /> */}
       <Stack.Screen name="ChartScreen" component={ChartScreen} />
       <Stack.Screen name="SummaryScreen" component={SummaryScreen} />
       <Stack.Screen name="MatchProfileScreen" component={MatchProfileScreen} />

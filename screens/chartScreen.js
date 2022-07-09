@@ -898,7 +898,7 @@ const ChartScreen = props => {
     return null;
   }
   function backAction(params) {
-    
+    navigation.goBack()
   }
   var periodHeading1 = "First Period Cycle (From Birth to Age "+periodAge1.toString()+ " )";
   var periodHeading2 = "Second Period Cycle (From Age "+periodAge1.toString()+ " to Age "+periodAge2.toString();
